@@ -7,6 +7,14 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+
+    fontFamily: {
+      sans: [ "Open Sans" ],
+      serif: [ 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace', "serif" ],
+      body: [ "Roboto", "sans-serif" ],
+      awesome: [ "FontAwesome" ],
+    },
+
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

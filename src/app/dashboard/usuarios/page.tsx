@@ -1,9 +1,8 @@
 
-
 export default function UsuarioPage() {
   return (
     <div>
-      <h1>Hello Page Usuario</h1>
+      <h1>Page Usuarios</h1>
     </div>
   );
 }
