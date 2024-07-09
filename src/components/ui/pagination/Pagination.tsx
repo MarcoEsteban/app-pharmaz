@@ -42,7 +42,7 @@ export const Pagination = ( { totalPages }: Props ) => {
   console.log();
 
   return (
-    <div className="flex items-center justify-between mx-4 mt-2 mb-4">
+    <div className="flex items-center justify-between">
 
       {/* Previous (Anterior) */ }
       <Link
