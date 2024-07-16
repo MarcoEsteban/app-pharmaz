@@ -1,2 +1,2 @@
 // UI
-export * from './ui/sidebard/sidebar-store'
+export * from './ui/ui-store'

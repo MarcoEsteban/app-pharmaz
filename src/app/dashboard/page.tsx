@@ -22,7 +22,7 @@ export default function Home( { searchParams }: Props ) {
 
           <Link
             href={ '/dashboard?modal=agregar' }
-            className={ "btn-primary" }
+            className={ "btn-primary gradient-add" }
           >
             Agregar
           </Link>
@@ -35,7 +35,7 @@ export default function Home( { searchParams }: Props ) {
 
       </Card>
 
-      { modal && <Modal titleModal="Agregar" children={ <div><label className="label-text">Name</label> <input type="text" placeholder="nombre" className="input-text" /></div> } /> }
+      { modal && <Modal titleModal="Agregar" children={ <div className={"font-sans"}><label className="label-text">Nombre</label> <input type="text" placeholder="nombre" className="input-text" /></div> } /> }
     </div>
   );
 }

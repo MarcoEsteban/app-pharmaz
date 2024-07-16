@@ -1,9 +1,11 @@
 import Image from 'next/image';
-import { FaCheck, FaTimes } from 'react-icons/fa';
+import { FaCamera, FaCheck, FaExpeditedssl, FaEye, FaTimes } from 'react-icons/fa';
+import { FaPenToSquare, FaPrescriptionBottleMedical, FaTrashCan, FaUnlockKeyhole } from 'react-icons/fa6';
 
 export default function UsuariosTable() {
   return (
     <div className="flex-auto p-1 my-2 border border-solid rounded-lg">
+
       <div className="p-0 overflow-x-auto">
         <table className="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
 
@@ -60,8 +62,31 @@ export default function UsuariosTable() {
               <td className="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                 <span className="font-semibold leading-tight text-xs text-slate-400">19/09/17</span>
               </td>
-              <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                <a href="javascript:;" className="font-semibold leading-tight text-xs text-slate-400"> Edit </a>
+              <td className="text-center">
+
+                <button type="button" className="btn-gnrl gradient-delete">
+                  <FaTrashCan size={ 18 } />
+                </button>
+
+                <button type="button" className="btn-gnrl gradient-enable">
+                  <FaPrescriptionBottleMedical size={ 18 } />
+                </button>
+
+                <button type="button" className="btn-gnrl gradient-update">
+                  <FaPenToSquare size={ 18 } />
+                </button>
+
+                <button type="button" className="btn-gnrl gradient-show">
+                  <FaEye size={ 18 } />
+                </button>
+
+                <button type="button" className="btn-gnrl gradient-photo">
+                  <FaCamera size={ 18 } />
+                </button>
+
+                <button type="button" className="btn-gnrl gradient">
+                  <FaUnlockKeyhole size={ 18 } />
+                </button>
               </td>
             </tr>
 

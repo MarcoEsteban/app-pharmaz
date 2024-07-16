@@ -6,3 +6,4 @@ export * from './ui/card/Card';
 export * from './ui/modal/Modal';
 export * from './ui/pagination/Pagination';
 export * from './ui/sidebard/Sidebard';
+export * from './ui/header/Header';

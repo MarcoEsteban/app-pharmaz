@@ -1,4 +1,4 @@
-import { Sidebard } from '@/components';
+import { Header, Sidebard } from '@/components';
 
 
 export default function DashboardLayout( { children }: { children: React.ReactNode; } ) {
@@ -6,8 +6,12 @@ export default function DashboardLayout( { children }: { children: React.ReactNo
     <main className="flex p-4 h-screen w-screen">
       <Sidebard />
 
-      <div className="pl-8 pr-2 overflow-y-scroll flex-1">
-        { children }
+      <div className="pl-4 pr-2 overflow-y-scroll flex-1">
+        <Header />
+
+        <div className={"py-4"}>
+          { children }
+        </div>
       </div>
     </main>
   );

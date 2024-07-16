@@ -17,16 +17,17 @@ export const SidebardItem = ( { nombre, icon, enlace, openMenu }: Props ) => {
     <Link
       href={ enlace }
       className={ clsx(
-        "flex items-center py-2 my-1 font-medium rounded-md cursor-pointer transition-colors",
-        { 'px-0 justify-center': !openMenu, 'px-3': openMenu },
-        { 'bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800': enlace == pathname },
-        { 'hover:bg-indigo-50 text-gray-600': enlace != pathname, }
+        "flex items-center gap-3 py-2 my-1 font-semibold rounded-md cursor-pointer transition-colors",
+        { 'px-0 justify-center': openMenu, 'px-3': !openMenu },
+        { 'bg-gradient-to-r from-blue-900/90 via-sky-500/90 to-indigo-800/90 text-white': enlace == pathname },
+        { 'hover:bg-blue-50 text-gray-600': enlace != pathname, }
       ) }
     >
       { icon }
       <span className={ clsx(
-        "w-52 ml-4 transition-all duration-400",
-        { 'hidden transition-all duration-400': !openMenu }
+        "w-52 overflow-hidden transition-max-width duration-300 ease-in-out",
+        // { 'max-w-96 transition-all duration-300': openMenu, 'max-w-0': !openMenu },
+        { 'hidden': openMenu }
       ) }>
         { nombre }
       </span>
