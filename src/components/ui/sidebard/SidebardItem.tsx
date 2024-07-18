@@ -25,7 +25,7 @@ export const SidebardItem = ( { nombre, icon, enlace, openMenu }: Props ) => {
     >
       { icon }
       <span className={ clsx(
-        "w-52 overflow-hidden transition-max-width duration-300 ease-in-out",
+        "w-full overflow-hidden transition-max-width duration-300 ease-in-out",
         // { 'max-w-96 transition-all duration-300': openMenu, 'max-w-0': !openMenu },
         { 'hidden': openMenu }
       ) }>

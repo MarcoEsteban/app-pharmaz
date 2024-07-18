@@ -16,6 +16,10 @@ const config: Config = {
     },
 
     extend: {
+      gridTemplateColumns: {
+        // Define a new grid template column for custom usage
+        'custom': 'auto 1fr',
+      },
     },
   },
   plugins: [],

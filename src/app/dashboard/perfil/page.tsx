@@ -3,6 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaCamera, FaEnvelope, FaMobile, FaUserCircle } from 'react-icons/fa';
 import { FaLocationDot, FaMobileScreen, FaPenToSquare, FaPhoneFlip, FaUnlockKeyhole } from 'react-icons/fa6';
+import { FormPhoto } from './ui/FormPhoto';
+import { FormPasswd } from './ui/FormPasswd';
+import { FormPerfil } from './ui/FormPerfil';
 
 interface Props {
   searchParams: {
@@ -30,7 +33,7 @@ export default function PerfilPage( { searchParams }: Props ) {
           />
           {/*============ Button ===========*/ }
           <Link
-            href={ '/dashboard/perfil/?modal=modificar' }
+            href={ '/dashboard/perfil/?modal=foto' }
             className={ "btn-gnrl gradient-photo absolute bottom-2 right-1" }
           >
             <FaCamera size={ 20 } />
@@ -63,20 +66,27 @@ export default function PerfilPage( { searchParams }: Props ) {
           </div>
 
           <div className="flex absolute bottom-2 right-0">
-
-            <button type="button" className="btn-gnrl gradient-update ">
+            <Link
+              href={ '/dashboard/perfil/?modal=edit' }
+              className={ "btn-gnrl gradient-update" }
+            >
               <FaPenToSquare size={ 18 } />
-            </button>
+            </Link>
 
-            <button type="button" className="btn-gnrl gradient">
+            <Link
+              href={ '/dashboard/perfil/?modal=password' }
+              className={ "btn-gnrl gradient" }
+            >
               <FaUnlockKeyhole size={ 18 } />
-            </button>
+            </Link>
           </div>
 
         </div>
       </div>
 
-      { modal && <Modal titleModal="modificar" children={ <div className={ "font-sans" }><label className="label-text">Nombre</label> <input type="text" placeholder="nombre" className="input-text" /></div> } /> }
+      { modal && modal === 'foto' && <Modal titleModal="Modificar Foto" children={ <FormPhoto /> } /> }
+      { modal && modal === 'password' && <Modal titleModal="Modificar Contraseña" children={ <FormPasswd /> } /> }
+      { modal && modal === 'edit' && <Modal titleModal="Modificar Perfil" sizeModal="max-w-lg" children={ <FormPerfil /> } /> }
     </Card>
   );
 }

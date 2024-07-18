@@ -2,7 +2,6 @@
 
 import {
   FaArrowLeft,
-  FaArtstation,
   FaBuildingUser,
   FaCashRegister,
   FaCircleUser,
@@ -115,26 +114,26 @@ export const Sidebard = () => {
 
   return (
     <div className={ clsx(
-      "h-full rounded-xl bg-white p-3.5 pt-4 text-gray-700 shadow-xl relative duration-300",
+      // "h-full relative rounded-xl bg-white p-3.5 pt-4 text-gray-700 shadow-xl duration-300 transition-all",
+      "xl:h-[97vh] overflow-y-scroll xl:relative xl:w-auto h-full rounded-xl bg-white p-3.5 pt-4 text-gray-700 shadow-xl duration-300 transition-all",
       {
-        'w-72': !isSideMenuOpen,
-        'w-20': isSideMenuOpen
+        // 'col-span-[40px]': !isSideMenuOpen,
+        // 'col-span-[200px]': isSideMenuOpen
       },
     ) }>
-
       {/*=============================================== Button ===============================================*/ }
-      <FaArrowLeft
+      {/* <FaArrowLeft
         className={ clsx(
-          "gradient text-white text-2xl rounded-full absolute -right-3 top-6 p-1 cursor-pointer shadow-sm transition-all",
+          "gradient text-white text-2xl rounded-full absolute -right-4 top-8 p-1 cursor-pointer shadow-sm transition-all",
           { 'rotate-180': !isSideMenuOpen }
         ) }
         onClick={ () => toggleSideMenu( !isSideMenuOpen ) }
-      />
+      /> */}
 
 
       {/*================================================ Logo ================================================*/ }
       <Link href='/dashboard' className={ clsx(
-        "flex items-center w-full border-b-gray-300 transition-all duration-300",
+        "flex items-center w-auto border-b-gray-300 transition-all duration-300",
       ) }>
         {
           !isSideMenuOpen
@@ -156,12 +155,6 @@ export const Sidebard = () => {
               />
             )
         }
-        {/* <h5 className={ clsx(
-          "text-3xl font-medium transition-all duration-500",
-          { 'hidden': !isSideMenuOpen }
-        ) }>
-          Sidebar
-        </h5> */}
       </Link>
       <hr className={ clsx(
         'mb-4',
@@ -170,9 +163,12 @@ export const Sidebard = () => {
 
 
       {/*================================================ Menu ================================================*/ }
-      <nav className="flex flex-col gap-1 p-2 font-sans ">
+      <nav className="flex flex-col gap-1 font-sans ">
 
-        <Accordion title={ "Usuarios" } icon={ <FaUsers className={ "text-xl" } /> } openMenu={ isSideMenuOpen }>
+        <Accordion
+          title={ "Usuarios" }
+          icon={ <FaUsers className={ clsx( "text-xl" ) } /> }
+          openMenu={ isSideMenuOpen }>
           {
             menus.slice( 0, 4 ).map( menu => (
               <SidebardItem key={ menu.enlace } { ...menu } openMenu={ isSideMenuOpen } />

@@ -3,16 +3,17 @@ import { Header, Sidebard } from '@/components';
 
 export default function DashboardLayout( { children }: { children: React.ReactNode; } ) {
   return (
-    <main className="flex p-4 h-screen w-screen">
+    <div className="min-h-screen grid grid-cols-custom p-3">
+
       <Sidebard />
 
-      <div className="pl-4 pr-2 overflow-y-scroll flex-1">
+      <main className="">
         <Header />
-
-        <div className={"py-4"}>
+        <div className="h-[87vh] overflow-y-scroll pl-4 pt-4">
           { children }
         </div>
-      </div>
-    </main>
+      </main>
+
+    </div>
   );
 }

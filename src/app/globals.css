@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Indico que me desaparesca la barra de scroll */
+::-webkit-scrollbar {
+    width: 0px;
+}
 
 body {
   background-color: #F5F0F0;
@@ -43,12 +47,24 @@ body {
     @apply bg-gradient-to-tl from-orange-500 to-yellow-500
   }
 
+  .gradient-guardar {
+    /* @apply bg-gradient-to-tl from-blue-500 via-blue-600 to-blue-700 */
+    @apply bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
+  }
+  .gradient-cancelar {
+    /* @apply bg-gradient-to-tl from-blue-500 via-blue-600 to-blue-700 */
+    @apply bg-gradient-to-r from-red-500 via-red-600 to-red-700
+  }
+
   /*======================================= Button ======================================*/
+  .btn {
+    @apply text-white hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm align-middle px-3 py-2.5 text-center me-2 transition-all ease-in shadow-sm hover:-translate-y-px 
+  }
   .btn-primary {
     @apply text-white hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 transition-all ease-in shadow-sm hover:-translate-y-px 
   }
   .btn-gnrl {
-    @apply inline-block px-2 py-2 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer  leading-normal text-xs ease-in shadow-sm hover:-translate-y-px active:opacity-85 hover:shadow-md outline-none
+    @apply inline-block px-2 py-2 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer leading-normal text-xs ease-in shadow-sm hover:-translate-y-px active:opacity-85 hover:shadow-md outline-none
   }
 
 
@@ -62,7 +78,15 @@ body {
     @apply inline-block mb-2 ml-1 font-bold text-sm text-slate-700
   }
   .input-text {
-    @apply text-sm block w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none
+    @apply text-sm  w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none 
+  }
+
+  .input-text {
+    @apply text-sm  w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none 
+  }
+
+  .input-text-icon {
+    @apply text-sm w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 pl-8 font-normal text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-500 focus:outline-none
   }
 
 

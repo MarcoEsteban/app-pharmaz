@@ -15,6 +15,7 @@ bun dev
 ```
 
 ## Paquetes y Dependencias Utilizada en el Proyecto:
+
 ### React Icons
 Para agregar iconos a nuestro App.
 ````
@@ -35,3 +36,17 @@ Para gestionar nuestro estados globales de nuestro App.
 npm i zustand
 ````
 - [Zustand](https://zustand-demo.pmnd.rs/) - Documentación
+
+### React Hook Form
+Para validar y controlar los cambios en los formularios
+````
+npm i sweetalert2
+````
+- [React Hook Form](https://react-hook-form.com/) - Documentación
+
+### SweetAlert2
+Para mostrar mensaje de alerta.
+````
+npm i react-hook-form
+````
+- [Sweetalert2](https://sweetalert2.github.io/) - Documentación
