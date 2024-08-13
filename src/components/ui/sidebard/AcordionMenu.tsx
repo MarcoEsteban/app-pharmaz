@@ -24,7 +24,6 @@ export const Accordion = ( { title, children, icon, openMenu }: Props ) => {
         <div className={ clsx(
           'flex items-center gap-3 transition-all duration-300',
           { 'justify-center py-2.5 w-full': openMenu, 'py-2': !openMenu },
-          { 'text-indigo-500': !acordionOpen, }
         ) }>
           { icon }
 

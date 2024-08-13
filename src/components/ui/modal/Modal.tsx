@@ -15,7 +15,7 @@ export const Modal = ( { titleModal, sizeModal = 'max-w-md', children }: Props )
   const pathname = usePathname();
 
   return (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center">
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 overflow-y-auto font-sans h-full w-full flex justify-center items-center">
       <div className={ `relative p-4 w-full max-h-full ${ sizeModal }` }>
 
         {/*============================= Modal Content =============================*/ }
@@ -25,7 +25,7 @@ export const Modal = ( { titleModal, sizeModal = 'max-w-md', children }: Props )
           <div className="flex items-center justify-between p-3 md:p-4 border-b rounded-t">
 
             {/* Titulo Modal */ }
-            <h5 className="block font-sans text-lg font-semibold leading-snug text-gray-700">
+            <h5 className="block font-sans text-lg font-semibold leading-snug text-gray-700 capitalize">
               { titleModal }
             </h5>
 

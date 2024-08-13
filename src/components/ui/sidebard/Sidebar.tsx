@@ -1,5 +1,8 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
+import clsx from 'clsx';
 import {
   FaArrowLeft,
   FaBuildingUser,
@@ -20,17 +23,10 @@ import {
   FaUserTie,
   FaUsers
 } from 'react-icons/fa6';
-
-import Link from 'next/link';
-import clsx from 'clsx';
-
 import { useSidebarStore } from '@/store';
-
 import { SidebardItem } from './SidebardItem';
 import { Accordion } from './AcordionMenu';
 import { Menus } from '@/interfaces';
-import Image from 'next/image';
-
 
 const menus: Menus[] = [
 
@@ -38,70 +34,70 @@ const menus: Menus[] = [
   {
     nombre: 'Gestión Perfil',
     icon: <FaCircleUser className={ "text-2xl" } />,
-    enlace: '/dashboard/perfil',
+    enlace: '/perfil',
   },
   {
     nombre: 'Gestión Roles',
     icon: <FaUserGroup className={ "text-2xl" } />,
-    enlace: '/dashboard/roles',
+    enlace: '/roles',
   },
   {
     nombre: 'Gestión Usuario',
     icon: <FaUserSecret className={ "text-2xl" } />,
-    enlace: '/dashboard/usuarios'
+    enlace: '/usuarios'
   },
   {
     nombre: 'Adm. Datos Farmacia',
     icon: <FaBuildingUser className={ "text-2xl" } />,
-    enlace: '/dashboard/data_farmacia'
+    enlace: '/data_farmacia'
   },
 
   // Almacen
   {
     nombre: 'Gestión Producto',
     icon: <FaPills className={ "text-2xl" } />,
-    enlace: '/dashboard/producto'
+    enlace: '/producto'
   },
   {
     nombre: 'Gestión Atributos',
     icon: <FaTags className={ "text-2xl" } />,
-    enlace: '/dashboard/atributos'
+    enlace: '/atributos'
   },
   {
     nombre: 'Gestión Lotes',
     icon: <FaCubes className={ "text-2xl" } />,
-    enlace: '/dashboard/lotes'
+    enlace: '/lotes'
   },
 
   // Compras
   {
     nombre: 'Gestión Proveedor',
     icon: <FaTruckMedical className={ "text-2xl" } />,
-    enlace: '/dashboard/proveedor'
+    enlace: '/proveedor'
   },
 
   // Ventas
   {
     nombre: 'Gestión Cliente',
     icon: <FaUserTie className={ "text-2xl" } />,
-    enlace: '/dashboard/cliente'
+    enlace: '/cliente'
   },
   {
     nombre: 'Gestión Venta',
     icon: <FaCashRegister className={ "text-2xl" } />,
-    enlace: '/dashboard/ventas'
+    enlace: '/ventas'
   },
   {
     nombre: 'Adm. Ventas Realizadas',
     icon: <FaMoneyCheckDollar className={ "text-2xl" } />,
-    enlace: '/dashboard/ventas_realizadas'
+    enlace: '/ventas_realizadas'
   },
 
   //Reportes
   {
     nombre: 'Gestión Reportes',
     icon: <FaFilePdf className={ "text-2xl" } />,
-    enlace: '/dashboard/reportes'
+    enlace: '/reportes'
   },
 ];
 
@@ -132,7 +128,7 @@ export const Sidebard = () => {
 
 
       {/*================================================ Logo ================================================*/ }
-      <Link href='/dashboard' className={ clsx(
+      <Link href='/' className={ clsx(
         "flex items-center w-auto border-b-gray-300 transition-all duration-300",
       ) }>
         {

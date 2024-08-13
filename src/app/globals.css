@@ -47,6 +47,7 @@ body {
     @apply bg-gradient-to-tl from-orange-500 to-yellow-500
   }
 
+  /* Grandiente para el Formulario de Guardar || Cancelar */
   .gradient-guardar {
     /* @apply bg-gradient-to-tl from-blue-500 via-blue-600 to-blue-700 */
     @apply bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
@@ -58,15 +59,20 @@ body {
 
   /*======================================= Button ======================================*/
   .btn {
-    @apply text-white hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm align-middle px-3 py-2.5 text-center me-2 transition-all ease-in shadow-sm hover:-translate-y-px 
-  }
-  .btn-primary {
-    @apply text-white hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 transition-all ease-in shadow-sm hover:-translate-y-px 
+    @apply text-white hover:bg-gradient-to-br focus:outline-none rounded-lg text-sm align-middle px-3 py-2.5 text-center transition-all ease-in shadow-sm hover:-translate-y-px tracking-wide
   }
   .btn-gnrl {
-    @apply inline-block px-2 py-2 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer leading-normal text-xs ease-in shadow-sm hover:-translate-y-px active:opacity-85 hover:shadow-md outline-none
+    @apply inline-block px-2 py-2 mr-3 font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer leading-normal text-xs ease-in shadow-sm hover:-translate-y-px active:opacity-85 hover:shadow-md outline-none
   }
 
+  /* Button Para el Estado */
+  .btn-activo {
+    @apply bg-gradient-to-tl from-green-600 to-green-400 px-4 text-[11px] rounded-lg py-[5px] inline-flex gap-1 whitespace-nowrap text-center align-baseline font-semibold leading-none text-white
+  }
+
+  .btn-inactivo {
+    @apply bg-gradient-to-tl from-red-600 to-red-400 px-3 text-[11px] rounded-lg py-[5px] inline-flex gap-1 text-center align-baseline font-semibold leading-none text-white
+  }
 
 
   .btn-primary-small {
@@ -77,19 +83,36 @@ body {
   .label-text {
     @apply inline-block mb-2 ml-1 font-bold text-sm text-slate-700
   }
-  .input-text {
-    @apply text-sm  w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none 
-  }
-
-  .input-text {
-    @apply text-sm  w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none 
-  }
-
   .input-text-icon {
-    @apply text-sm w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 pl-8 font-normal text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-500 focus:outline-none
+    @apply text-sm w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 pl-8 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none
+  }
+  .input-text {
+    @apply text-sm w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none 
+  }
+
+  .input-select {
+    @apply text-sm w-full focus:shadow-md rounded-lg border border-solid border-gray-300 bg-white font-normal text-gray-700 outline-none transition-all focus:ring-blue-500 focus:border-blue-500 focus:outline-none  px-2 py-2
+    /* @apply bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:outline-none focus:border-blue-500 w-full px-1 py-2 focus:shadow-md */
   }
 
 
+  .input-checkbox {
+    @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:outline-none inline-block ml-2
+  }
+
+  .input-radio {
+    @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:outline-none inline-block
+  }
+
+  /*==================================== Tablas ====================================*/
+  .table-th{
+    @apply px-4 py-5 font-bold uppercase align-middle shadow-none text-sm tracking-wider whitespace-nowrap text-slate-500 opacity-70
+  }
+  .table-td {
+    @apply px-4 py-3 align-middle whitespace-nowrap tracking-wide
+  }
+
+  /*==================================== Transiciones ====================================*/
   /* Transitions */
   .transition-max-height {
     transition: max-height 0.5s ease-in-out;

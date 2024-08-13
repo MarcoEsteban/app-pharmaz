@@ -32,7 +32,7 @@ export const Search = ( { placeholder }: { placeholder: string; } ) => {
   };
 
   return (
-    <div className="relative flex flex-1 flex-shrink-0 w-1/2">
+    <div className="relative flex flex-1 flex-shrink-0 w-full">
       <input
         className="pl-9 text-sm w-1/100 block flex-auto rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow"
         onChange={ ( e ) => handleSearch( e.target.value ) }

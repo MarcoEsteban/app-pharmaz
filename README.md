@@ -50,3 +50,10 @@ Para mostrar mensaje de alerta.
 npm i react-hook-form
 ````
 - [Sweetalert2](https://sweetalert2.github.io/) - Documentación
+
+### SweetAlert2-React-Content
+Biblioteca sweetalert2-react-content para extender la funcionalidad de SweetAlert2 y permitir que pueda renderizar contenido de React dentro de las alertas de SweetAlert2.
+````
+npm i sweetalert2-react-content
+````
+- [sweetalert2-react-content]() - Documentación
