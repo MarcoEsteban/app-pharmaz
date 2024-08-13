@@ -6,7 +6,7 @@ export default function LotesPage() {
     <>
       <Card>
         <Title title={ 'Lotes' } />
-        
+
         <Search placeholder={ 'Buscar Lote' } />
       </Card>
       <div className={ 'grid grid-cols-3 gap-4 pt-4' }>

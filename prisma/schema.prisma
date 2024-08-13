@@ -23,7 +23,7 @@ model Menus {
   enlace      String         @unique
   icon        String
   createdAt   DateTime       @default(now()) // Fecha de creación del registro.
-  updatedAt   DateTime       @updatedAt // Fecha de la última actualización del registro.
+  updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
   
   Roles       RolesOnMenus[] // Indico que estamos estableciendo la Relación de Many to Many
 }
@@ -36,20 +36,55 @@ model Roles {
   nombre      String
   estado      Boolean        @default(true)
   createdAt   DateTime       @default(now()) // Fecha de creación del registro.
-  updatedAt   DateTime       @updatedAt // Fecha de la última actualización del registro.
+  updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
   
-  Menus       RolesOnMenus[] // Indico que estamos estableciendo la Relación de Many to Many
+  Menus       RolesOnMenus[] // Indico que estamos estableciendo la Relación de [Many to Many]
+  Usuario     Usuario[]      // Indico que estamos estableciendo la Relacion [One to Many]
 }
 
 // ==================
 // Tabla RolesOnMenus
 // ==================
 model RolesOnMenus {
-  roles       Roles @relation(fields: [rolesId], references: [id]) 
-  menus       Menus @relation(fields: [menusId], references: [id])
+  roles       Roles          @relation(fields: [rolesId], references: [id]) 
+  menus       Menus          @relation(fields: [menusId], references: [id])
   rolesId     String
   menusId     String
+  createdAt   DateTime       @default(now()) // Fecha de creación del registro.
+  updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
 
-  @@id([rolesId, menusId])
+  @@id([rolesId, menusId]) // Relacion de [Many to Many]
+}
+
+// ==============
+// Tabla Personas
+// ==============
+model Personas {
+  id          String         @id @default(uuid())
+  ci          String         @unique
+  nombre      String
+  ap          String
+  am          String
+  direccion   String?
+  celular     Int?
+  foto        String?
+  estado      Boolean        @default(true)
+  createdAt   DateTime       @default(now()) // Indico la fecha de creacion.
+  updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
+
+  Usuario     Usuario[] // Relacion One to Many
+}
+
+model Usuario {
+  id        String           @id @default(uuid())
+  email     String           @unique
+  password  String
+  createdAt DateTime         @default(now()) // Indico la fecha de creacion.
+  updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
+
+  personas   Personas        @relation(fields: [personasId], references: [id])
+  roles      Roles           @relation(fields: [rolesId], references: [id])
+  personasId String
+  rolesId    String
 }
 
