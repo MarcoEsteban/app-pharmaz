@@ -24,4 +24,32 @@ model Menus {
   icon        String
   createdAt   DateTime       @default(now()) // Fecha de creación del registro.
   updatedAt   DateTime       @updatedAt // Fecha de la última actualización del registro.
+  
+  Roles       RolesOnMenus[] // Indico que estamos estableciendo la Relación de Many to Many
 }
+
+// ===========
+// Tabla Roles
+// ===========
+model Roles {
+  id          String         @id @default(uuid())
+  nombre      String
+  estado      Boolean        @default(true)
+  createdAt   DateTime       @default(now()) // Fecha de creación del registro.
+  updatedAt   DateTime       @updatedAt // Fecha de la última actualización del registro.
+  
+  Menus       RolesOnMenus[] // Indico que estamos estableciendo la Relación de Many to Many
+}
+
+// ==================
+// Tabla RolesOnMenus
+// ==================
+model RolesOnMenus {
+  roles       Roles @relation(fields: [rolesId], references: [id]) 
+  menus       Menus @relation(fields: [menusId], references: [id])
+  rolesId     String
+  menusId     String
+
+  @@id([rolesId, menusId])
+}
+
