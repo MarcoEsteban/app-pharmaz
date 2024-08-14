@@ -57,3 +57,11 @@ Biblioteca sweetalert2-react-content para extender la funcionalidad de SweetAler
 npm i sweetalert2-react-content
 ````
 - [sweetalert2-react-content]() - Documentación
+
+### bcryptjs
+Para encriptar y desencriptar el password
+````
+npm i bcryptjs
+npm i @types/bcryptjs -D
+````
+- [bcryptjs](https://www.npmjs.com/package/bcryptjs) - Documentación

@@ -2,7 +2,8 @@ import { FaCheck, FaEye } from 'react-icons/fa';
 import { FaPenToSquare } from 'react-icons/fa6';
 import { BtnAction, ButtonActionToglgleState, ButtonState } from '../';
 
-export const RolesTable = () => {
+export const RolesTable = async () => {
+  
   return (
     <div className="flex-auto p-1 my-2 border border-solid rounded-lg">
 

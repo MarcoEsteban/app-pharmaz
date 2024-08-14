@@ -64,7 +64,7 @@ model Personas {
   ci          String         @unique
   nombre      String
   ap          String
-  am          String
+  am          String?
   direccion   String?
   celular     Int?
   foto        String?
