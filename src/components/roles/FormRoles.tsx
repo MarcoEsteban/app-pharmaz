@@ -1,338 +1,181 @@
-// 'use client';
-
-// import clsx from 'clsx';
-// import { usePathname, useRouter } from 'next/navigation';
-
-// import { useEffect, useState } from 'react';
-// import { SubmitHandler, useForm } from 'react-hook-form';
-// import Swal from 'sweetalert2';
-
-// // import { createRol, getById, getRolesMenusById, updateRol } from '@/actions';
-// import { BtnCancelar, BtnGuardar } from '@/components';
-
-// type FormInputs = {
-//   id?: string;
-//   nombre: string;
-//   menus: string[];
-// };
-
-// type Menus = {
-//   id: string;
-//   nombre: string;
-// };
-
-// interface Props {
-//   id?: string;
-// }
-
-// const menu: Menus[] = [
-//   {
-//     id: '1',
-//     nombre: 'Gestión Perfil'
-//   },
-//   {
-//     id: '2',
-//     nombre: 'Gestión Roles'
-//   },
-//   {
-//     id: '3',
-//     nombre: 'Gestión Usuarios'
-//   }
-// ];
-
-// export const FormRoles = ( { id }: Props ) => {
-
-//   const router = useRouter();     // Para navegar a una nueva ruta.
-//   const pathname = usePathname(); // Para obtener la ruta actual.
-
-//   const [ menus, setMenus ] = useState<Menus[]>( menu );          // Almacena todos los menus perteneciente al ID del Rol.
-//   const [ isEditar, setIsEditar ] = useState<boolean>( false ); // Permite saber en que formulario esta en ADD o UPDATE.
-
-//   //=================== Usando React Hook Form ===================
-//   const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormInputs>( {
-//     // defaultValues: {
-//     //   menus: [] // Inicializar 'menus' como un array vacío.
-//     // }
-//   } );
-
-//   useEffect( () => {
-//     // Server Actions - Obtenr los Menus por el ID
-//     // const fetchMenus = async () => {
-//     // const data = await getById();
-//     // setMenus( data.menus );
-//     // };
-
-//     // Server Action - Obtener los Menus de los Roles de Acuerdo al ID
-//     const loadRolToEditar = async ( id: string ) => {
-//       // const res = await getRolesMenusById( id );
-
-//       // if ( res.ok ) {
-//       //   setValue( 'nombre', res.data?.nombre as string );
-//       //   setValue( 'menus', res.data?.menus.map( menu => menu.id ) as [] );
-//       setIsEditar( true );
-//       // }
-//     };
-
-//     // fetchMenus();
-
-//     if ( id ) {
-//       loadRolToEditar( id );
-//     }
-//   }, [ id, setValue ] );
-
-
-//   const onSubmit: SubmitHandler<FormInputs> = async ( data ) => {
-
-//     const { nombre, menus } = data;
-
-//     console.log( { nombre, menus } );
-
-//     // var res;
-//     // if ( !isEditar ) {
-//       // res = await createRol( { nombre, menus } );
-//     // }
-
-//     // if ( isEditar ) {
-//       // res = await updateRol( { id, nombre, menus } );
-//     // }
-
-//     // if ( res === undefined ) return 'Error';
-
-//     // Muestra el Mensaje de Alerta Cuando Todo Sale Bien:
-//     // if ( res.ok ) {
-//     if ( true ) {
-//       Swal.fire( {
-//         position: "center",
-//         icon: "success",
-//         // title: `${ res.message }`,
-//         title: `Guardado Exitosamente`,
-//         showConfirmButton: false,
-//         timer: 1500
-//       } );
-//     }
-
-//     // Muestra el Mensaje de Alerta Cuando Algo Sale Mal:
-//     // if ( !res.ok ) {
-//     //   Swal.fire( {
-//     //     position: "center",
-//     //     icon: "error",
-//     //     title: `${ res.message }`,
-//     //     showConfirmButton: false,
-//     //     timer: 1500
-//     //   } );
-//     // }
-
-//     router.replace( pathname );
-//   };
-
-//   return (
-
-//     <form onSubmit={ handleSubmit( onSubmit ) }>
-//       <div className="grid gap-4 mb-4 grid-cols-2">
-
-//         {/*************** Nombre ****************/ }
-//         <div className="col-span-2">
-//           <label htmlFor="nombre" className="label-text">Nombre</label>
-//           <input
-//             className={
-//               clsx(
-//                 "input-text",
-//                 // { 'focus:border-red-500 border-red-500': errors.personas?.nombre },
-//               )
-//             }
-//             type="text"
-//             id="nombre"
-//             autoFocus
-//             { ...register( 'nombre', { required: true } ) }
-//             placeholder="Ingrese un nombre"
-//             required />
-//         </div>
-
-//         {/*************** Menus ****************/ }
-//         <div className="col-span-2">
-//           <label htmlFor="nombre" className="label-text">Seleccionar Menus</label>
-//           {
-//             menus.map( ( { id, nombre } ) => (
-//               <div key={ id } className="flex items-center mb-2.5">
-//                 <input
-//                   id={ nombre }
-//                   type="checkbox"
-//                   value={ id }
-//                   // onChange={ e => console.log( e.target.value ) }
-//                   className="input-checkbox"
-//                   { ...register( 'menus', { required: true } ) }
-//                 // defaultChecked={ getValues( 'menus' ).includes( id ) }
-//                 />
-//                 <label htmlFor={ nombre } className="ms-2 font-medium text-gray-500 ">{ nombre }</label>
-//               </div>
-//             ) )
-//           }
-//         </div>
-
-//       </div>
-
-//       <div className={ "flex justify-end gap-4 pt-2" }>
-//         <BtnGuardar />
-//         <BtnCancelar />
-//       </div>
-
-//     </form>
-//   );
-// };
 'use client';
 
-import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import Swal from 'sweetalert2';
+import { useForm } from 'react-hook-form';
 
-// import { createRol, getById, getRolesMenusById, updateRol } from '@/actions';
+import clsx from 'clsx';
+import Swal from 'sweetalert2';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { Menus, RolMe } from '@/interfaces';
+import { rolesSchema } from '@/validations';
+import { createUpdateRoles } from '@/actions';
 import { BtnCancelar, BtnGuardar } from '@/components';
 
+import {
+  FaBuildingUser,
+  FaCashRegister,
+  FaCircleUser,
+  FaCubes,
+  FaFilePdf,
+  FaMoneyCheckDollar,
+  FaPills,
+  FaTags,
+  FaTruckMedical,
+  FaUserGroup,
+  FaUserSecret,
+  FaUserTie,
+} from 'react-icons/fa6';
+import { IconType } from 'react-icons';
+
+const iconMenusMapping: {[ key: string ]: IconType} = {
+  // Usuario
+  FaUserGroup: FaUserGroup,
+  FaUserSecret: FaUserSecret, 
+  FaBuildingUser: FaBuildingUser,
+  // Almacen
+  FaPills: FaPills,
+  FaTags: FaTags,
+  FaCubes: FaCubes,
+  // Compras
+  FaTruckMedical: FaTruckMedical,
+  // Ventas
+  FaUserTie: FaUserTie,
+  FaCashRegister: FaCashRegister,
+  FaMoneyCheckDollar: FaMoneyCheckDollar,
+  // Reportes
+  FaCircleUser: FaCircleUser,
+  FaFilePdf: FaFilePdf,
+};
+
 type FormInputs = {
-  id?: string;
   nombre: string;
   menus: string[];
 };
 
-type Menus = {
-  id: string;
-  nombre: string;
-};
-
 interface Props {
-  id?: string;
+  roles: Partial<RolMe>;
+  menus: Menus[];
 }
 
-const menu: Menus[] = [
-  {
-    id: '1',
-    nombre: 'Gestión Perfil'
-  },
-  {
-    id: '2',
-    nombre: 'Gestión Roles'
-  },
-  {
-    id: '3',
-    nombre: 'Gestión Usuarios'
-  }
-];
+export const FormRoles = ( { roles, menus }: Props ) => {
+  
+  const router = useRouter();       // Para navegar a una nueva ruta.
+  const pathname = usePathname();   // Para obtener la ruta actual.
+  console.log({roles})
 
-export const FormRoles = ({ id }: Props) => {
-  const router = useRouter(); // Para navegar a una nueva ruta.
-  const pathname = usePathname(); // Para obtener la ruta actual.
+  // ================
+  // React Hook Form:
+  // ================
+  const { register, handleSubmit, setValue, getValues, watch, formState: { errors } } = useForm<FormInputs>( {
+    resolver: zodResolver( rolesSchema ), // Aplicando el Validador de Zod.
 
-  const [menus, setMenus] = useState<Menus[]>(menu); // Almacena todos los menus perteneciente al ID del Rol.
-  const [isEditar, setIsEditar] = useState<boolean>(false); // Permite saber en que formulario esta en ADD o UPDATE.
-
-  //=================== Usando React Hook Form ===================
-  const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormInputs>();
-
-  useEffect(() => {
-    // Server Actions - Obtener los Menus por el ID
-    // const fetchMenus = async () => {
-    // const data = await getById();
-    // setMenus(data.menus);
-    // };
-
-    // Server Action - Obtener los Menus de los Roles de Acuerdo al ID
-    const loadRolToEditar = async (id: string) => {
-      // const res = await getRolesMenusById(id);
-
-      // if (res.ok) {
-      //   setValue('nombre', res.data?.nombre as string);
-      //   setValue('menus', res.data?.menus.map(menu => menu.id) as []);
-      setIsEditar(true);
-      // }
-    };
-
-    // fetchMenus();
-
-    if (id) {
-      loadRolToEditar(id);
+    defaultValues: {
+      nombre: roles.nombre || '',
+      menus: roles.menus ? roles.menus.map( menu => menu.id) : [],
     }
-  }, [id, setValue]);
+  } );
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    const { nombre, menus } = data;
+  watch( 'menus' ); // Permite redibujar o pintar los menus en caso que exista un cambio.
 
-    console.log({ nombre, menus });
+  // ===================================
+  // Manejo de los valores de los Menus:
+  // ===================================
+  const onMenusChange = ( id: string ) => {
+    // Set :: Es un arreglo que NO acepta duplicados.
+    const menus = new Set( getValues( 'menus' ) );
+    menus.has( id ) ? menus.delete( id ) : menus.add( id );
 
-    // var res;
-    // if (!isEditar) {
-    // res = await createRol({ nombre, menus });
-    // }
+    setValue( 'menus', Array.from( menus ) );
+  };
 
-    // if (isEditar) {
-    // res = await updateRol({ id, nombre, menus });
-    // }
+  // =====================
+  // Envio del Formulario:
+  // =====================
+  const onSubmit = async ( data: FormInputs ) => {
 
-    // if (res === undefined) return 'Error';
+    const formData = new FormData;
+    const { ...rolToSave } = data;
+
+    if ( roles.id ) {
+      formData.append( 'id', roles.id ?? '' );
+    }
+    formData.append( 'nombre', rolToSave.nombre );
+    formData.append( 'menus', rolToSave.menus.toString() );
+
+    const { ok, message } = await createUpdateRoles( formData );
 
     // Muestra el Mensaje de Alerta Cuando Todo Sale Bien:
-    if (true) {
-      Swal.fire({
+    if ( ok ) {
+      Swal.fire( {
         position: "center",
         icon: "success",
-        // title: `${res.message}`,
-        title: `Guardado Exitosamente`,
+        title: `${message}`,
+        showConfirmButton: false,
+        timer: 1500
+      } );
+    }
+
+    // Muestra el Mensaje de Alerta Cuando Algo Sale Mal:
+    if (!ok) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: `${message}`,
         showConfirmButton: false,
         timer: 1500
       });
     }
 
-    // Muestra el Mensaje de Alerta Cuando Algo Sale Mal:
-    // if (!res.ok) {
-    //   Swal.fire({
-    //     position: "center",
-    //     icon: "error",
-    //     title: `${res.message}`,
-    //     showConfirmButton: false,
-    //     timer: 1500
-    //   });
-    // }
-
-    router.replace(pathname);
+    router.replace( pathname );
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
+    <form onSubmit={ handleSubmit( onSubmit ) } >
       <div className="grid gap-4 mb-4 grid-cols-2">
-        {/*************** Nombre ****************/}
         <div className="col-span-2">
           <label htmlFor="nombre" className="label-text">Nombre</label>
           <input
-            className={clsx(
-              "input-text",
-              errors.nombre && 'focus:border-red-500 border-red-500'
-            )}
+            className={ clsx( "input-text", errors.nombre && 'focus:border-red-500 border-red-500' ) }
             type="text"
             id="nombre"
             autoFocus
-            {...register('nombre', { required: "El nombre es obligatorio" })}
+            { ...register( 'nombre' ) }
             placeholder="Ingrese un nombre"
           />
-          {errors.nombre && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.nombre.message}</p>}
+          { errors.nombre && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.nombre.message }</p> }
         </div>
 
-        {/*************** Menus ****************/}
         <div className="col-span-2">
           <label htmlFor="menus" className="label-text">Seleccionar Menus</label>
-          {menus.map(({ id, nombre }) => (
-            <div key={id} className="flex items-center mb-2.5">
-              <input
-                id={nombre}
-                type="checkbox"
-                value={id}
-                className="input-checkbox"
-                {...register('menus', { required: "Debe seleccionar al menos un menú" })}
-              />
-              <label htmlFor={nombre} className="ms-2 font-medium text-gray-500">{nombre}</label>
-            </div>
-          ))}
-          {errors.menus && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.menus.message}</p>}
+          <div className={ "w-full my-2 grid grid-cols-1 md:grid-cols-2 gap-2" }>
+            {
+              menus.map( menu => {
+                const IconCompenent = iconMenusMapping[menu.icon]
+                const newMenu = {
+                  ...menu,
+                  enlace: menu.enlace,
+                  icon: <IconCompenent size={22} />
+                }
+                return (
+                  <div 
+                    key={ menu.id }
+                    onClick={ () => onMenusChange( menu.id ) }
+                    className={
+                      clsx(
+                        "border flex rounded-md p-2 gap-2 transition-all cursor-pointer items-center text-gray-600",
+                        { 'gradient text-white': getValues( 'menus' ).includes( menu.id ) }
+                      )
+                    }
+                  >
+                    { newMenu.icon }
+                    { menu.nombre }
+                  </div>
+                )
+              })
+            }
+          </div>
+          { errors.menus && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.menus.message }</p> }
         </div>
       </div>
 

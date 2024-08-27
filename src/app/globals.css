@@ -84,10 +84,10 @@ body {
     @apply inline-block mb-2 ml-1 font-bold text-sm text-slate-700
   }
   .input-text-icon {
-    @apply text-sm w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 pl-8 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none
+    @apply text-sm capitalize w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 pl-8 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none
   }
   .input-text {
-    @apply text-sm w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none 
+    @apply text-sm capitalize w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none 
   }
 
   .input-select {

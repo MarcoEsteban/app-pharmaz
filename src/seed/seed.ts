@@ -136,7 +136,7 @@ export const initialData: SeedData = {
       ap: 'Gutierrez',
       am: 'Peralta',
       direccion: '',
-      celular: 78967542
+      celular: 78967542,
     },
   ],
 

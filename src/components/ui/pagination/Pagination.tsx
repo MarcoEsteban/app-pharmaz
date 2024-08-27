@@ -60,7 +60,7 @@ export const Pagination = ( { totalPages }: Props ) => {
 
       {/* Numero de Paginacion */ }
       <div className="items-center hidden md:flex gap-x-2">
-        {/* {
+        {/*{
           allPages.map( ( page, index ) => (
             <li key={ page + '-' + index } className="">
               <Link
@@ -78,7 +78,7 @@ export const Pagination = ( { totalPages }: Props ) => {
               </Link>
             </li>
           ) )
-        } */}
+        }*/}
         <a href="#" className="px-2 py-1 text-sm text-blue-500 rounded-md bg-blue-100/60">1</a>
         <a href="#" className="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">2</a>
         <a href="#" className="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">3</a>

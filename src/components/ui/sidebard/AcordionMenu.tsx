@@ -14,7 +14,7 @@ interface Props {
 export const Accordion = ( { title, children, icon, openMenu }: Props ) => {
 
   // State
-  const [ acordionOpen, setAcordionOpen ] = useState( false );
+  const [ acordionOpen, setAcordionOpen ] = useState( true );
 
   return (
     <div className='max-w-md mb-2'>

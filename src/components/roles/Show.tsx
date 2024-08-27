@@ -1,55 +1,32 @@
 
-import { BtnVolver } from '@/components';
-import { FaBuildingUser, FaCircleUser, FaUserGroup, FaUserSecret } from 'react-icons/fa6';
+import { BtnVolver, ButtonState } from '@/components';
+import { RolMe } from '@/interfaces';
+import { ItemMenus } from './menus/ItemMenus';
 
 interface Props {
-  id?: string;
+  roles: RolMe;
 }
 
-const menus = [
-
-  // Usuario
-  {
-    nombre: 'Gestión Perfil',
-    icon: <FaCircleUser className={ "text-2xl" } />,
-    enlace: '/dashboard/perfil',
-  },
-  {
-    nombre: 'Gestión Roles',
-    icon: <FaUserGroup className={ "text-2xl" } />,
-    enlace: '/dashboard/roles',
-  },
-  {
-    nombre: 'Gestión Usuario',
-    icon: <FaUserSecret className={ "text-2xl" } />,
-    enlace: '/dashboard/usuarios'
-  },
-  {
-    nombre: 'Adm. Datos Farmacia',
-    icon: <FaBuildingUser className={ "text-2xl" } />,
-    enlace: '/dashboard/data_farmacia'
-  },
-];
-
-
-export const Show = ( { id }: Props ) => {
+export const Show = ( { roles }: Props ) => {
 
   return (
     <>
-      <div className={ "w-full mb-4 text-xl font-semibold" }>
-        Administrador
+      <div className={ "w-full mb-6 text-gray-600 uppercase font-semibold pb-1 border-b shadow-lg text-center" }>
+        Detalle del Rol
       </div>
-
-      <div className={ "w-full my-2 grid grid-cols-1 md:grid-cols-2 gap-2" }>
-        {
-          menus.slice( 0, 4 ).map( menu => (
-            <button className={"gradient text-white rounded-md flex p-2 gap-3 items-center"}>
-              { menu.icon }
-              { menu.nombre }
-            </button>
-          ) )
-        }
+      
+      <div className={ "w-full mb-4 text-gray-400 pb-2 flex justify-between" }>
+        <p className='flex items-center gap-2'> 
+          <span className='uppercase text-sm font-semibold'>Nombre Rol:</span>{ roles.nombre }
+        </p> 
+        
+        <p className='flex items-center gap-2'> 
+          <span className='uppercase text-sm font-semibold'>Estado:</span>
+          <ButtonState estado={ roles.estado } />
+        </p> 
       </div>
+      
+      <ItemMenus roles={ roles } />
 
       <div className={ "flex justify-end gap-4 pt-2" }>
         <BtnVolver />

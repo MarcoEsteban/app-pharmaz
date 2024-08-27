@@ -2,22 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaArrowLeft, FaFloppyDisk, FaPlus, FaXmark } from 'react-icons/fa6';
-
-export const BtnAgregar = () => {
-
-  const pathname = usePathname();
-
-  return (
-    <Link
-      href={ pathname + '?modal=agregar' }
-      className={ "btn gradient-add flex items-center gap-2 font-semibold tracking-wide" }
-    >
-      Agregar
-      <FaPlus />
-    </Link>
-  );
-};
+import { FaEye } from 'react-icons/fa';
+import { FaArrowLeft, FaFloppyDisk, FaPenToSquare, FaPlus, FaXmark } from 'react-icons/fa6';
 
 export const BtnGuardar = () => {
   return (
@@ -73,3 +59,47 @@ export const BtnAction = ( { params, className, children }: Props ) => {
     </Link>
   );
 };
+
+export const BtnAgregar = () => {
+
+  const pathname = usePathname();
+
+  return (
+    <Link
+      href={ pathname + '?modal=agregar' }
+      className={ "btn gradient-add flex items-center gap-2 font-semibold tracking-wide" }
+    >
+      Agregar
+      <FaPlus />
+    </Link>
+  );
+};
+
+export const BtnModificar = ({id}: {id: string}) => {
+
+  const pathname = usePathname();
+
+  return (
+    <Link
+      href={ pathname + `?modal=editar/${ id }` }
+      className={ "btn-gnrl gradient-update" }
+    >
+       <FaPenToSquare size={ 18 } />
+    </Link>
+  );
+};
+
+export const BtnVer = ({id}: {id: string}) => {
+
+  const pathname = usePathname();
+
+  return (
+    <Link
+      href={ pathname + `?modal=ver/${ id }` }
+      className={ "btn-gnrl gradient-show" }
+    >
+       <FaEye size={ 18 } />
+    </Link>
+  );
+};
+

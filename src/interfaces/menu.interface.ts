@@ -1,7 +1,7 @@
 
 export interface Menus {
-  id?: string;
+  id: string;
   nombre: string;
   enlace: string;
-  icon: React.ReactNode | string;
+  icon: string;
 }

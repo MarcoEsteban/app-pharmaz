@@ -1,8 +1,12 @@
-import { FaCheck, FaEye } from 'react-icons/fa';
-import { FaPenToSquare } from 'react-icons/fa6';
-import { BtnAction, ButtonActionToglgleState, ButtonState } from '../';
+import { BtnModificar, BtnVer, ButtonActionToglgleState, ButtonState } from '../';
+import { RolMe } from '@/interfaces';
+import { toggleStateRoles } from '@/actions';
 
-export const RolesTable = async () => {
+interface Props {
+  roles: RolMe[]
+}
+
+export const RolesTable = async ({roles}: Props) => {
   
   return (
     <div className="flex-auto p-1 my-2 border border-solid rounded-lg">
@@ -13,6 +17,7 @@ export const RolesTable = async () => {
           {/*======================================= Cabecera =======================================*/ }
           <thead className="">
             <tr className={ "shadow-sm" }>
+              <th className="table-th text-left ">#</th>
               <th className="table-th text-left ">ID</th>
               <th className="table-th text-left ">Nombre</th>
               <th className="table-th text-left">Menus</th>
@@ -24,84 +29,48 @@ export const RolesTable = async () => {
           {/*======================================== Cuerpo ========================================*/ }
           <tbody className="bg-white divide-y divide-gray-200">
 
-            <tr className="border-b">
+            {
+              roles.map( (rol, index) => (
+                <tr className="border-b" key={ rol.id }>
 
-              <td className={ "table-td" }>
-                892341
-              </td>
+                  <td className={ "table-td font-bold" }>{index + 1}</td>
+                  
+                  <td className={ "table-td" }>{rol.id?.split('-').at(-1)}</td>
 
-              <td className="table-td">Administrador</td>
+                  <td className="table-td">{rol.nombre}</td>
 
-              <td className="table-td">
-                <select className={ "input-select" }>
-                  <option>Perfil</option>
-                  <option>Usuario</option>
-                </select>
-              </td>
+                  <td className="table-td">
+                    <select className={ "input-select" }>
+                      {
+                        rol.menus.map(menu => (
+                          <option key={ menu.id }>{menu.nombre.split(' ').at(-1)}</option>
+                        ))
+                      }
+                    </select>
+                  </td>
 
-              <td className="table-td text-center">
-                <ButtonState estado={ false } />
-              </td>
+                  <td className="table-td text-center">
+                    <ButtonState estado={ rol.estado } />
+                  </td>
 
-              <td className="text-center">
+                  <td className="text-center">
+                    {/*============= Buton Eliminar || Habilitar =============*/ }
+                    <ButtonActionToglgleState
+                      id={ rol.id }
+                      nombre={ rol.nombre }
+                      estado={ rol.estado }
+                      toggleActionState={ toggleStateRoles }
+                    />
 
-                {/*============= Buton Eliminar || Habilitar =============*/ }
-                <ButtonActionToglgleState
-                  id={ '123456' }
-                  nombre={ "Administrador" }
-                  estado={ true }
-                />
+                    {/*=================== Buton Actualizar ==================*/ }
+                    <BtnModificar id={rol.id} />
 
-                {/*=================== Buton Actualizar ==================*/ }
-                <BtnAction params={ `?modal=editar/${ '123456' }` } className={ 'gradient-update' }>
-                  <FaPenToSquare size={ 18 } />
-                </BtnAction>
-
-                {/*====================== Buton Ver ======================*/ }
-                <BtnAction params={ '?modal=ver' } className={ 'gradient-show' }>
-                  <FaEye size={ 18 } />
-                </BtnAction>
-
-              </td>
-            </tr>
-
-            <tr className={ "border-b" }>
-
-              <td className={ "table-td" }>892382</td>
-
-              <td className="table-td">Farmaceutico</td>
-
-              <td className="table-td">
-                <select className={ "input-select" }>
-                  <option>Usuario</option>
-                  <option>Perfil</option>
-                </select>
-              </td>
-
-              <td className="table-td text-center">
-                <span className="btn-activo">
-                  <FaCheck />
-                  Activo
-                </span>
-              </td>
-
-              <td className="table-td text-center">
-
-                <ButtonActionToglgleState
-                  id={ '123456' }
-                  nombre={ "Administrador" }
-                  estado={ false }
-                />
-
-                <button type="button" className="btn-gnrl gradient-update">
-                  <FaPenToSquare size={ 18 } />
-                </button>
-
-                <button type="button" className="btn-gnrl gradient-show">
-                  <FaEye size={ 18 } />
-                </button>
-              </td>
-            </tr>
+                    {/*====================== Buton Ver ======================*/ }
+                    <BtnVer id={rol.id} />
+                  </td>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
       </div>
