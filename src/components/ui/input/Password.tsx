@@ -10,9 +10,10 @@ interface Props {
   id: string;
   register: UseFormRegister<any>;
   errors: FieldErrors;
+  isEditMode?: boolean
 }
 
-export const Password = ( { placeholder, id, register, errors }: Props ) => {
+export const Password = ( { placeholder, id, register, errors, isEditMode }: Props ) => {
 
   const [ showPassword, setShowPassword ] = useState( false );
 
@@ -27,6 +28,9 @@ export const Password = ( { placeholder, id, register, errors }: Props ) => {
     return null;
   };
 
+  // Required se aplica solo si no está en modo Editar
+  const required = !isEditMode ? { required: "La contraseña es obligatoria" } : {};
+  
   return (
     <>
       <div className="relative">
@@ -40,7 +44,7 @@ export const Password = ( { placeholder, id, register, errors }: Props ) => {
           ) }
           placeholder={ placeholder }
           id={ id }
-          { ...register( id, { required: "La contraseña es obligatoria" } ) }
+          { ...register( id, required) }
         />
         {/* Mostrar Icono según el estado */ }
         { showPassword ? (

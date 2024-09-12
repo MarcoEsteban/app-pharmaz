@@ -1,21 +1,3 @@
-//
-// import { z } from 'zod';
-//
-// export const rolesSchema = z.object({
-//   nombre: z
-//     .string()
-//     .min(3, {
-//       message: "Tiene que tener como mínimo 3 caracteres." 
-//     })
-//     .max(200, {
-//       message: "Tiene que tener como mínimo 3 caracteres." 
-//     }),
-//   menus: z
-//     .array(z.string())
-//     .min(1, {
-//       message: "Debe seleccionar al menos un menú." 
-//     })
-// })
 
 import { z } from 'zod';
 

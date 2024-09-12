@@ -180,8 +180,8 @@ export const FormRoles = ( { roles, menus }: Props ) => {
       </div>
 
       <div className="flex justify-end gap-4 pt-2">
-        <BtnGuardar />
         <BtnCancelar />
+        <BtnGuardar />
       </div>
     </form>
   );

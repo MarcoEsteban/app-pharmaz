@@ -19,9 +19,12 @@ export const getPaginationRoles = async ({
   if (currentPage < 1) currentPage = 1;
 
   try {
+    // startsWith :: Permite buscar por la inicial de cada palabra.
+    // contains   :: Permite buscar por la letra que introducimos, pero busca en toda la palabra.
+    
     // Condición para filtrar o no según la query:
     const conditions = query
-      ? { nombre: { contains: query, mode: 'insensitive' as Prisma.QueryMode } }
+      ? { nombre: { startsWith: query, mode: 'insensitive' as Prisma.QueryMode } }
       : {};
 
     // Obtenemos los roles y el total de registros en paralelo

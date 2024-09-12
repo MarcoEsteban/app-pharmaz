@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaEye } from 'react-icons/fa';
-import { FaArrowLeft, FaFloppyDisk, FaPenToSquare, FaPlus, FaXmark } from 'react-icons/fa6';
+import { FaCamera, FaEye } from 'react-icons/fa';
+import { FaArrowLeft, FaFloppyDisk, FaPenToSquare, FaPlus, FaUnlockKeyhole, FaXmark } from 'react-icons/fa6';
 
 export const BtnGuardar = () => {
   return (
@@ -99,6 +99,34 @@ export const BtnVer = ({id}: {id: string}) => {
       className={ "btn-gnrl gradient-show" }
     >
        <FaEye size={ 18 } />
+    </Link>
+  );
+};
+
+export const BtnPhoto = ({id}: {id: string}) => {
+
+  const pathname = usePathname();
+
+  return (
+    <Link
+      href={ pathname + `?modal=foto/${ id }` }
+      className={ "btn-gnrl gradient-photo" }
+    >
+       <FaCamera size={ 18 } />
+    </Link>
+  );
+};
+
+export const BtnPassword = ({id}: {id: string}) => {
+
+  const pathname = usePathname();
+
+  return (
+    <Link
+      href={ pathname + `?modal=password/${ id }` }
+      className={ "btn-gnrl gradient" }
+    >
+       <FaUnlockKeyhole size={ 18 } />
     </Link>
   );
 };

@@ -31,7 +31,22 @@ interface SeedUser {
   password: string;
   personasId: string;
   rolesId: string;
-  estado?: boolean;
+}
+
+interface SeedProveedores {
+  id?: string;
+  email: string;
+  personasId: string;
+}
+
+interface SeedDatosPharmaz {
+  id?: string;
+  nombre: string;
+  email: string; 
+  celular: number;
+  direccion: string;
+  foto?: string;
+  usuarioId: string;
 }
 
 interface SeedData {
@@ -39,6 +54,8 @@ interface SeedData {
   roles: SeedRoles[];
   personas: SeedPersonas[];
   usuarios: SeedUser[];
+  proveedor: SeedProveedores[];
+  datapharmaz: SeedDatosPharmaz[];
 }
 
 export const initialData: SeedData = {
@@ -107,7 +124,7 @@ export const initialData: SeedData = {
       enlace: '/ventas_realizadas'
     },
 
-  //Reportes
+    //Reportes
     {
       nombre: 'Gestión Reportes',
       icon: "FaFilePdf",
@@ -142,10 +159,28 @@ export const initialData: SeedData = {
 
   usuarios: [
     {
-      email: 'fredy@google.com',
+      email: 'marcocampos@google.com',
       password: bcryptjs.hashSync( '123456' ),
       personasId: '',
       rolesId: ''
+    },
+  ],
+  
+  proveedor: [
+    {
+      email: 'angelgupe@google.com',
+      personasId: '',
+    },
+  ],
+  
+  datapharmaz: [
+    {
+      nombre: 'Pharmaz',
+      email: 'pharmaz@google.com',
+      direccion: '',
+      celular: 77952541,
+      foto: '',
+      usuarioId: '',
     },
   ],
 }

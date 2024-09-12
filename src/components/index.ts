@@ -12,6 +12,8 @@ export * from './ui/button/ButtonState';
 export * from './ui/button/ButtonActionToglgleState';
 export * from './ui/input/Password';
 export * from './ui/skeleton/Skeleton';
+// PROVIDER
+export { Provider } from './provider/Provider';
 
 // ROLES
 // export * from './roles/Table';

@@ -1,9 +1,9 @@
 'use client';
 
-// import { generatePaginationNumbers } from '@/utils';
-// import clsx from 'clsx';
 import Link from 'next/link';
 import { redirect, usePathname, useSearchParams } from 'next/navigation';
+import clsx from 'clsx';
+import { generatePaginationNumbers } from '@/utils';
 
 interface Props {
   totalPages: number;
@@ -18,7 +18,7 @@ export const Pagination = ( { totalPages }: Props ) => {
 
   if ( currentPage < 1 ) redirect( pathname );
 
-  // const allPages = generatePaginationNumbers( currentPage, totalPages );
+  const allPages = generatePaginationNumbers( currentPage, totalPages );
 
   const createPageUrl = ( pageNumber: number | string ) => {
 
@@ -39,12 +39,10 @@ export const Pagination = ( { totalPages }: Props ) => {
 
   };
 
-  console.log();
-
   return (
     <div className="flex items-center justify-between">
 
-      {/* Previous (Anterior) */ }
+      {/*==================================== Previous (Anterior) ====================================*/ }
       <Link
         href={ createPageUrl( currentPage - 1 ) }
         className="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100"
@@ -58,17 +56,18 @@ export const Pagination = ( { totalPages }: Props ) => {
         </span>
       </Link>
 
-      {/* Numero de Paginacion */ }
-      <div className="items-center hidden md:flex gap-x-2">
-        {/*{
+      {/*==================================== Numero de Paginacion ====================================*/ }
+      <ul className="items-center hidden md:flex gap-x-2">
+        {
           allPages.map( ( page, index ) => (
             <li key={ page + '-' + index } className="">
               <Link
                 className={
                   clsx(
-                    "px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100",
+                    "px-2 py-1 text-sm rounded-md",
                     {
-                      'bg-blue-700 shadow-md text-white hover:bg-blue-700 hover:text-white': page === currentPage
+                      'bg-blue-700 shadow-md text-white hover:bg-blue-700 hover:text-white': page === currentPage,
+                      'hover:bg-gray-100 text-gray-500 hover:text-gray-500': page !== currentPage
                     }
                   )
                 }
@@ -78,19 +77,10 @@ export const Pagination = ( { totalPages }: Props ) => {
               </Link>
             </li>
           ) )
-        }*/}
-        <a href="#" className="px-2 py-1 text-sm text-blue-500 rounded-md bg-blue-100/60">1</a>
-        <a href="#" className="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">2</a>
-        <a href="#" className="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">3</a>
-        <a href="#" className="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">...</a>
-        <a href="#" className="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">12</a>
-        <a href="#" className="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">13</a>
-        <a href="#" className="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">14</a>
-      </div>
+        }
+      </ul>
 
-
-      {/* Next (Siguiente) */ }
-
+      {/*==================================== Next (Siguiente) ====================================*/ }
       <Link
         href={ createPageUrl( currentPage + 1 ) }
         className="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100"

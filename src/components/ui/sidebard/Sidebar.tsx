@@ -27,6 +27,8 @@ import { useSidebarStore } from '@/store';
 import { SidebardItem } from './SidebardItem';
 import { Accordion } from './AcordionMenu';
 import { Menus } from '@/interfaces';
+import { logout } from '@/actions';
+import { CiLogout } from 'react-icons/ci';
 
 const menus: Menus[] = [
 
@@ -134,13 +136,26 @@ export const Sidebard = () => {
         {
           !isSideMenuOpen
             ? (
-              <Image
-                src="/images/PHARMAZ.jpg"
-                className={ "object-cover" }
-                alt="Logo"
-                width={ 230 }
-                height={ 0 }
-              />
+              <div className='flex items-center gap-2 py-2'>
+                <Image
+                  src="/images/ICON-PHARMAZ.jpg"
+                  alt="Logo"
+                  width={ 50 }
+                  height={ 50 }
+                />
+                <div className="text-4xl font-sans font-semibold">
+                  <span className="bg-clip-text text-transparent gradient">
+                    PHARMAZ
+                  </span>
+                </div>
+              </div>
+              // <Image
+              //   src="/images/PHARMAZ.jpg"
+              //   className={ "object-cover" }
+              //   alt="Logo"
+              //   width={ 230 }
+              //   height={ 0 }
+              // />
             )
             : (
               <Image
@@ -205,6 +220,14 @@ export const Sidebard = () => {
           }
         </Accordion>
 
+        {/*Esta Temporalmente Luego Borrar*/}
+        <div className="h-full flex items-end text-white">
+          <button
+            onClick={ () => logout() }
+            className="mb-2 px-3 py-2 flex justify-center items-center gap-4 rounded-md font-bold hover:bg-blue-800 w-full">
+            <CiLogout size={ 24 } /> <span className="text-lg ">Salir</span>
+          </button>
+        </div>
       </nav>
     </div>
   );

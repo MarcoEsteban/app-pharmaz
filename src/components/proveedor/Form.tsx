@@ -1,101 +1,79 @@
 'use client';
 
-import { BtnCancelar, BtnGuardar, Password } from '@/components';
-import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
+import clsx from 'clsx';
+import { BtnCancelar, BtnGuardar } from '@/components';
+import { Proveedor } from '@/interfaces';
+import { proveedorSchema } from '@/validations';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { MdEmail } from 'react-icons/md';
-
-import Swal from 'sweetalert2';
+import { messageSweetAlert } from '@/utils';
+import { createUpdateProveedor } from '@/actions';
 
 type FormInputs = {
   id?: string;
-  nit: string;
+  ci: string;
   nombre: string;
+  ap: string;
+  am: string;
   celular: number;
   email: string;
 };
 
 interface Props {
-  id?: string;
+  proveedor: Partial<Proveedor>;
 }
 
-export const FormUsuario = ( { id }: Props ) => {
+export const FormProveedor = ( { proveedor }: Props ) => {
 
   const router = useRouter();     // Para navegar a una nueva ruta.
   const pathname = usePathname(); // Para obtener la ruta actual.
 
-  // const [ roles, setRoles ] = useState<TypeRoles[]>( [] );        // Para guardar los reles.
-
-  // Initial React Hook Form:
+  // ================
+  // React Hook Form:
+  // ================
   const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormInputs>( {
+    resolver: zodResolver( proveedorSchema ), // Aplicando el Validador de Zod.
+    
     defaultValues: {
-      // roles: {} // Inicializar 'menus' como un array vacío.
+      ...proveedor,
+      ci: proveedor.personas?.ci,
+      nombre: proveedor.personas?.nombre,
+      ap: proveedor.personas?.ap,
+      am: proveedor.personas?.am ?? '',
+      celular: proveedor.personas?.celular ?? undefined,
+      email: proveedor.email
     }
   } );
 
-  useEffect( () => {
-    // Server Actions - Obtenr los Menus por el ID
-    const fetchMenus = async () => {
-      console.log( "perfiledit" );
-    };
+  // =====================
+  // Envio del Formulario:
+  // =====================
+  const onSubmit = async ( data: FormInputs ) => {
 
-    // Server Action - Obtener los Menus de los Roles de Acuerdo al ID
-    // const loadRolToEditar = async ( id: string ) => {
-    //   const res = await getRolesMenusById( id );
+    const formData = new FormData;
+    const { ...proveedorToSave } = data;
 
-    //   if ( res.ok ) {
-    //     setValue( 'nombre', res.data?.nombre as string );
-    //     setValue( 'menus', res.data?.menus.map( menu => menu.id ) as [] );
-    //     setIsEditar( true );
-    //   }
-    // };
-
-    fetchMenus();
-
-    // if ( id ) {
-    //   loadRolToEditar( id );
-    // }
-  }, [] );
-  // }, [ id, setValue ] );
-
-
-  // Metodo de Envio del Formulario:
-  const onSubmit: SubmitHandler<FormInputs> = async ( data ) => {
-
-    // Destructuramos los Valores del Formulario:
-    const { email, celular, nombre, nit } = data;
-
-    console.log( { email, celular, nombre, nit } );
-
-
-    // Muestra el Mensaje de Alerta Cuando Todo Sale Bien:
-    if ( true ) {
-      Swal.fire( {
-        position: "center",
-        icon: "success",
-        // title: `${ res.message }`,
-        title: `Modificado Exitosamente`,
-        showConfirmButton: false,
-        timer: 1500
-      } );
+    if ( proveedor.id || proveedor.personasId ) {
+      formData.append( 'id', proveedor.id ?? '' );
+      formData.append( 'personasId', proveedor.personasId ?? '' );
     }
+    formData.append( 'ci', proveedorToSave.ci );
+    formData.append( 'nombre', proveedorToSave.nombre );
+    formData.append( 'ap', proveedorToSave.ap );
+    formData.append( 'am', proveedorToSave.am );
+    formData.append( 'celular', proveedorToSave.celular.toString() );
+    formData.append( 'email', proveedorToSave.email );
 
-    // Muestra el Mensaje de Alerta Cuando Algo Sale Mal:
-    // if ( !res.ok ) {
-    //   Swal.fire( {
-    //     position: "center",
-    //     icon: "error",
-    //     title: `${ res.message }`,
-    //     showConfirmButton: false,
-    //     timer: 1500
-    //   } );
-    // }
+    const { ok, message } = await createUpdateProveedor( formData );
 
+    messageSweetAlert(ok, message);
 
-    router.replace( pathname ); // Permite reemplazar la ruta con la nueva ruta.
+    if (!ok) return router.replace( `${pathname}?modal=agregar` );
+
+    router.replace( pathname );
   };
 
   return (
@@ -109,15 +87,15 @@ export const FormUsuario = ( { id }: Props ) => {
           <input
             className={ clsx(
               "input-text",
-              errors.nit && 'focus:border-red-500 border-red-500'
+              errors.ci && 'focus:border-red-500 border-red-500'
             ) }
             type="text"
             id="nit"
             autoFocus
-            { ...register( 'nit', { required: "La nit es obligatorio" } ) }
+            { ...register( 'ci', { required: "La nit es obligatorio" } ) }
             placeholder="Ingrese un nit"
           />
-          { errors.nit && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.nit.message }</p> }
+          { errors.ci && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.ci.message }</p> }
         </div>
 
         {/*************** Nombre ****************/ }
@@ -130,11 +108,42 @@ export const FormUsuario = ( { id }: Props ) => {
             ) }
             type="text"
             id="nombre"
-            autoFocus
             { ...register( 'nombre', { required: "El nombre es obligatorio" } ) }
             placeholder="Ingrese un nombre"
           />
           { errors.nombre && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.nombre.message }</p> }
+        </div>
+        
+        {/*************** Ap ****************/ }
+        <div className="col-span-2 sm:col-span-1">
+          <label htmlFor="ap" className="label-text">Apellido Paterno <span className={ "text-red-600" }>*</span></label>
+          <input
+            className={ clsx(
+              "input-text",
+              {'focus:border-red-500 border-red-500': errors.ap}
+            ) }
+            type="text"
+            id="ap"
+            { ...register( 'ap', { required: "El apellido es obligatorio" } ) }
+            placeholder="Ingrese un ap"
+          />
+          { errors.ap && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.ap.message }</p> }
+        </div>
+
+        {/*************** Am ****************/ }
+        <div className="col-span-2 sm:col-span-1">
+          <label htmlFor="am" className="label-text">Apellido Materno</label>
+          <input
+            className={ clsx(
+              "input-text",
+              {'focus:border-red-500 border-red-500': errors.am}
+            ) }
+            type="text"
+            id="am"
+            { ...register( 'am', { required: "El apellido es obligatorio" } ) }
+            placeholder="Ingrese un am"
+          />
+          { errors.am && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.am.message }</p> }
         </div>
 
         {/*************** Celular ****************/ }
@@ -175,8 +184,8 @@ export const FormUsuario = ( { id }: Props ) => {
       </div>
 
       <div className={ "flex justify-end gap-4 pt-2" }>
-        <BtnGuardar />
         <BtnCancelar />
+        <BtnGuardar />
       </div>
 
     </form>

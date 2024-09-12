@@ -1,22 +1,36 @@
+import { getByIdProveedor, getPaginationProveedor } from '@/actions';
 import { Card, Search, Title, Modal, BtnAgregar, Pagination } from '@/components';
-import { FormPhoto, FormUsuario, ProveedorTable, Show } from '@/components/proveedor';
+import { FormPhoto, FormProveedor, ProveedorTable, Show } from '@/components/proveedor';
+import { Suspense } from 'react';
 
 interface Props {
   searchParams: {
     modal: string;
+    query?: string;
+    page?: string;
   };
 }
 
-export default function ProveedorPage( { searchParams }: Props ) {
+export default async function ProveedorPage( { searchParams }: Props ) {
 
   // Get Value for URL: Params
+  const query = searchParams?.query || '';
+  const currentPage = Number( searchParams?.page ) || 1;
   const modal = searchParams.modal;
 
-  const getModalContent = () => {
+  const getModalContent = async () => {
     if ( !modal ) return null;
 
     // Destructuro el dato del Modal:
     const [ modalType, id ] = modal.split( '/' );
+    
+    // ===========================================================
+    // Server Actios:
+    // Esto Permite que ambos metodos se disparen al mismo tiempo.
+    // ===========================================================
+    const [ proveedor ] = await Promise.all( [
+      id ? getByIdProveedor(id) : Promise.resolve(null) // Si el id es undefined, no se hace la llamada
+    ] );
 
     if ( modalType === 'foto' ) {
       return <Modal titleModal="Agregar Foto" children={ <FormPhoto id={ id } /> } />;
@@ -26,8 +40,13 @@ export default function ProveedorPage( { searchParams }: Props ) {
       return <Modal titleModal="Ver Proveedor" children={ <Show id={ id } /> } />;
     }
 
-    return <Modal titleModal={ `${ modalType } Proveedor` } children={ <FormUsuario id={ id } /> } />;
+    return <Modal titleModal={ `${ modalType } Proveedor` } children={ <FormProveedor proveedor={ proveedor ?? {} } /> } />;
   };
+  
+  // ==============
+  // Server Actios:
+  // ==============
+  const { proveedores, totalPages } = await getPaginationProveedor({ currentPage, query });
 
   return (
     <Card>
@@ -42,8 +61,13 @@ export default function ProveedorPage( { searchParams }: Props ) {
       </div>
 
       {/*********************** Tabla ***********************/ }
-      <ProveedorTable />
-      <Pagination totalPages={ 4 } />
+      <Suspense
+        key={ query + currentPage } // Esto permite que se renderice de nuevo el componente.
+        // fallback={ <UsuariosTableSkeleton /> }
+      >
+        <ProveedorTable proveedor={proveedores ?? []} />
+      </Suspense>
+      <Pagination totalPages={ totalPages } />
 
       {/*********************** Modal ***********************/ }
       { getModalContent() }

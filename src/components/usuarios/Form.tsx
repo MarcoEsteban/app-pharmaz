@@ -1,14 +1,19 @@
 'use client';
 
-import { BtnCancelar, BtnGuardar, Password } from '@/components';
-import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
+import clsx from 'clsx';
 
-import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { BtnCancelar, BtnGuardar, Password } from '@/components';
+import { Roles, Usuario } from '@/interfaces';
+
+import { useForm } from 'react-hook-form';
 import { MdEmail } from 'react-icons/md';
 
 import Swal from 'sweetalert2';
+import { createUpdateUser } from '@/actions';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userSchema } from '@/validations';
+import { messageSweetAlert } from '@/utils';
 
 type FormInputs = {
   id?: string;
@@ -18,96 +23,73 @@ type FormInputs = {
   am: string;
   direccion: string;
   celular: number;
-  sexo: string;
+  rolesId: string
   email: string;
   password: string;
   confirm_password: string;
 };
 
 interface Props {
-  id?: string;
+  usuario: Partial<Usuario>;
+  roles: Roles[]
 }
 
-export const FormUsuario = ( { id }: Props ) => {
+export const FormUsuario = ( { usuario, roles }: Props ) => {
 
   const router = useRouter();     // Para navegar a una nueva ruta.
   const pathname = usePathname(); // Para obtener la ruta actual.
 
-  // const [ roles, setRoles ] = useState<TypeRoles[]>( [] );        // Para guardar los reles.
-
-  // Initial React Hook Form:
+  // ================
+  // React Hook Form:
+  // ================
   const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormInputs>( {
+    resolver: zodResolver( userSchema ), // Aplicando el Validador de Zod.
+    
     defaultValues: {
-      // roles: {} // Inicializar 'menus' como un array vacío.
+      ...usuario,
+      ci: usuario.personas?.ci,
+      nombre: usuario.personas?.nombre,
+      ap: usuario.personas?.ap,
+      am: usuario.personas?.am ?? '',
+      celular: usuario.personas?.celular ?? 0,
+      direccion: usuario.personas?.direccion ?? '',
     }
   } );
 
-  useEffect( () => {
-    // Server Actions - Obtenr los Menus por el ID
-    const fetchMenus = async () => {
-      console.log( "perfiledit" );
-    };
+  // =====================
+  // Envio del Formulario:
+  // =====================
+  const onSubmit = async ( data: FormInputs ) => {
 
-    // Server Action - Obtener los Menus de los Roles de Acuerdo al ID
-    // const loadRolToEditar = async ( id: string ) => {
-    //   const res = await getRolesMenusById( id );
+    const formData = new FormData;
+    const { ...userToSave } = data;
 
-    //   if ( res.ok ) {
-    //     setValue( 'nombre', res.data?.nombre as string );
-    //     setValue( 'menus', res.data?.menus.map( menu => menu.id ) as [] );
-    //     setIsEditar( true );
-    //   }
-    // };
-
-    fetchMenus();
-
-    // if ( id ) {
-    //   loadRolToEditar( id );
-    // }
-  }, [] );
-  // }, [ id, setValue ] );
-
-
-  // Metodo de Envio del Formulario:
-  const onSubmit: SubmitHandler<FormInputs> = async ( data ) => {
-
-    // Destructuramos los Valores del Formulario:
-    const { email, celular, nombre, ap, am, direccion } = data;
-
-    console.log( { email, celular, nombre, ap, am, direccion } );
-
-
-    // Muestra el Mensaje de Alerta Cuando Todo Sale Bien:
-    if ( true ) {
-      Swal.fire( {
-        position: "center",
-        icon: "success",
-        // title: `${ res.message }`,
-        title: `Modificado Exitosamente`,
-        showConfirmButton: false,
-        timer: 1500
-      } );
+    if ( usuario.id || usuario.personasId ) {
+      formData.append( 'id', usuario.id ?? '' );
+      formData.append( 'personasId', usuario.personasId ?? '' );
     }
+    formData.append( 'ci', userToSave.ci );
+    formData.append( 'nombre', userToSave.nombre );
+    formData.append( 'ap', userToSave.ap );
+    formData.append( 'am', userToSave.am );
+    formData.append( 'celular', userToSave.celular.toString() );
+    formData.append( 'direccion', userToSave.direccion );
+    formData.append( 'rolesId', userToSave.rolesId );
+    formData.append( 'email', userToSave.email );
+    formData.append( 'password', userToSave.password );
+    formData.append( 'confirm_password', userToSave.confirm_password );
 
-    // Muestra el Mensaje de Alerta Cuando Algo Sale Mal:
-    // if ( !res.ok ) {
-    //   Swal.fire( {
-    //     position: "center",
-    //     icon: "error",
-    //     title: `${ res.message }`,
-    //     showConfirmButton: false,
-    //     timer: 1500
-    //   } );
-    // }
+    const { ok, message } = await createUpdateUser( formData );
 
+    messageSweetAlert(ok, message);
 
-    router.replace( pathname ); // Permite reemplazar la ruta con la nueva ruta.
+    router.replace( pathname );
   };
 
   return (
 
-    <form onSubmit={ handleSubmit( onSubmit ) }>
-      <div className="grid gap-4 mb-4 grid-cols-2 font-sans tracking-wide">
+    <form onSubmit={ handleSubmit( onSubmit ) } >
+      <div className="grid gap-3 mb-4 grid-cols-2 font-sans tracking-wide">
 
         {/*************** CI ****************/ }
         <div className="col-span-2 md:col-span-1">
@@ -123,7 +105,7 @@ export const FormUsuario = ( { id }: Props ) => {
             { ...register( 'ci', { required: "La ci es obligatorio" } ) }
             placeholder="Ingrese un ci"
           />
-          { errors.ci && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.ci.message }</p> }
+          { errors.ci && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.ci.message }</p> }
         </div>
 
         {/*************** Nombre ****************/ }
@@ -132,79 +114,100 @@ export const FormUsuario = ( { id }: Props ) => {
           <input
             className={ clsx(
               "input-text",
-              errors.nombre && 'focus:border-red-500 border-red-500'
+              {'focus:border-red-500 border-red-500': errors.nombre}
             ) }
             type="text"
             id="nombre"
-            autoFocus
             { ...register( 'nombre', { required: "El nombre es obligatorio" } ) }
             placeholder="Ingrese un nombre"
           />
-          { errors.nombre && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.nombre.message }</p> }
+          { errors.nombre && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.nombre.message }</p> }
         </div>
 
         {/*************** Ap ****************/ }
         <div className="col-span-2 sm:col-span-1">
-          <label htmlFor="ap" className="label-text">Apellido P. <span className={ "text-red-600" }>*</span></label>
+          <label htmlFor="ap" className="label-text">Apellido Paterno <span className={ "text-red-600" }>*</span></label>
           <input
             className={ clsx(
               "input-text",
-              errors.ap && 'focus:border-red-500 border-red-500'
+              {'focus:border-red-500 border-red-500': errors.ap}
             ) }
             type="text"
             id="ap"
             { ...register( 'ap', { required: "El apellido es obligatorio" } ) }
             placeholder="Ingrese un ap"
           />
-          { errors.ap && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.ap.message }</p> }
+          { errors.ap && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.ap.message }</p> }
         </div>
 
         {/*************** Am ****************/ }
         <div className="col-span-2 sm:col-span-1">
-          <label htmlFor="am" className="label-text">Apellido M. <span className={ "text-red-600" }>*</span></label>
+          <label htmlFor="am" className="label-text">Apellido Materno</label>
           <input
             className={ clsx(
               "input-text",
-              errors.am && 'focus:border-red-500 border-red-500'
+              {'focus:border-red-500 border-red-500': errors.am}
             ) }
             type="text"
             id="am"
             { ...register( 'am', { required: "El apellido es obligatorio" } ) }
             placeholder="Ingrese un am"
           />
-          { errors.am && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.am.message }</p> }
+          { errors.am && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.am.message }</p> }
         </div>
 
         {/*************** Celular ****************/ }
-        <div className="col-span-2">
+        <div className="col-span-2 sm:col-span-1">
           <label htmlFor="celular" className="label-text">Celular <span className={ "text-red-600" }>*</span></label>
           <input
             className={ clsx(
               "input-text",
-              errors.celular && 'focus:border-red-500 border-red-500'
+              {'focus:border-red-500 border-red-500': errors.celular}
             ) }
             type="number"
             id="celular"
             { ...register( 'celular', { required: "El celular es requerido" } ) }
             placeholder="Ingrese un celular"
           />
-          { errors.celular && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.celular.message }</p> }
+          { errors.celular && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.celular.message }</p> }
         </div>
+        
+        {/**************** Roles ****************/ }
+        <div className="col-span-2 sm:col-span-1">
+          <label htmlFor="rolesId" className="label-text">Seleccionar Rol <span className={ "text-red-600" }>*</span></label>
+          <select
+            className={ clsx(
+              "input-text",
+              {'focus:border-red-500 border-red-500': errors.rolesId}
+            ) }
+            { ...register( 'rolesId', { required: "Debe seleccionar el Rol" } ) }
+            id="rolesId"
+          >
+            <option value="" className="tracking-wide">[Seleccione]</option>
+            { roles.map( ( { id, nombre } ) => (
+              <option key={ id } value={ id }>
+                { nombre }
+              </option>
+            ) ) }
+          </select>
+          { errors.rolesId && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.rolesId.message }</p> }
+        </div>
+
 
         {/*************** Direccion ****************/ }
         <div className="col-span-2">
-          <label htmlFor="direccion" className="label-text">Dirección <span className={ "text-red-600" }>*</span></label>
+          <label htmlFor="direccion" className="label-text">Dirección</label>
           <textarea
             className={ clsx(
               "input-text",
-              errors.direccion && 'focus:border-red-500 border-red-500'
+              {'focus:border-red-500 border-red-500': errors.direccion}
             ) }
             id="direccion"
             rows={ 2 }
             { ...register( 'direccion', { required: "La direccion es requerido" } ) }
             placeholder="Ingrese direccion"
           ></textarea>
-          { errors.direccion && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.direccion.message }</p> }
+          { errors.direccion && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.direccion.message }</p> }
         </div>
 
         {/**************** Email ****************/ }
@@ -215,7 +218,7 @@ export const FormUsuario = ( { id }: Props ) => {
             <input
               className={ clsx(
                 "input-text-icon",
-                errors.email && 'focus:border-red-500 border-red-500'
+              {'focus:border-red-500 border-red-500': errors.email}
               ) }
               id="email"
               type="email"
@@ -223,36 +226,44 @@ export const FormUsuario = ( { id }: Props ) => {
               placeholder="nombre@ejemplo.com"
             />
           </div>
-          { errors.email && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.email.message }</p> }
+          { errors.email && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.email.message }</p> }
         </div>
 
         {/**************** Nuevo Password ****************/ }
-        <div className="col-span-2 md:col-span-1">
+        <div className={clsx(
+          "col-span-2 md:col-span-1",
+          {'hidden': usuario.id}
+        )}>
           <label htmlFor="password" className="label-text">Contraseña <span className={ "text-red-600" }>*</span></label>
           <Password
             placeholder={ "Ingrese contraseña" }
             id={ "password" }
             register={ register }
             errors={ errors }
+            isEditMode={ Boolean(usuario.id)}
           />
         </div>
 
         {/**************** Confirm Password ****************/ }
-        <div className="col-span-2 md:col-span-1">
+        <div className={clsx(
+          "col-span-2 md:col-span-1",
+          {'hidden': usuario.id}
+        )}>
           <label htmlFor="confirm_password" className="label-text">Confirmar Contraseña <span className={ "text-red-600" }>*</span></label>
           <Password
             placeholder={ "Confirmar contraseña" }
             id={ "confirm_password" }
             register={ register }
             errors={ errors }
+            isEditMode={ Boolean(usuario.id)}
           />
         </div>
 
       </div>
 
       <div className={ "flex justify-end gap-4 pt-2" }>
-        <BtnGuardar />
         <BtnCancelar />
+        <BtnGuardar />
       </div>
 
     </form>

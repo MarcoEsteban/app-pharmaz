@@ -40,7 +40,9 @@ export default async function RolesPage( { searchParams }: Props ) {
     return <Modal titleModal={ `${ modalType } roles` } sizeModal={ 'max-w-lg' } children={ <FormRoles menus={menus} roles={rol ?? {}} /> } />;
   };
 
+  // ==============
   // Server Actios:
+  // ==============
   const { roles, totalPages } = await getPaginationRoles({ currentPage, query });
 
   return (
@@ -65,7 +67,6 @@ export default async function RolesPage( { searchParams }: Props ) {
         fallback={ <RolesTableSkeleton /> }
       >
         <RolesTable roles={roles} />
-        {/* <Table query={ query } currentPage={ currentPage } /> */ }
       </Suspense>
       <Pagination totalPages={ totalPages } />
 

@@ -1,70 +1,55 @@
 'use client';
 
-import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
 
-import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import Swal from 'sweetalert2';
+import { useForm } from 'react-hook-form';
 
 import { BtnCancelar, BtnGuardar, Password } from '@/components';
-import { RiEyeLine, RiEyeOffLine, RiLockLine } from 'react-icons/ri';
+import { Usuario } from '@/interfaces';
+import { updatePasswordUser } from '@/actions';
+import { messageSweetAlert } from '@/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { passwordSchema } from '@/validations';
 
 type FormInputs = {
   id?: string;
   password: string;
-  password_new: string;
   confirm_password: string;
 };
+
 interface Props {
-  id?: string;
+  usuario: Partial<Usuario>;
 }
 
-export const FormPasswd = ( { id }: Props ) => {
+export const FormPasswd = ( { usuario }: Props ) => {
 
   const router = useRouter();
   const pathname = usePathname();
 
-  // Usando React Hook Form:
-  const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormInputs>( {} );
+  // ================
+  // React Hook Form:
+  // ================
+  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>( {
+    resolver: zodResolver( passwordSchema ), // Aplicando el Validador de Zod.
+  } );
 
-  useEffect( () => {
-    // Server Actions - Obtener la Foto por el [id]
-    const fetchPassword = async () => {
-      console.log( 'password' );
-    };
+  // =====================
+  // Envio del Formulario:
+  // =====================
+  const onSubmit = async ( data: FormInputs ) => {
 
-  }, [ id, setValue ] );
+    const formData = new FormData;
+    const { ...userToSave } = data;
 
-
-  const onSubmit: SubmitHandler<FormInputs> = async ( data ) => {
-
-    const { password, password_new, confirm_password } = data;
-
-    console.log( { password, password_new, confirm_password } );
-
-    // Muestra el Mensaje de Alerta Cuando Todo Sale Bien:
-    if ( true ) {
-      Swal.fire( {
-        position: "center",
-        icon: "success",
-        // title: `${ res.message }`,
-        title: `Guardado Exitosamen`,
-        showConfirmButton: false,
-        timer: 1500
-      } );
+    if ( usuario.id || usuario.personasId ) {
+      formData.append( 'id', usuario.id ?? '' );
     }
+    formData.append( 'password', userToSave.password );
+    formData.append( 'confirm_password', userToSave.confirm_password );
 
-    // Muestra el Mensaje de Alerta Cuando Algo Sale Mal:
-    // if ( !res.ok ) {
-    //   Swal.fire( {
-    //     position: "center",
-    //     icon: "error",
-    //     title: `${ res.message }`,
-    //     showConfirmButton: false,
-    //     timer: 1500
-    //   } );
-    // }
+    const { ok, message } = await updatePasswordUser( formData );
+
+    messageSweetAlert(ok, message);
 
     router.replace( pathname );
   };
@@ -79,7 +64,7 @@ export const FormPasswd = ( { id }: Props ) => {
           <label htmlFor="password_new" className="label-text">Contraseña Nueva <span className={ "text-red-600" }>*</span></label>
           <Password
             placeholder={ "Ingrese contraseña nueva" }
-            id={ "password_new" }
+            id={ "password" }
             register={ register }
             errors={ errors }
           />

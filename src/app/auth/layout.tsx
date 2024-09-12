@@ -1,10 +1,8 @@
 
 export default function AuthLayout( { children }: { children: React.ReactNode; } ) {
   return (
-    <main>
-      <h1>Hello Root Layout Auth</h1>
-
-      <div className="p-2">
+    <main className="w-screen h-screen bg-cover bg-center bg-[url('/images/fondo.png')]">
+      <div className="w-screen h-screen flex justify-center items-center font-sans tracking-wide">
         { children }
       </div>
     </main>

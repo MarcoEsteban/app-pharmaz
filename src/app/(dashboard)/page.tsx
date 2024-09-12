@@ -1,41 +1,31 @@
-import { Card, Modal, Pagination, Search } from '@/components';
-import { UsuariosTable } from '@/components/usuarios';
-import Link from 'next/link';
+import { auth } from '@/auth.config';
+import { Card } from '@/components';
+import { redirect } from 'next/navigation';
 
-interface Props {
-  searchParams: {
-    modal: string;
-  };
-}
+export default async function Home() {
 
-export default function Home( { searchParams }: Props ) {
+  const session = await auth();
 
-  const modal = searchParams.modal;
+  if ( !session?.user ) {
+    // redirect( '/auth/login?returnTo=/perfil' );
+    redirect( "/" );
+  }
+
+  console.log({session})
 
   return (
     <div>
 
+      <pre>
+        {
+          JSON.stringify( session.user, null, 2 )
+        }
+      </pre>
+
       <Card>
-
-        <div className={"flex gap-80 my-4"}>
-          <Search placeholder={ "Buscar Roles..." } />
-
-          <Link
-            href={ '/dashboard?modal=agregar' }
-            className={ "btn-primary gradient-add" }
-          >
-            Agregar
-          </Link>
-        </div>
-
-
-        <UsuariosTable />
-
-        <Pagination totalPages={ 4 } />
-
+        Home
       </Card>
 
-      { modal && <Modal titleModal="Agregar" children={ <div className={"font-sans"}><label className="label-text">Nombre</label> <input type="text" placeholder="nombre" className="input-text" /></div> } /> }
     </div>
   );
 }

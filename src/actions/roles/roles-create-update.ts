@@ -2,7 +2,6 @@
 
 import prisma from "@/libs/prisma";
 import { rolesSchema } from "@/validations";
-import { create } from "domain";
 import { revalidatePath } from "next/cache";
 
 export const createUpdateRoles = async ( formData: FormData ) => {

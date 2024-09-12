@@ -63,7 +63,7 @@ model Personas {
   id          String         @id @default(uuid())
   ci          String         @unique
   nombre      String
-  ap          String
+  ap          String?
   am          String?
   direccion   String?
   celular     Int?
@@ -73,18 +73,49 @@ model Personas {
   updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
 
   Usuario     Usuario[] // Relacion One to Many
+  Proveedores Proveedores[] // Relacion One to Many
 }
 
+// ==============
+// Tabla Usuario
+// ==============
 model Usuario {
-  id        String           @id @default(uuid())
-  email     String           @unique
-  password  String
-  createdAt DateTime         @default(now()) // Indico la fecha de creacion.
-  updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
+  id                String          @id @default(uuid())
+  email             String          @unique
+  password          String
+  createdAt         DateTime        @default(now()) // Indico la fecha de creacion.
+  updatedAt         DateTime        @updatedAt      // Fecha de la última actualización del registro.
+  
+  DatosPharmaz      DatosPharmaz[] // Relacion One to Many
 
-  personas   Personas        @relation(fields: [personasId], references: [id])
-  roles      Roles           @relation(fields: [rolesId], references: [id])
+  personas          Personas        @relation(fields: [personasId], references: [id])
+  roles             Roles           @relation(fields: [rolesId], references: [id])
+  personasId        String
+  rolesId           String
+}
+
+model Proveedores {
+  id         String       @id @default(uuid())
+  email      String       @unique
+  createdAt  DateTime     @default(now()) // Indico la fecha de creacion.
+  updatedAt  DateTime     @updatedAt      // Fecha de la última actualización del registro.
+
+  // Relacion One to Many
+  personas   Personas @relation(fields: [personasId], references: [id])
   personasId String
-  rolesId    String
+}
+
+model DatosPharmaz {
+  id          String          @id @default(uuid())
+  nombre      String
+  email       String          @unique
+  celular     Int?
+  direccion   String?
+  foto        String?
+  createdAt   DateTime        @default(now()) // Indico la fecha de creacion.
+  updatedAt   DateTime        @updatedAt      // Fecha de la última actualización del registro.
+
+  Usuario     Usuario         @relation(fields: [usuarioId], references: [id])
+  usuarioId   String
 }
 
