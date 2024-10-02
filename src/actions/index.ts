@@ -12,6 +12,10 @@ export { toggleStateRoles } from './roles/roles-toggle-state';
 export { getByIdRoles } from './roles/roles-get-by-id';
 export { createUpdateRoles } from './roles/roles-create-update';
 
+// DatoFarmacia
+export { getByIdFarma } from './datofarmacia/farma-get-by-id';
+export { updateFarma } from './datofarmacia/farma-update';
+
 // Perfil
 export { updatePerfil } from './perfil/perfil-update';
 export { updatePasswordPerfil } from './perfil/perfil-update-password';

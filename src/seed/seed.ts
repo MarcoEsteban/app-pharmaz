@@ -39,7 +39,7 @@ interface SeedProveedores {
   personasId: string;
 }
 
-interface SeedDatosPharmaz {
+interface SeedDatosFarmacia {
   id?: string;
   nombre: string;
   email: string; 
@@ -55,7 +55,7 @@ interface SeedData {
   personas: SeedPersonas[];
   usuarios: SeedUser[];
   proveedor: SeedProveedores[];
-  datapharmaz: SeedDatosPharmaz[];
+  datafarmacia: SeedDatosFarmacia[];
 }
 
 export const initialData: SeedData = {
@@ -173,11 +173,11 @@ export const initialData: SeedData = {
     },
   ],
   
-  datapharmaz: [
+  datafarmacia: [
     {
       nombre: 'Pharmaz',
       email: 'pharmaz@google.com',
-      direccion: '',
+      direccion: 'C./ Sobre la Junin frente al Hospital San Juan de Dios',
       celular: 77952541,
       foto: '',
       usuarioId: '',

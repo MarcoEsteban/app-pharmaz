@@ -7,4 +7,5 @@ export type UserPerfil = {
   am: string;
   celular: number;
   direccion: string;
+  foto?: string;
 }

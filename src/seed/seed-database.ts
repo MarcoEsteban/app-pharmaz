@@ -9,7 +9,7 @@ async function main() {
   // await Promise.all( [
   await prisma.rolesOnMenus.deleteMany();
   await prisma.menus.deleteMany();
-  await prisma.datosPharmaz.deleteMany();
+  await prisma.datosFarmacia.deleteMany();
   await prisma.usuario.deleteMany();
   await prisma.proveedores.deleteMany();
   await prisma.personas.deleteMany();
@@ -20,7 +20,7 @@ async function main() {
   // 2. Insertando los Registros a la Tablas[Menus, Roles, rolesOnMenus, personas, etc...]
   // -------------------------------------------------------------------------------------
   // Desestructuramos y Obtenemos los Datos de Nuestros Archivo Seed:
-  const {menus, roles, personas, usuarios, proveedor, datapharmaz} = initialData;
+  const {menus, roles, personas, usuarios, proveedor, datafarmacia: datapharmaz} = initialData;
 
   // ===================
   // Insert Table Menus:
@@ -105,7 +105,7 @@ async function main() {
     }
   })
 
-  await prisma.datosPharmaz.createMany({
+  await prisma.datosFarmacia.createMany({
     data: newPharmaz
   })
   

@@ -3,7 +3,6 @@
 import prisma from "@/libs/prisma";
 import { revalidatePath } from "next/cache";
 import { perfilSchema } from "@/validations";
-import { getSession } from "next-auth/react";
 
 export const updatePerfil = async ( formData: FormData ) => {
   

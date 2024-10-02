@@ -86,7 +86,7 @@ model Usuario {
   createdAt         DateTime        @default(now()) // Indico la fecha de creacion.
   updatedAt         DateTime        @updatedAt      // Fecha de la última actualización del registro.
   
-  DatosPharmaz      DatosPharmaz[] // Relacion One to Many
+  DatosFarmacia     DatosFarmacia[] // Relacion One to Many
 
   personas          Personas        @relation(fields: [personasId], references: [id])
   roles             Roles           @relation(fields: [rolesId], references: [id])
@@ -105,7 +105,7 @@ model Proveedores {
   personasId String
 }
 
-model DatosPharmaz {
+model DatosFarmacia {
   id          String          @id @default(uuid())
   nombre      String
   email       String          @unique
