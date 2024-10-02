@@ -78,35 +78,8 @@ export const authConfig: NextAuthConfig = {
             id: true,
             email: true,
             password: true,
-            personas: {
-              select: {
-                id: true,
-                nombre: true,
-                ap: true,
-                am: true,
-                celular: true,
-                direccion: true,
-                foto: true
-              }
-            },
-            roles: {
-              select: {
-                id: true,
-                nombre: true,
-                estado: true,
-                Menus: {
-                  select: {
-                    menus: {
-                      select: {
-                        nombre: true,
-                        enlace: true,
-                        icon: true
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            rolesId: true,
+            personasId: true
           }
         });
 
@@ -131,3 +104,6 @@ export const { signIn, signOut, auth, handlers } = NextAuth( authConfig );
 // signOut  :: Funcion por defecto de NextAuth que nos permite cerrar session.
 // auth     :: Es el middleware
 // handlers :: Esto tienen los metodos {GET && POST}, para realizar las peticiones http que el SessionProvider estan buscando.
+
+
+

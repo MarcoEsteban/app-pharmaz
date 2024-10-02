@@ -144,7 +144,7 @@ export const initialData: SeedData = {
       nombre: 'Marco',
       ap: 'Campos',
       am: 'Subelza',
-      direccion: '',
+      direccion: 'B./Andaluz',
       celular: 78952545
     },
     {
@@ -152,7 +152,7 @@ export const initialData: SeedData = {
       nombre: 'Angel',
       ap: 'Gutierrez',
       am: 'Peralta',
-      direccion: '',
+      direccion: 'B./ Lindo',
       celular: 78967542,
     },
   ],
@@ -160,7 +160,7 @@ export const initialData: SeedData = {
   usuarios: [
     {
       email: 'marcocampos@google.com',
-      password: bcryptjs.hashSync( '123456' ),
+      password: bcryptjs.hashSync( '1234567' ),
       personasId: '',
       rolesId: ''
     },

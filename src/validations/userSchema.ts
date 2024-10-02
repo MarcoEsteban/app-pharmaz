@@ -59,7 +59,7 @@ export const userSchema = z.object({
   return true;
 }, {
   message: "Las contraseñas son obligatoria",
-  path: ["password"],
+  path: ["confirm_password"],
 }).refine((data) => {
   // Validación de que password y confirm_password sean iguales.
   if (data.password && data.confirm_password) {

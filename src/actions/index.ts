@@ -12,6 +12,10 @@ export { toggleStateRoles } from './roles/roles-toggle-state';
 export { getByIdRoles } from './roles/roles-get-by-id';
 export { createUpdateRoles } from './roles/roles-create-update';
 
+// Perfil
+export { updatePerfil } from './perfil/perfil-update';
+export { updatePasswordPerfil } from './perfil/perfil-update-password';
+
 // Usuario
 export { getPaginationUser } from './usuarios/user-pagination';
 export { toggleStateUsuario } from './usuarios/user-toggle-state';

@@ -33,22 +33,22 @@ export const getByIdUser = async ( id: string ) => {
     if ( !userById ) return null;
 
     const usuario = {
-        id: userById.id,
-        email: userById.email,
-        password: userById.password,
-        rolesId: userById.rolesId,
-        personasId: userById.personasId,
-        rol: userById.roles.nombre,
-        personas: {
-          ci: userById.personas.ci,
-          nombre: userById.personas.nombre,
-          ap: userById.personas.ap,
-          am: userById.personas.am,
-          celular: userById.personas.celular,
-          direccion: userById.personas.direccion,
-          foto: userById.personas.foto,
-          estado: userById.personas.estado,
-        }
+      id: userById.id,
+      email: userById.email,
+      password: userById.password,
+      rolesId: userById.rolesId,
+      personasId: userById.personasId,
+      rol: userById.roles.nombre,
+      personas: {
+        ci: userById.personas.ci,
+        nombre: userById.personas.nombre,
+        ap: userById.personas.ap,
+        am: userById.personas.am,
+        celular: userById.personas.celular,
+        direccion: userById.personas.direccion,
+        foto: userById.personas.foto,
+        estado: userById.personas.estado,
+      }
     }
 
     return usuario;

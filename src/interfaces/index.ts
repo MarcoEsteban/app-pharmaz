@@ -7,3 +7,4 @@ export * from './proveedor.interface';
 
 // Types Para el Server-Actions:
 export * from './types/usuario';
+export * from './types/user-perfil';

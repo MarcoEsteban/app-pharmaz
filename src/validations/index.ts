@@ -1,5 +1,7 @@
 
+export * from './perfilSchema';
+export * from './perfilPasswordSchema';
 export * from './rolesSchema';
 export * from './userSchema';
-export * from './passwordSchema';
+export * from './userPasswordSchema';
 export * from './proveedorSchema';

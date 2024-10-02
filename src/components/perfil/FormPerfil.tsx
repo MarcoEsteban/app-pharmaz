@@ -1,14 +1,14 @@
 'use client';
 
-import { BtnCancelar, BtnGuardar } from '@/components';
-import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
-
-import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import clsx from 'clsx';
+import { useForm } from 'react-hook-form';
 import { MdEmail } from 'react-icons/md';
 
-import Swal from 'sweetalert2';
+import { logout, updatePerfil } from '@/actions';
+import { BtnCancelar, BtnGuardar } from '@/components';
+import { Usuario } from '@/interfaces';
+import { messageSweetAlert } from '@/utils';
 
 type FormInputs = {
   id?: string;
@@ -21,83 +21,61 @@ type FormInputs = {
 };
 
 interface Props {
-  id?: string;
+  user: Usuario;
 }
 
-export const FormPerfil = ( { id }: Props ) => {
+export const FormPerfil = ( { user }: Props ) => {
 
   const router = useRouter();     // Para navegar a una nueva ruta.
   const pathname = usePathname(); // Para obtener la ruta actual.
 
-  // const [ roles, setRoles ] = useState<TypeRoles[]>( [] );        // Para guardar los reles.
-
-  // Initial React Hook Form:
-  const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormInputs>( {
+  // ================
+  // React Hook Form:
+  // ================
+  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>( {
     defaultValues: {
-      // roles: {} // Inicializar 'menus' como un array vacío.
+      nombre: user.personas.nombre,
+      ap: user.personas.ap ?? '',
+      am: user.personas.am ?? '',
+      celular: Number(user.personas.celular),
+      direccion: user.personas.direccion ?? '',
+      email: user.email,
     }
   } );
 
-  useEffect( () => {
-    // Server Actions - Obtenr los Menus por el ID
-    const fetchMenus = async () => {
-      console.log( "perfiledit" );
-    };
+  // =====================
+  // Envio del Formulario:
+  // =====================
+  const onSubmit = async ( data: FormInputs ) => {
 
-    // Server Action - Obtener los Menus de los Roles de Acuerdo al ID
-    // const loadRolToEditar = async ( id: string ) => {
-    //   const res = await getRolesMenusById( id );
+    const formData = new FormData;
+    const { ...userToSave } = data;
 
-    //   if ( res.ok ) {
-    //     setValue( 'nombre', res.data?.nombre as string );
-    //     setValue( 'menus', res.data?.menus.map( menu => menu.id ) as [] );
-    //     setIsEditar( true );
-    //   }
-    // };
-
-    fetchMenus();
-
-    // if ( id ) {
-    //   loadRolToEditar( id );
-    // }
-  }, [] );
-  // }, [ id, setValue ] );
-
-
-  // Metodo de Envio del Formulario:
-  const onSubmit: SubmitHandler<FormInputs> = async ( data ) => {
-
-    // Destructuramos los Valores del Formulario:
-    const { email, celular, nombre, ap, am, direccion } = data;
-
-    console.log( { email, celular, nombre, ap, am, direccion } );
-
-
-    // Muestra el Mensaje de Alerta Cuando Todo Sale Bien:
-    if ( true ) {
-      Swal.fire( {
-        position: "center",
-        icon: "success",
-        // title: `${ res.message }`,
-        title: `Modificado Exitosamente`,
-        showConfirmButton: false,
-        timer: 1500
-      } );
+    if (user.id) {
+      formData.append( 'id', user.id ?? '' );
     }
+    formData.append( 'nombre', userToSave.nombre );
+    formData.append( 'ap', userToSave.ap );
+    formData.append( 'am', userToSave.am );
+    formData.append( 'celular', userToSave.celular.toString() );
+    formData.append( 'direccion', userToSave.direccion );
+    formData.append( 'email', userToSave.email );
 
-    // Muestra el Mensaje de Alerta Cuando Algo Sale Mal:
-    // if ( !res.ok ) {
-    //   Swal.fire( {
-    //     position: "center",
-    //     icon: "error",
-    //     title: `${ res.message }`,
-    //     showConfirmButton: false,
-    //     timer: 1500
-    //   } );
-    // }
+    const { ok, message, dataUser } = await updatePerfil( formData );
 
+    messageSweetAlert(ok, message);
 
-    router.replace( pathname ); // Permite reemplazar la ruta con la nueva ruta.
+    // Espera un momento para que el usuario vea el mensaje antes de hacer logout
+    if (dataUser?.email !== user.email) {
+      router.replace(pathname);
+      setTimeout(async () => {
+        await logout();
+      }, 2000); // Espera 2000 ms (2 segundos) antes de cerrar sesión
+    } else {
+      // Si no hay cambio en el email, solo redirige
+      router.replace(pathname);
+    }
+    
   };
 
   return (
@@ -132,7 +110,6 @@ export const FormPerfil = ( { id }: Props ) => {
             ) }
             type="text"
             id="ap"
-            autoFocus
             { ...register( 'ap', { required: "El apellido es obligatorio" } ) }
             placeholder="Ingrese un ap"
           />
@@ -149,7 +126,6 @@ export const FormPerfil = ( { id }: Props ) => {
             ) }
             type="text"
             id="am"
-            autoFocus
             { ...register( 'am', { required: "El apellido es obligatorio" } ) }
             placeholder="Ingrese un am"
           />
@@ -166,7 +142,6 @@ export const FormPerfil = ( { id }: Props ) => {
             ) }
             type="number"
             id="celular"
-            autoFocus
             { ...register( 'celular', { required: "El celular es requerido" } ) }
             placeholder="Ingrese un celular"
           />
@@ -211,8 +186,8 @@ export const FormPerfil = ( { id }: Props ) => {
       </div>
 
       <div className={ "flex justify-end gap-4 pt-2" }>
-        <BtnGuardar />
         <BtnCancelar />
+        <BtnGuardar />
       </div>
 
     </form>

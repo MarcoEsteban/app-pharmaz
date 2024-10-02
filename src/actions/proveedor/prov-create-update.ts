@@ -57,9 +57,9 @@ export const createUpdateProveedor = async ( formData: FormData ) => {
         
       }
       
-      // ===============================
-      // Verificar si el email ya existe
-      // ===============================
+      // =============================
+      // Verificar si el NIT ya existe
+      // =============================
       const existingNIT = await prisma.personas.findUnique({
         where: { ci: person.ci },
       });
@@ -68,6 +68,20 @@ export const createUpdateProveedor = async ( formData: FormData ) => {
         return {
           ok: false,
           message: 'Este NIT ya está registrado.',
+        };
+      }
+      
+      // =================================
+      // Verificar si el Celular ya existe
+      // =================================
+      const existingCelular = await prisma.personas.findUnique({
+        where: { ci: person.ci },
+      });
+
+      if (existingCelular) {
+        return {
+          ok: false,
+          message: 'Este celular ya está registrado.',
         };
       }
       

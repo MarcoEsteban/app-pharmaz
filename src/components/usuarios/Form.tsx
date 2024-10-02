@@ -9,7 +9,6 @@ import { Roles, Usuario } from '@/interfaces';
 import { useForm } from 'react-hook-form';
 import { MdEmail } from 'react-icons/md';
 
-import Swal from 'sweetalert2';
 import { createUpdateUser } from '@/actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userSchema } from '@/validations';
@@ -42,7 +41,7 @@ export const FormUsuario = ( { usuario, roles }: Props ) => {
   // ================
   // React Hook Form:
   // ================
-  const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormInputs>( {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>( {
     resolver: zodResolver( userSchema ), // Aplicando el Validador de Zod.
     
     defaultValues: {
@@ -82,6 +81,8 @@ export const FormUsuario = ( { usuario, roles }: Props ) => {
     const { ok, message } = await createUpdateUser( formData );
 
     messageSweetAlert(ok, message);
+    
+    if (!ok) return router.replace( `${pathname}?modal=agregar` );
 
     router.replace( pathname );
   };

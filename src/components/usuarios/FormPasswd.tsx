@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordSchema } from '@/validations';
 
 type FormInputs = {
-  id?: string;
+  id: string;
   password: string;
   confirm_password: string;
 };
@@ -50,6 +50,8 @@ export const FormPasswd = ( { usuario }: Props ) => {
     const { ok, message } = await updatePasswordUser( formData );
 
     messageSweetAlert(ok, message);
+    
+    if (!ok) return router.replace( `${pathname}?modal=password` );
 
     router.replace( pathname );
   };

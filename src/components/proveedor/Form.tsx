@@ -34,7 +34,7 @@ export const FormProveedor = ( { proveedor }: Props ) => {
   // ================
   // React Hook Form:
   // ================
-  const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormInputs>( {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>( {
     resolver: zodResolver( proveedorSchema ), // Aplicando el Validador de Zod.
     
     defaultValues: {
