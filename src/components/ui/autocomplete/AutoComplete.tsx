@@ -32,9 +32,20 @@ const Autocomplete = <T extends { id: string }>({
   const wrapperRef = useRef<HTMLDivElement>(null);
   
   // Actualiza el inputValue cuando cambia el valor (modo edición)
+  // useEffect(() => {
+  //   if (value) {
+  //     // Busca el valor actual seleccionado en la base de datos y actualiza inputValue
+  //     fetchResults(value).then((results) => {
+  //       if (results.length > 0) {
+  //         const selectedOption = results[0];
+  //         onChange(selectedOption?.id); // Actualiza el ID en el formulario
+  //         setInputValue(displayValue(selectedOption)); // Muestra el nombre en el input
+  //       }
+  //     });
+  //   }
+  // }, [value]);
   useEffect(() => {
     if (value) {
-      // Busca el valor actual seleccionado en la base de datos y actualiza inputValue
       fetchResults(value).then((results) => {
         if (results.length > 0) {
           const selectedOption = results[0];
@@ -43,7 +54,8 @@ const Autocomplete = <T extends { id: string }>({
         }
       });
     }
-  }, [value]);
+  }, [value, fetchResults, displayValue, onChange]);
+
   
   // Función debounced para buscar opciones
   const debouncedFetch = useDebouncedCallback(async (term: string) => {
@@ -68,12 +80,20 @@ const Autocomplete = <T extends { id: string }>({
   }, 300); // 300ms de debounce
 
   // Buscar resultados con debounce
+  // useEffect(() => {
+  //   debouncedFetch(term);
+  //   return () => {
+  //     debouncedFetch.cancel();
+  //   };
+  // }, [term, fetchResults]);
+
   useEffect(() => {
     debouncedFetch(term);
     return () => {
       debouncedFetch.cancel();
     };
-  }, [term, fetchResults]);
+  }, [term, debouncedFetch]);
+
 
   // Cerrar dropdown al hacer clic fuera
   useEffect(() => {
@@ -149,6 +169,7 @@ const Autocomplete = <T extends { id: string }>({
         value={inputValue} // Muestra el nombre seleccionado o el término de búsqueda
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
+        role="combobox"
         aria-autocomplete="list"
         aria-controls={`${name}-listbox`}
         aria-expanded={isDropdownOpen} // Asegúrate de que este atributo esté habilitado

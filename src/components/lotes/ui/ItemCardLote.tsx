@@ -33,12 +33,12 @@ export const ItemCardLote = ({ lote }: Props) => {
             { lote.nombre }
           </h4>
           <p className="mt-2 flex flex-col gap-1 text-sm font-sans tracking-wide antialiased">
-            <span className="flex gap-1"><FaMortarPestle size={ 20 } /> Concentracion: 0.5g</span>
-            <span className="flex gap-1"><FaDochub size={ 20 } /> Descripcion: Caja Envase Blister Tableta</span>
-            <span className="flex gap-1"><FaFlask size={ 20 } /> Laboratorio: Cofar</span>
-            <span className="flex gap-1"><FaCopyright size={ 20 } /> Tipo: Comercial</span>
-            <span className="flex gap-1"><FaPills size={ 20 } /> Presentacion: Tableta</span>
-            <span className="flex gap-1"><FaSyringe size={ 20 } /> Via Administracion: Oral</span>
+            <span className="flex gap-1"><FaMortarPestle size={ 20 } /> Concentracion: {lote.concentracion}</span>
+            <span className="flex gap-1 uppercase"><FaDochub size={ 20 } /> Descripcion: {lote.adicional}</span>
+            <span className="flex gap-1"><FaFlask size={ 20 } /> Laboratorio: {lote.laboratorio}</span>
+            <span className="flex gap-1"><FaCopyright size={ 20 } /> Tipo: {lote.tipo}</span>
+            <span className="flex gap-1"><FaPills size={ 20 } /> Presentacion: {lote.presentacion}</span>
+            <span className="flex gap-1"><FaSyringe size={ 20 } /> Via Administracion: {lote.viaAdministracion}</span>
             <span className="flex gap-1"><FaTruckMedical size={ 20 } /> Proveedor: { lote.proveedorId }</span>
             <span className="flex gap-1"><FaCalendarXmark size={ 20 } />Vencimiento: { lote.vencimiento }</span>
             <span className="flex gap-1"><FaCalendarDays size={ 20 } /> Mes: { lote.mes }</span>

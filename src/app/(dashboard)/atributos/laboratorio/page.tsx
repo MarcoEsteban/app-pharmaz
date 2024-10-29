@@ -31,10 +31,18 @@ export default async function LaboratorioPage( { searchParams }: Props ) {
     ] );
     
     if ( modalType === 'foto' ) {
-      return <Modal titleModal="Agregar Foto" children={ <FormPhoto id={ id } /> } />;
+      return (
+        <Modal titleModal="Agregar Foto">
+          <FormPhoto id={ id } />
+        </Modal> 
+      ) 
     }
 
-    return <Modal titleModal={ `${ modalType } Laboratorio` } children={ <FormLabo laboratorio={ laboratorio ?? {} } /> } />;
+    return (
+      <Modal titleModal={ `${ modalType } Laboratorio` }>
+        <FormLabo laboratorio={ laboratorio ?? {} } />
+      </Modal>
+    ) 
   };
   
   // ==============
@@ -46,7 +54,7 @@ export default async function LaboratorioPage( { searchParams }: Props ) {
     <>
       
       {/************ Buscador && Boton Agregar **************/ }
-      <div className={ "flex gap-80 mt-2 mb-4 mb-4" }>
+      <div className={ "flex gap-80 mt-2 mb-4" }>
         <Search placeholder={ "Buscar tipo..." } />
 
         <BtnAgregar />

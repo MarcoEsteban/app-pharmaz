@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import Swal from 'sweetalert2';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Menus, RolMe } from '@/interfaces';
+import { MenusServer, RolMe } from '@/interfaces';
 import { rolesSchema } from '@/validations';
 import { createUpdateRoles } from '@/actions';
 import { BtnCancelar, BtnGuardar } from '@/components';
@@ -55,7 +55,7 @@ type FormInputs = {
 
 interface Props {
   roles: Partial<RolMe>;
-  menus: Menus[];
+  menus: MenusServer[];
 }
 
 export const FormRoles = ( { roles, menus }: Props ) => {

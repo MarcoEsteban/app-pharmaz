@@ -32,7 +32,11 @@ export default async function ClientePage( { searchParams }: Props ) {
       id ? getByIdCliente(id) : Promise.resolve(null) // Si el id es undefined, no se hace la llamada
     ] );
     
-    return <Modal titleModal={ `${ modalType } Cliente` } children={ <FormCliente cliente={ cliente ?? {} } /> } />;
+    return (
+      <Modal titleModal={ `${ modalType } Cliente` }>
+        <FormCliente cliente={ cliente ?? {} } />
+      </Modal> 
+    )
   };
   
   // ==============

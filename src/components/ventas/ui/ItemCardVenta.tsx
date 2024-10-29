@@ -1,16 +1,55 @@
+'use client';
 
 import { toggleStateProducto } from '@/actions';
 import { BtnLote, BtnModificar, BtnPhoto, ButtonActionToglgleState, TooltipButton } from '@/components';
-import { Producto } from '@/interfaces';
+import { CartProduct, Producto } from '@/interfaces';
+import { useCartStore } from '@/store';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { FaAppStoreIos, FaCopyright, FaCubes, FaDochub, FaDollarSign, FaFlask, FaMortarPestle, FaPills, FaSyringe } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaAppStoreIos, FaCartPlus, FaCopyright, FaCubes, FaDochub, FaDollarSign, FaFlask, FaMortarPestle, FaPills, FaSyringe } from 'react-icons/fa';
 
 interface Props {
   producto: Producto;
 }
 
 export const ItemCardVentas = ({ producto }: Props) => {
+  
+  // ========
+  // Zustand:
+  // ========
+  const addProductToCart = useCartStore( state => state.addProductToCart );
+  
+  // const [ posted, setPosted ] = useState()<boolean>( false );
+  const [ cantidad, setCandidad ] = useState<number>( 1 );
+  
+  const addTocart = () => {
+    // setPosted( true );
+
+    // if ( !size ) return;
+
+    const cartProduct: CartProduct = {
+      id: producto.id,
+      nombre: producto.nombre,
+      concentracion: producto.concentracion,
+      adicional: producto.adicional,
+      precio: producto.precio,
+      presentacionId: producto.presentacionId,
+      laboratoriosId: producto.laboratoriosId,
+      stock: cantidad,
+      estado: producto.estado
+      // quantity: quantity,
+      // size: size,
+      // image: product.images[ 0 ]
+    };
+    addProductToCart( cartProduct );
+
+    // Retornamos a su valor inicial una vez se agrege al carrito:
+    // setPosted( false );
+    setCandidad( 1 );
+    // setSize( undefined );
+  };
+  
   return (
     <div className="flex max-w-auto max-h-auto flex-col bg-gray-200 bg-clip-border text-gray-700 shadow-lg border rounded-xl justify-between">
       
@@ -75,27 +114,17 @@ export const ItemCardVentas = ({ producto }: Props) => {
         { 'bg-red-600 text-gray-200': !producto.estado })}
       >
         {/*===================== Buton Cart ======================*/ }
-        <TooltipButton />
+       {/* <TooltipButton /> */}
+        
+        <button
+          onClick={ addTocart }
+          className="flex items-center gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
+        >
+          Agregar
+          <FaCartPlus size={18} />
+        </button>
         
       </div>
     </div>
   );
 };
-
-        // {/*============= Buton Eliminar || Habilitar =============*/ }
-        // <ButtonActionToglgleState
-        //   id={ producto.id ?? '' }
-        //   nombre={ producto.nombre }
-        //   estado={ producto.estado }
-        //   toggleActionState={ toggleStateProducto }
-        // />
-        //
-        // {/*=================== Buton Actualizar ==================*/ }
-        // <BtnModificar id={producto.id ?? ''} />
-        //
-        // {/*================= Buton Agregar Lote ==================*/ }
-        // <BtnLote id={producto.id ?? ''} />
-        //
-        // {/*===================== Buton Foto ======================*/ }
-        // <BtnPhoto id={producto.id ?? ''} />
-        

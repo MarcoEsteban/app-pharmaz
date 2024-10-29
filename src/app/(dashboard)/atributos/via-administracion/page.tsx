@@ -30,7 +30,11 @@ export default async function PresentacionPage( { searchParams }: Props ) {
       id ? getByIdViaAdm(id) : Promise.resolve(null) // Si el id es undefined, no se hace la llamada
     ] );
 
-    return <Modal titleModal={ `${ modalType } Via Administración` } children={ <FormViaAdm viaAdmint={ viaAdmi ?? {} } /> } />;
+    return (
+      <Modal titleModal={ `${ modalType } Via Administración` }>
+        <FormViaAdm viaAdmint={ viaAdmi ?? {} } />
+      </Modal>
+    )
   };
   
   // ==============

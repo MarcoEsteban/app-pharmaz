@@ -1,8 +1,22 @@
+'use client';
+
+import { IconCart } from '@/components/ventas';
 import clsx from 'clsx';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { FaArrowLeft, FaBell, FaCartPlus } from 'react-icons/fa';
+import { IoCartOutline } from 'react-icons/io5';
 
 export const Header = () => {
+  
+  // Solucionando el Problema de la Rehidratacion:
+  const [ loaded, setLoaded ] = useState( false );
+
+  // Permita que el Servidor y el Cliente Renderize lo mismo
+  useEffect( () => {
+    setLoaded( true );
+  }, [] );
+  
   return (
     <header className={ clsx(
       // "w-full h-18 rounded-xl bg-white p-2.5 text-gray-700 shadow-xl flex justify-end items-center font-sans",
@@ -10,16 +24,17 @@ export const Header = () => {
     ) }>
 
       {/*========= Notificacion =========*/ }
+      {/*
       <div className={ "gradient text-white rounded-full p-2 cursor-pointer shadow-sm transition-all mr-3" }>
         <FaBell size={20} />
       </div>
+      */}
+      
       {/*============ Carrito ===========*/ }
-      <div className={ "gradient text-white rounded-full p-2 cursor-pointer shadow-sm transition-all mr-4" }>
-        <FaCartPlus size={20} />
-      </div>
-
-      {/*=+=========== Foto =============*/ }
-      <div className="flex p-1 ml-8">
+      <IconCart loaded={loaded} />
+      
+      {/*============ Foto =============*/ }
+      <div className="flex p-1 ml-8 font-sans">
         <div className="flex flex-col justify-center mr-2">
           <h6 className=" leading-normal font-semibold ">Administrador</h6>
           <p className="leading-tight text-xs text-slate-400 text-end">Marco Campos</p>
@@ -38,3 +53,24 @@ export const Header = () => {
     </header>
   );
 };
+
+        // <button 
+        //   // href={
+        //   //   ( (getTotalItem === 0) && loaded)
+        //   //     ? '/empty'
+        //   //     : '/cart'
+        //   // } 
+        //   className="mx-2"
+        // >
+        //   <div className="relative">
+        //     {
+        //       (loaded &&  getTotalItem > 0) && (
+        //         <span className="fade-in absolute -top-2 -right-2 px-1 text-xs rounded-full font-bold bg-blue-700 text-white">
+        //           { getTotalItem }
+        //         </span>
+        //       )
+        //     }
+        //     <IoCartOutline className="w-5 h-5" />
+        //   </div>
+        // </button>
+

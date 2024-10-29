@@ -1,7 +1,6 @@
 import { getPaginationProducto } from '@/actions';
 import { auth } from '@/auth.config';
-import { Card, Search, Title, Pagination, TooltipButton } from '@/components';
-import { ItemCardProducto } from '@/components/Producto';
+import { Card, Search, Title, Pagination } from '@/components';
 import { ItemCardVentas } from '@/components/ventas';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
@@ -33,7 +32,7 @@ export default async function VentasPage({ searchParams }: Props) {
 
       {/* Buscador y Filtros */}
       <div className={"flex gap-8 my-2"}>
-        <Search placeholder={"Buscar Proveedor..."} />
+        <Search placeholder={"Buscar Productos..."} />
       </div>
 
       {/*********************** Tabla ***********************/ }

@@ -24,6 +24,8 @@ export const ModalSizeProducto = ({ producto, modalType, filtro}: Props) => {
     <Modal 
       sizeModal={filtro === 'Farmacos' ? 'max-w-4xl' : 'max-w-md'} 
       titleModal={ `${ modalType } Medicamento` } 
-      children={ <FormProducto producto={ producto } /> } />
+    >
+      <FormProducto producto={ producto } />
+    </Modal>
   )
 }

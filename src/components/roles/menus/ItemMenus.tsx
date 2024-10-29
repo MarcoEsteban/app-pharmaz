@@ -57,7 +57,7 @@ export const ItemMenus = ({ roles }: Props) => {
           }
 
           return (
-            <div className={"gradient text-white rounded-md flex p-2 gap-3 items-center"}>
+            <div key={menu.id} className={"gradient text-white rounded-md flex p-2 gap-3 items-center"}>
               { newMenu.icon }
               { menu.nombre }
             </div>

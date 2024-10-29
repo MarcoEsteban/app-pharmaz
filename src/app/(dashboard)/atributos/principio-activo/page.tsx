@@ -31,7 +31,11 @@ export default async function PrincipioActivoPage( { searchParams }: Props ) {
       id ? getByIdPrinciAct(id) : Promise.resolve(null) // Si el id es undefined, no se hace la llamada
     ] );
 
-    return <Modal titleModal={ `${ modalType } Principio Activo` } children={ <FormTipos tipo={ tipo ?? {} } /> } />;
+    return (
+      <Modal titleModal={ `${ modalType } Principio Activo` }>
+        <FormTipos tipo={ tipo ?? {} } /> 
+      </Modal> 
+    )
   };
   
   // ==============

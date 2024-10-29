@@ -33,14 +33,26 @@ export default async function ProveedorPage( { searchParams }: Props ) {
     ] );
 
     if ( modalType === 'foto' ) {
-      return <Modal titleModal="Agregar Foto" children={ <FormPhoto id={ id } /> } />;
+      return (
+        <Modal titleModal="Agregar Foto">
+          <FormPhoto id={ id } />
+        </Modal> 
+      ) 
     }
 
     if ( modalType === 'ver' ) {
-      return <Modal titleModal="Ver Proveedor" children={ <Show id={ id } /> } />;
+      return (
+        <Modal titleModal="Ver Proveedor">
+          <Show id={ id } />
+        </Modal> 
+      ) 
     }
 
-    return <Modal titleModal={ `${ modalType } Proveedor` } children={ <FormProveedor proveedor={ proveedor ?? {} } /> } />;
+    return (
+      <Modal titleModal={ `${ modalType } Proveedor` }>
+        <FormProveedor proveedor={ proveedor ?? {} } />
+      </Modal> 
+    ) 
   };
   
   // ==============

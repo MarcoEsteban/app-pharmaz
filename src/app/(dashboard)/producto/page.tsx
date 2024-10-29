@@ -40,11 +40,19 @@ export default async function ProductoPage({ searchParams }: Props) {
     ]);
 
     if (modalType === 'foto') {
-      return <Modal titleModal="Agregar Foto" children={<FormPhoto id={id} />} />;
+      return (
+        <Modal titleModal="Agregar Foto">
+          <FormPhoto id={ id } />
+        </Modal> 
+      ) 
     }
 
     if (modalType === 'lote') {
-      return <Modal titleModal="Agregar Lote" children={<FormLote lote={lote ?? {}}  productoId={id} usuarioId={ session.user.id } />} />;
+      return (
+        <Modal titleModal="Agregar Lote">
+          <FormLote lote={lote ?? {}}  productoId={id} usuarioId={ session.user.id } />
+        </Modal>
+      ) 
     }
 
     return <ModalSizeProducto modalType={modalType} producto={producto ?? {}} filtro={filtro} />;

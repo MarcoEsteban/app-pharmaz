@@ -19,7 +19,7 @@ export default async function LotesPage({ searchParams }: Props) {
   
   const getModalContent = async () => {
     if (!modal) return null;
-    const [modalType, id] = modal.split('/');
+    const [id] = modal.split('/');
     const [lote] = await Promise.all([
       id ? getByIdLote(id) : Promise.resolve(null),
     ]);
@@ -27,7 +27,11 @@ export default async function LotesPage({ searchParams }: Props) {
     if (!lote?.productoId || !lote.usuarioId) return;
 
     // if (modalType === 'lote') {
-      return <Modal titleModal="Actualizar Lote" children={<FormLote lote={lote ?? {}}  productoId={lote.productoId} usuarioId={ lote.usuarioId } />} />;
+      return (
+        <Modal titleModal="Actualizar Lote" >
+          <FormLote lote={lote ?? {}}  productoId={lote.productoId} usuarioId={ lote.usuarioId } />
+        </Modal>
+      ) 
     // }
   };
   

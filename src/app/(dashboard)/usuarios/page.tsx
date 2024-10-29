@@ -35,18 +35,34 @@ export default async function UsuariosPage( { searchParams }: Props ) {
     ] );
 
     if ( modalType === 'foto' ) {
-      return <Modal titleModal="Agregar Foto" children={ <FormPhoto id={ id } /> } />;
+      return (
+        <Modal titleModal="Agregar Foto">
+          <FormPhoto id={ id } />
+        </Modal> 
+      ) 
     }
 
     if ( modalType === 'password' ) {
-      return <Modal titleModal="Restablecer Contraseña" children={ <FormPasswd  usuario={ usuario ?? {} } /> } />;
+      return (
+        <Modal titleModal="Restablecer Contraseña" >
+          <FormPasswd  usuario={ usuario ?? {} } />
+        </Modal> 
+      ) 
     }
 
     if ( modalType === 'ver' ) {
-      return <Modal titleModal="Ver Usuario" children={ <Show id={ id } /> } />;
+      return (
+        <Modal titleModal="Ver Usuario">
+          <Show id={ id } />
+        </Modal>
+      )
     }
 
-    return <Modal titleModal={ `${ modalType } Usuario` } sizeModal={ 'max-w-xl' } children={ <FormUsuario usuario={ usuario ?? {} } roles={roles} /> } />;
+    return (
+      <Modal titleModal={ `${ modalType } Usuario` } sizeModal={ 'max-w-xl' }>
+        <FormUsuario usuario={ usuario ?? {} } roles={roles} /> 
+      </Modal>
+    )
   };
   
   // ==============

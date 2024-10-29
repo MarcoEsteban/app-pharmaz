@@ -41,10 +41,18 @@ export default async function DataFarmaciaPage( { searchParams }: Props ) {
     const [ modalType ] = modal.split( '/' );
 
     if ( modalType === 'foto' ) {
-      return <Modal titleModal="Agregar Foto" children={ <FormPhoto id={ session.user.id } /> } />;
+      return (
+        <Modal titleModal="Agregar Foto">
+          <FormPhoto id={ session.user.id } />
+        </Modal>
+      ) 
     }
 
-    return <Modal titleModal="Editar Farmacia" sizeModal="max-w-lg" children={ <FormFarma farma={ farma } /> } />;
+    return (
+      <Modal titleModal="Editar Farmacia" sizeModal="max-w-lg" >
+        <FormFarma farma={ farma } />
+      </Modal> 
+    )
   };
   
   return (

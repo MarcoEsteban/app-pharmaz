@@ -26,7 +26,7 @@ export const ButtonActionToglgleState = ({ id, nombre, estado, toggleActionState
   const handleActionToggleState = async () => {
     MySwal.fire({
       title: <span className="font-sans tracking-wide">{title}?</span>,
-      html: <span className="font-sans tracking-wide">Está seguro de {title.toLowerCase()} el ID "{codigo}"</span>,
+      html: <span className="font-sans tracking-wide">Está seguro de {title.toLowerCase()} el ID &quot;{codigo}&quot;</span>,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -47,7 +47,7 @@ export const ButtonActionToglgleState = ({ id, nombre, estado, toggleActionState
         toggleActionState && toggleActionState(id, newState);
         MySwal.fire({
           title: <span className="font-sans tracking-wide">{subtitle.charAt(0).toUpperCase() + subtitle.slice(1)}!</span>,
-          html: <span className="font-sans tracking-wide"><span className={"font-semibold"}>{nombre}</span> fue {subtitle} Exitosamente.</span>,
+          html: <span className="font-sans tracking-wide"><span className={"font-semibold"}>{nombre}</span> fue &quot;{subtitle}&quot; Exitosamente.</span>,
           icon: "success",
         });
       }

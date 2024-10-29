@@ -30,7 +30,11 @@ export default async function PresentacionPage( { searchParams }: Props ) {
       id ? getByIdPresent(id) : Promise.resolve(null) // Si el id es undefined, no se hace la llamada
     ] );
 
-    return <Modal titleModal={ `${ modalType } Presentación` } children={ <FormPresentacion present={ present ?? {} } /> } />;
+    return (
+      <Modal titleModal={ `${ modalType } Presentación` }>
+        <FormPresentacion present={ present ?? {} } /> 
+      </Modal>
+    )
   };
   
   // ==============
@@ -42,7 +46,7 @@ export default async function PresentacionPage( { searchParams }: Props ) {
     <>
       
       {/************ Buscador && Boton Agregar **************/ }
-      <div className={ "flex gap-80 mt-2 mb-4 mb-4" }>
+      <div className={ "flex gap-80 mt-2 mb-4" }>
         <Search placeholder={ "Buscar presentacion..." } />
 
         <BtnAgregar />

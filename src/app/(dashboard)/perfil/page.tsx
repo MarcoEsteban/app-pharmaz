@@ -41,14 +41,26 @@ export default async function PerfilPage( { searchParams }: Props ) {
     const [ modalType ] = modal.split( '/' );
 
     if ( modalType === 'foto' ) {
-      return <Modal titleModal="Agregar Foto" children={ <FormPhoto id={ session.user.id } /> } />;
+      return (
+        <Modal titleModal="Agregar Foto">
+          <FormPhoto id={ session.user.id } />
+        </Modal>  
+      ) 
     }
 
     if ( modalType === 'password' ) {
-      return <Modal titleModal="Modificar Contraseña" children={ <FormPasswd id={ session.user.id } /> } />;
+      return (
+        <Modal titleModal="Modificar Contraseña">
+          <FormPasswd id={ session.user.id } />
+        </Modal>  
+      ) 
     }
 
-    return <Modal titleModal="Modificar Perfil" sizeModal="max-w-lg" children={ <FormPerfil user={ user } /> } />;
+    return (
+      <Modal titleModal="Modificar Perfil" sizeModal="max-w-lg">
+        <FormPerfil user={ user } />
+      </Modal>  
+    ) 
   };
   
   return (
