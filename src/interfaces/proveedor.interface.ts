@@ -1,8 +1,10 @@
-import { PersonaType } from "./types/persona";
 
 export interface Proveedor {
   id: string;
+  nit: string;
+  nombre: string;
+  celular: number;
+  direccion: string | null;
   email: string;
-  personasId: string;
-  personas: PersonaType
+  estado: boolean;
 }

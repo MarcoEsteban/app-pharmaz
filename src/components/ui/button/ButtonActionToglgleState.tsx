@@ -44,7 +44,7 @@ export const ButtonActionToglgleState = ({ id, nombre, estado, toggleActionState
     }).then(result => {
       if (result.isConfirmed) {
         const newState = !estado;
-        toggleActionState(id, newState);
+        toggleActionState && toggleActionState(id, newState);
         MySwal.fire({
           title: <span className="font-sans tracking-wide">{subtitle.charAt(0).toUpperCase() + subtitle.slice(1)}!</span>,
           html: <span className="font-sans tracking-wide"><span className={"font-semibold"}>{nombre}</span> fue {subtitle} Exitosamente.</span>,

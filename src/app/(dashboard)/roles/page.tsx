@@ -34,7 +34,7 @@ export default async function RolesPage( { searchParams }: Props ) {
     console.log({rol})
 
     if ( modalType === 'ver' ) {
-      return <Modal titleModal="Ver Rol" sizeModal={ 'max-w-lg' } children={ <Show roles={rol as RolMe} /> } />;
+      return <Modal titleModal="Detalle Rol" sizeModal={ 'max-w-lg' } children={ <Show roles={rol as RolMe} /> } />;
     }
 
     return <Modal titleModal={ `${ modalType } roles` } sizeModal={ 'max-w-lg' } children={ <FormRoles menus={menus} roles={rol ?? {}} /> } />;

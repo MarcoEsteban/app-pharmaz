@@ -31,7 +31,7 @@ export const RolesTable = async ({roles}: Props) => {
 
             {
               roles.map( (rol, index) => (
-                <tr className="border-b" key={ rol.id }>
+                <tr key={ rol.id }>
 
                   <td className={ "table-td font-bold" }>{index + 1}</td>
                   

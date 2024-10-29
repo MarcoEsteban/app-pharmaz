@@ -3,7 +3,7 @@ export type PersonaType = {
   id?: string;
   ci: string;
   nombre: string;
-  ap: string;
+  ap: string | null;
   am: string | null;
   celular: number | null;
   direccion: string | null;

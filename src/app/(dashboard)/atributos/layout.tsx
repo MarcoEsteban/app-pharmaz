@@ -1,14 +1,14 @@
-import { BtnAgregar, Card, Search, Title } from '@/components';
-import { FaFlask, FaPills, FaFilter, FaSyringe } from 'react-icons/fa';
+import { Card, Title } from '@/components';
+import { FaFlask, FaPills, FaFilter, FaSyringe, FaDna } from 'react-icons/fa';
 import { ItemAtributo } from '@/components/atributos';
 
 
 const atributosItem = [
-  {
-    nombre: 'Tipo',
-    icon: <FaFilter className="w-4 h-4 me-2 " />,
-    enlace: '/atributos/tipo',
-  },
+  // {
+  //   nombre: 'Tipo',
+  //   icon: <FaFilter className="w-4 h-4 me-2 " />,
+  //   enlace: '/atributos/tipo',
+  // },
   {
     nombre: 'Laboratorio',
     icon: <FaFlask className="w-5 h-4 me-2 " />,
@@ -23,6 +23,11 @@ const atributosItem = [
     nombre: 'Via Administración',
     icon: <FaSyringe className="w-5 h-5 me-2 " />,
     enlace: '/atributos/via-administracion',
+  },
+  {
+    nombre: 'Principio Activo',
+    icon: <FaDna className="w-5 h-4 me-2 " />,
+    enlace: '/atributos/principio-activo',
   },
 ];
 
@@ -46,13 +51,6 @@ export default async function AtributoLayout( { children }: {
       </ul>
 
       <main className=" py-4">
-        {/************ Buscador && Boton Agregar **************/ }
-        <div className={ "flex gap-80 my-2" }>
-          <Search placeholder={ "Buscar ..." } />
-
-          <BtnAgregar />
-        </div>
-
         { children }
       </main>
 

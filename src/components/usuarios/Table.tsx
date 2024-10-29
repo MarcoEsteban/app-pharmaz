@@ -34,7 +34,7 @@ export const UsuariosTable = ({ usuario }: Props) => {
 
             {
               usuario && usuario.map( (user, index) => (
-                <tr className="border-b" key={user.id}>
+                <tr key={user.id}>
                   <td className={ "table-td font-bold" }>{index + 1}</td>
                   
                   <td className={ "table-td" }>{user.id?.split('-').at(-1)}</td>

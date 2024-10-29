@@ -16,10 +16,10 @@ export const Search = ( { placeholder }: { placeholder: string; } ) => {
     // Creamos el parametro en la URL === ?query=valor
     const params = new URLSearchParams( searchParams );
 
-    /**
+    /*==========================================================================================================
      * Verifico si el usario esta escribiendo en el 'input'. 
      * Si es asi, quiero que me crees(set) el parametro 'query' y me pongas el valor del input ?query=valorInput
-     **/
+     =========================================================================================================*/
     if ( term ) {
       params.set( 'query', term ); // <-- ?query=valorDelInput
     } else {

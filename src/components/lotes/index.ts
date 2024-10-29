@@ -1,1 +1,1 @@
-export * from './ui/ItemCard';
+export * from './ui/ItemCardLote';

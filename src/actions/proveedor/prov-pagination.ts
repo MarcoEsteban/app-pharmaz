@@ -1,4 +1,3 @@
-
 'use server'
 
 import prisma from "@/libs/prisma";
@@ -28,17 +27,11 @@ export const getPaginationProveedor = async ({
           OR: [
             {
               email: { startsWith: query, mode: 'insensitive' as Prisma.QueryMode },
-            },
-            {
-              personas: {
-                OR: [
-                  { nombre: { startsWith: query, mode: 'insensitive' as Prisma.QueryMode} },
-                  { ap: { startsWith: query, mode: 'insensitive' as Prisma.QueryMode} },
-                  { am: { startsWith: query, mode: 'insensitive' as Prisma.QueryMode} },
-                  { ci: { startsWith: query, mode: 'insensitive' as Prisma.QueryMode} },
-                ],
-              },
-            },
+            },{
+              nombre: { startsWith: query, mode: 'insensitive' as Prisma.QueryMode },
+            },{
+              nit: { startsWith: query, mode: 'insensitive' as Prisma.QueryMode },
+            }
           ],
         }
       : {};
@@ -47,20 +40,6 @@ export const getPaginationProveedor = async ({
     const [proveedores, totalCount] = await Promise.all([
       prisma.proveedores.findMany({
         where: conditions,
-        include: {
-          personas: {
-            select: {
-              nombre: true,
-              ap: true,
-              am: true,
-              ci: true,
-              celular: true,
-              direccion: true,
-              foto: true,
-              estado: true,
-            },
-          },
-        },
         take,                           // Indicamos el número de registros que nos mostrará desde la DB.
         skip: (currentPage - 1) * take, // Permitir realizar la paginación, esto nos va a permitir saltar de 4 en 4 o de acuerdo al take.
         orderBy: {
@@ -76,20 +55,14 @@ export const getPaginationProveedor = async ({
     return {
       currentPage: currentPage,
       totalPages: totalPages,
-      proveedores: proveedores.map( user => ({
-        id: user.id,
-        email: user.email,
-        personasId: user.personasId,
-        personas: {
-          nombre: user.personas.nombre,
-          ap: user.personas.ap,
-          am: user.personas.am,
-          ci: user.personas.ci,
-          celular: user.personas.celular,
-          direccion: user.personas.direccion,
-          foto: user.personas.foto,
-          estado: user.personas.estado,
-        }
+      proveedores: proveedores.map( item => ({
+        id: item.id,
+        nit: item.nit,
+        email: item.email,
+        nombre: item.nombre,
+        celular: item.celular,
+        direccion: item.direccion,
+        estado: item.estado,
       }))
     }
     

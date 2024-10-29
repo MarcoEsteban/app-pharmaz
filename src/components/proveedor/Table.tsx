@@ -33,7 +33,7 @@ export const ProveedorTable = ({proveedor}: Props) => {
 
             {
               proveedor && proveedor.map( (proveedor, index) => (
-                <tr className="border-b" key={proveedor.id}>
+                <tr key={proveedor.id}>
                   <td className={ "table-td font-bold" }>{index + 1}</td>
                   
                   <td className={ "table-td" }>{proveedor.id?.split('-').at(-1)}</td>
@@ -54,18 +54,18 @@ export const ProveedorTable = ({proveedor}: Props) => {
                           size={ 28 } />
                       </div>
                       <div className="flex flex-col justify-center">
-                        <h6 className="mb-0 leading-normal ">{ proveedor.personas.nombre +' '+ proveedor.personas.ap }</h6>
+                        <h6 className="mb-0 leading-normal ">{ proveedor.nombre }</h6>
                         <p className="mb-0 text-sm text-slate-400">{ proveedor.email }</p>
                       </div>
                     </div>
                   </td>
 
-                  <td className="table-td ">{ proveedor.personas.ci }</td>
+                  <td className="table-td ">{ proveedor.nit }</td>
 
-                  <td className="table-td text-center">{ proveedor.personas.celular }</td>
+                  <td className="table-td text-center">{ proveedor.celular }</td>
 
                   <td className="table-td text-center">
-                    <ButtonState estado={ proveedor.personas.estado } />
+                    <ButtonState estado={ proveedor.estado } />
                   </td>
 
                   {/*========== Botones ==========*/ }
@@ -74,8 +74,8 @@ export const ProveedorTable = ({proveedor}: Props) => {
                     {/*============= Buton Eliminar || Habilitar =============*/ }
                     <ButtonActionToglgleState
                       id={ proveedor.id }
-                      nombre={ proveedor.personas.nombre +' '+ proveedor.personas.ap }
-                      estado={ proveedor.personas.estado }
+                      nombre={ proveedor.nombre }
+                      estado={ proveedor.estado }
                       toggleActionState={ toggleStateProveedor }
                     />
 

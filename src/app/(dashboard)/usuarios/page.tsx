@@ -65,11 +65,7 @@ export default async function UsuariosPage( { searchParams }: Props ) {
 
         <BtnAgregar />
       </div>
-
-      <pre>
-      { JSON.stringify(usuario, null, 2)}
-      </pre>
-
+      
       {/*********************** Tabla ***********************/ }
       <Suspense
         key={ query + currentPage } // Esto permite que se renderice de nuevo el componente.

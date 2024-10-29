@@ -31,9 +31,9 @@ export const userSchema = z.object({
     .optional(),
   celular: z
     .string()
-    .refine((cel) => Number(cel), {
-      message: "Solo se permite números",
-    }),
+    .min(8, { message: "El celular debe tener al menos 8 dígitos" })
+    .max(15, { message: "El celular no puede tener más de 15 dígitos" })
+    .regex(/^\d+$/, { message: "Solo se permiten números" }), // Validación con regex para solo números
   rolesId: z
     .string()
     .uuid({message: "Debe seleccionar un Rol"}),

@@ -21,7 +21,7 @@ type FormInputs = {
   ap: string;
   am: string;
   direccion: string;
-  celular: number;
+  celular: string;
   rolesId: string
   email: string;
   password: string;
@@ -48,9 +48,9 @@ export const FormUsuario = ( { usuario, roles }: Props ) => {
       ...usuario,
       ci: usuario.personas?.ci,
       nombre: usuario.personas?.nombre,
-      ap: usuario.personas?.ap,
+      ap: usuario.personas?.ap ?? '',
       am: usuario.personas?.am ?? '',
-      celular: usuario.personas?.celular ?? 0,
+      celular: usuario.personas?.celular?.toString() ?? '',
       direccion: usuario.personas?.direccion ?? '',
     }
   } );
@@ -165,7 +165,7 @@ export const FormUsuario = ( { usuario, roles }: Props ) => {
               "input-text",
               {'focus:border-red-500 border-red-500': errors.celular}
             ) }
-            type="number"
+            type="tel"
             id="celular"
             { ...register( 'celular', { required: "El celular es requerido" } ) }
             placeholder="Ingrese un celular"

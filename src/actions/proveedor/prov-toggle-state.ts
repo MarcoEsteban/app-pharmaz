@@ -6,23 +6,18 @@ import { revalidatePath } from "next/cache";
 export const toggleStateProveedor = async (id: string, newState: boolean) => {
   try {
 
-    const proveedor = await prisma.proveedores.findUnique({
-      where: { id },
-      select: { personasId: true }
-    })
-    
-    if (!proveedor || !proveedor.personasId) {
+    if (!id) {
       return {
         ok: false,
         message: 'No se encuentra ese Proveedor'
       }
     }
 
-    await prisma.personas.update({
-      where: { id: proveedor?.personasId },
+    await prisma.proveedores.update({
+      where: { id },
       data: { estado: newState }
     })
-
+    
     revalidatePath( '/proveedor' );
 
     return {
@@ -36,4 +31,3 @@ export const toggleStateProveedor = async (id: string, newState: boolean) => {
     }
   }
 }
-

@@ -14,11 +14,10 @@ import { createUpdateProveedor } from '@/actions';
 
 type FormInputs = {
   id?: string;
-  ci: string;
+  nit: string;
   nombre: string;
-  ap: string;
-  am: string;
   celular: number;
+  direccion: string;
   email: string;
 };
 
@@ -38,12 +37,10 @@ export const FormProveedor = ( { proveedor }: Props ) => {
     resolver: zodResolver( proveedorSchema ), // Aplicando el Validador de Zod.
     
     defaultValues: {
-      ...proveedor,
-      ci: proveedor.personas?.ci,
-      nombre: proveedor.personas?.nombre,
-      ap: proveedor.personas?.ap,
-      am: proveedor.personas?.am ?? '',
-      celular: proveedor.personas?.celular ?? undefined,
+      nit: proveedor.nit,
+      nombre: proveedor.nombre,
+      celular: proveedor.celular,
+      direccion: proveedor.direccion ?? '',
       email: proveedor.email
     }
   } );
@@ -56,15 +53,13 @@ export const FormProveedor = ( { proveedor }: Props ) => {
     const formData = new FormData;
     const { ...proveedorToSave } = data;
 
-    if ( proveedor.id || proveedor.personasId ) {
+    if ( proveedor.id ) {
       formData.append( 'id', proveedor.id ?? '' );
-      formData.append( 'personasId', proveedor.personasId ?? '' );
     }
-    formData.append( 'ci', proveedorToSave.ci );
+    formData.append( 'nit', proveedorToSave.nit );
     formData.append( 'nombre', proveedorToSave.nombre );
-    formData.append( 'ap', proveedorToSave.ap );
-    formData.append( 'am', proveedorToSave.am );
     formData.append( 'celular', proveedorToSave.celular.toString() );
+    formData.append( 'direccion', proveedorToSave.direccion );
     formData.append( 'email', proveedorToSave.email );
 
     const { ok, message } = await createUpdateProveedor( formData );
@@ -81,29 +76,29 @@ export const FormProveedor = ( { proveedor }: Props ) => {
     <form onSubmit={ handleSubmit( onSubmit ) }>
       <div className="grid gap-4 mb-4 grid-cols-2 font-sans tracking-wide">
 
-        {/*************** CI ****************/ }
+        {/*************** NIT ****************/ }
         <div className="col-span-2">
           <label htmlFor="nit" className="label-text">NIT <span className={ "text-red-600" }>*</span></label>
           <input
             className={ clsx(
               "input-text",
-              errors.ci && 'focus:border-red-500 border-red-500'
+              errors.nit && 'focus:border-red-500 border-red-500'
             ) }
             type="text"
             id="nit"
             autoFocus
-            { ...register( 'ci', { required: "La nit es obligatorio" } ) }
-            placeholder="Ingrese un nit"
+            { ...register( 'nit', { required: "El nit es obligatorio" } ) }
+            placeholder="Ingrese un NIT"
           />
-          { errors.ci && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.ci.message }</p> }
+          { errors.nit && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.nit.message }</p> }
         </div>
 
         {/*************** Nombre ****************/ }
         <div className="col-span-2">
-          <label htmlFor="nombre" className="label-text">Nombre <span className={ "text-red-600" }>*</span></label>
+          <label htmlFor="nombre " className="label-text">Nombre <span className={ "text-red-600" }>*</span></label>
           <input
             className={ clsx(
-              "input-text",
+              "input-text capitalize",
               errors.nombre && 'focus:border-red-500 border-red-500'
             ) }
             type="text"
@@ -114,38 +109,6 @@ export const FormProveedor = ( { proveedor }: Props ) => {
           { errors.nombre && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.nombre.message }</p> }
         </div>
         
-        {/*************** Ap ****************/ }
-        <div className="col-span-2 sm:col-span-1">
-          <label htmlFor="ap" className="label-text">Apellido Paterno <span className={ "text-red-600" }>*</span></label>
-          <input
-            className={ clsx(
-              "input-text",
-              {'focus:border-red-500 border-red-500': errors.ap}
-            ) }
-            type="text"
-            id="ap"
-            { ...register( 'ap', { required: "El apellido es obligatorio" } ) }
-            placeholder="Ingrese un ap"
-          />
-          { errors.ap && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.ap.message }</p> }
-        </div>
-
-        {/*************** Am ****************/ }
-        <div className="col-span-2 sm:col-span-1">
-          <label htmlFor="am" className="label-text">Apellido Materno</label>
-          <input
-            className={ clsx(
-              "input-text",
-              {'focus:border-red-500 border-red-500': errors.am}
-            ) }
-            type="text"
-            id="am"
-            { ...register( 'am', { required: "El apellido es obligatorio" } ) }
-            placeholder="Ingrese un am"
-          />
-          { errors.am && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.am.message }</p> }
-        </div>
-
         {/*************** Celular ****************/ }
         <div className="col-span-2">
           <label htmlFor="celular" className="label-text">Celular <span className={ "text-red-600" }>*</span></label>
@@ -154,12 +117,28 @@ export const FormProveedor = ( { proveedor }: Props ) => {
               "input-text",
               errors.celular && 'focus:border-red-500 border-red-500'
             ) }
-            type="number"
+            type="string"
             id="celular"
             { ...register( 'celular', { required: "El celular es requerido" } ) }
             placeholder="Ingrese un celular"
           />
           { errors.celular && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{ errors.celular.message }</p> }
+        </div>
+        
+        {/*************** Direccion ****************/ }
+        <div className="col-span-2">
+          <label htmlFor="direccion" className="label-text">Dirección</label>
+          <textarea
+            className={ clsx(
+              "input-text capitalize",
+              {'focus:border-red-500 border-red-500': errors.direccion}
+            ) }
+            id="direccion"
+            rows={ 2 }
+            { ...register( 'direccion', { required: "La direccion es requerido" } ) }
+            placeholder="Ingrese direccion"
+          ></textarea>
+          { errors.direccion && <p className="mt-1 text-sm text-red-600 dark:text-red-500">{ errors.direccion.message }</p> }
         </div>
 
         {/**************** Email ****************/ }

@@ -35,8 +35,11 @@ interface SeedUser {
 
 interface SeedProveedores {
   id?: string;
+  nit: string;
+  nombre: string;
+  celular: number;
+  direccion: string;
   email: string;
-  personasId: string;
 }
 
 interface SeedDatosFarmacia {
@@ -49,6 +52,54 @@ interface SeedDatosFarmacia {
   usuarioId: string;
 }
 
+type SeedProducto = {
+  id?: string;
+  categoria: string;
+  nombre: string;
+  concentracion: string;
+  adicional: string;
+  precio: number;
+  receta: string;
+  tipo: string;
+  foto?: string;
+  estado?: boolean;
+};
+
+interface SeedPresentacion {
+  id?: string;
+  nombre: string;
+  estado?: boolean;
+}
+
+interface SeedLaboratorio {
+  id?: string;
+  nombre: string;
+  foto?: string;
+  estado?: boolean;
+}
+
+interface SeedPrincipioActivo {
+  id?: string;
+  nombre: string;
+  estado?: boolean;
+}
+
+interface SeedViaAdministraciion {
+  id?: string;
+  nombre: string;
+  estado?: boolean;
+}
+
+interface SeedLotes {
+  id?: string;
+  stock: number;
+  vencimiento: Date;
+  productoId: string;
+  proveedorId: string;
+  usuarioId: string;
+  estado?: boolean;
+}
+
 interface SeedData {
   menus: SeedMenus[];
   roles: SeedRoles[];
@@ -56,6 +107,12 @@ interface SeedData {
   usuarios: SeedUser[];
   proveedor: SeedProveedores[];
   datafarmacia: SeedDatosFarmacia[];
+  producto: SeedProducto[];
+  presentacion: SeedPresentacion[];
+  laboratorio: SeedLaboratorio[];
+  principioActivo: SeedPrincipioActivo[];
+  viaAdministracion: SeedViaAdministraciion[];
+  lotes: SeedLotes[];
 }
 
 export const initialData: SeedData = {
@@ -168,8 +225,11 @@ export const initialData: SeedData = {
   
   proveedor: [
     {
-      email: 'angelgupe@google.com',
-      personasId: '',
+      nit: '7199532',
+      nombre: 'Terbol',
+      direccion: 'B./ Lindo',
+      celular: 78967542,
+      email: 'terbol@google.com',
     },
   ],
   
@@ -181,6 +241,80 @@ export const initialData: SeedData = {
       celular: 77952541,
       foto: '',
       usuarioId: '',
+    },
+  ],
+  
+  producto: [
+    {
+      categoria: 'Farmacos',
+      nombre: 'Paracetamol',
+      concentracion: '0.5ml',
+      adicional: 'CJAS X 500',
+      precio: 3.5,
+      receta: 'No',
+      tipo: 'Generico',
+    },
+    {
+      categoria: 'Farmacos',
+      nombre: 'Libbera',
+      concentracion: '0.5ml',
+      adicional: 'CJAS X 10',
+      precio: 4.5,
+      receta: 'No',
+      tipo: 'Comercial',
+    },
+  ],
+  
+  presentacion: [
+    {
+      nombre: 'Comprimido'
+    },
+    {
+      nombre: 'Tabletas'
+    }
+  ],
+  
+  laboratorio: [
+    {
+      nombre: 'Cofar'
+    },
+    {
+      nombre: 'Promedical'
+    }
+  ],
+  
+  viaAdministracion: [
+    {
+      nombre: 'Rectal'
+    },
+    {
+      nombre: 'Oral'
+    }
+  ],
+  
+  principioActivo: [
+    {
+      nombre: 'Paracetamol'
+    },
+    {
+      nombre: 'Levocetirizina'
+    }
+  ],
+  
+  lotes: [
+    {
+      stock: 18,
+      vencimiento: new Date('2026-03-29'),
+      productoId: '',
+      proveedorId: '',
+      usuarioId: ''
+    },
+    {
+      stock: 25,
+      vencimiento: new Date('2026-02-12'),
+      productoId: '',
+      proveedorId: '',
+      usuarioId: ''
     },
   ],
 }

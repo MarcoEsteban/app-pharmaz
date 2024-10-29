@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Medicamentos" ALTER COLUMN "receta" DROP DEFAULT,
+ALTER COLUMN "receta" SET DATA TYPE TEXT;

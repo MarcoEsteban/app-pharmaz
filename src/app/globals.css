@@ -27,7 +27,7 @@ body {
   }
 
   .gradient-enable {
-    @apply bg-gradient-to-tl from-emerald-500 to-teal-400
+    @apply bg-gradient-to-tl from-emerald-600 to-green-500
   }
 
   .gradient-add {

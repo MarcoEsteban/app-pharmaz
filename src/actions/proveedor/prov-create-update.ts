@@ -21,30 +21,22 @@ export const createUpdateProveedor = async ( formData: FormData ) => {
   try {
     
     const proveedor = proveedorParsed.data;
-    const { id, email, personasId, ...person} = proveedor;    
+    const { id, ...prove} = proveedor;    
     
 
     // Realizar una Transaccion, Insercion a multiple Tablas:
     const prismaTx = await prisma.$transaction( async () => {
-      let proveedor, persona;
+      let proveedor;
 
       /*================= Actualizar =================*/
-      if ( id && personasId ) {
-        
-        persona = await prisma.personas.update({
-          where: { id: personasId },
-          data: {
-            ...person,
-            am: person.am ?? '',
-            celular: Number(person.celular)
-          }
-        })
+      if ( id ) {
         
         proveedor = await prisma.proveedores.update({
           where: { id },
-          data: {
-            email,
-            personasId
+          data: { 
+            ...prove,
+            celular: Number(prove.celular),
+            direccion: prove.direccion ?? ''
           }
         })
 
@@ -52,7 +44,7 @@ export const createUpdateProveedor = async ( formData: FormData ) => {
         return {
           ok: true,
           message: 'Actualizado Exitosamente',
-          data: { ...proveedor, ...persona}
+          data: proveedor
         }
         
       }
@@ -60,8 +52,8 @@ export const createUpdateProveedor = async ( formData: FormData ) => {
       // =============================
       // Verificar si el NIT ya existe
       // =============================
-      const existingNIT = await prisma.personas.findUnique({
-        where: { ci: person.ci },
+      const existingNIT = await prisma.proveedores.findFirst({
+        where: { nit: prove.nit },
       });
 
       if (existingNIT) {
@@ -72,10 +64,24 @@ export const createUpdateProveedor = async ( formData: FormData ) => {
       }
       
       // =================================
+      // Verificar si el Nobre ya existe
+      // =================================
+      const existingNombre = await prisma.proveedores.findFirst({
+        where: { nombre: prove.nombre },
+      });
+
+      if (existingNombre) {
+        return {
+          ok: false,
+          message: 'Este nombre ya está registrado.',
+        };
+      }
+      
+      // =================================
       // Verificar si el Celular ya existe
       // =================================
-      const existingCelular = await prisma.personas.findUnique({
-        where: { ci: person.ci },
+      const existingCelular = await prisma.proveedores.findFirst({
+        where: { celular: Number(prove.celular) },
       });
 
       if (existingCelular) {
@@ -89,7 +95,7 @@ export const createUpdateProveedor = async ( formData: FormData ) => {
       // Verificar si el email ya existe
       // ===============================
       const existingEmail = await prisma.proveedores.findUnique({
-        where: { email },
+        where: { email: prove.email },
       });
 
       if (existingEmail) {
@@ -100,25 +106,18 @@ export const createUpdateProveedor = async ( formData: FormData ) => {
       }
       
       /*=================== Agregar ==================*/
-      persona = await prisma.personas.create({
-        data: {
-          ...person,
-          am: person.am ?? '',
-          celular: Number(person.celular)
-        }
-      })
-      
       proveedor = await prisma.proveedores.create({
         data: {
-          email,
-          personasId: persona.id,
+          ...prove,
+          celular: Number(prove.celular),
+          direccion: prove.direccion ?? ''
         }
       })
       
       return {
         ok: true,
         message: 'Guardado Exitosamente',
-        data: { ...proveedor, ...persona}
+        data: proveedor
       }
       
     })

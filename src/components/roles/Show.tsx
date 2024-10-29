@@ -11,10 +11,6 @@ export const Show = ( { roles }: Props ) => {
 
   return (
     <>
-      <div className={ "w-full mb-6 text-gray-600 uppercase font-semibold pb-1 border-b shadow-lg text-center" }>
-        Detalle del Rol
-      </div>
-      
       <div className={ "w-full mb-4 text-gray-400 pb-2 flex justify-between" }>
         <p className='flex items-center gap-2'> 
           <span className='uppercase text-sm font-semibold'>Nombre Rol:</span>{ roles.nombre }
