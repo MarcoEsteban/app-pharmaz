@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import clsx from 'clsx';
-import { usePathname, useRouter } from 'next/navigation';
+import clsx from "clsx";
+import { usePathname, useRouter } from "next/navigation";
 
-import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import Swal from 'sweetalert2';
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
-import { BtnCancelar, BtnGuardar } from '@/components';
-import { FaUpload } from 'react-icons/fa';
+import { BtnCancelar, BtnGuardar } from "@/components";
+import { FaUpload } from "react-icons/fa";
 
 type FormInputs = {
   id?: string;
@@ -23,46 +23,43 @@ type Foto = {
   nombre: string;
 };
 
-export const FormPhoto = ( { id }: Props ) => {
-
+export const FormPhoto = ({ id }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [ menus, setMenus ] = useState<Foto[]>( [] );
-  const [ isEditar, setIsEditar ] = useState<boolean>( false );
+  const [menus, setMenus] = useState<Foto[]>([]);
+  const [isEditar, setIsEditar] = useState<boolean>(false);
 
   // Usando React Hook Form:
-  const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormInputs>( {
-    defaultValues: {
-      foto: '' // Inicializar 'menus' como un array vacío.
-    }
-  } );
+  const { register, handleSubmit, setValue, getValues, formState: { errors } } =
+    useForm<FormInputs>({
+      defaultValues: {
+        foto: "", // Inicializar 'menus' como un array vacío.
+      },
+    });
 
-  useEffect( () => {
+  useEffect(() => {
     // Server Actions - Obtener la Foto por el [id]
     const fetchFoto = async () => {
-      console.log( 'Foto' );
+      console.log("Foto");
     };
+  }, [id, setValue]);
 
-  }, [ id, setValue ] );
-
-
-  const onSubmit: SubmitHandler<FormInputs> = async ( data ) => {
-
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     const { foto } = data;
 
-    console.log( { foto } );
+    console.log({ foto });
 
     // Muestra el Mensaje de Alerta Cuando Todo Sale Bien:
-    if ( true ) {
-      Swal.fire( {
+    if (true) {
+      Swal.fire({
         position: "center",
         icon: "success",
         // title: `${ res.message }`,
         title: `Guardado Exitosamen`,
         showConfirmButton: false,
-        timer: 1500
-      } );
+        timer: 1500,
+      });
     }
 
     // Muestra el Mensaje de Alerta Cuando Algo Sale Mal:
@@ -76,32 +73,40 @@ export const FormPhoto = ( { id }: Props ) => {
     //   } );
     // }
 
-    router.replace( pathname );
+    router.replace(pathname);
   };
 
   return (
-
-    <form onSubmit={ handleSubmit( onSubmit ) }>
-
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex w-full items-center justify-center bg-white font-sans mb-4 tracking-wide">
+        <label
+          htmlFor="foto"
+          className="mx-auto cursor-pointer flex w-[300px] h-[250px] max-w-lg flex-col items-center justify-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-1 text-center"
+        >
+          <FaUpload className="h-10 w-10 text-blue-500" />
 
-        <label htmlFor="foto" className="mx-auto cursor-pointer flex w-[300px] h-[250px] max-w-lg flex-col items-center justify-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-1 text-center">
+          <h2 className="mt-2 text-xl font-medium text-gray-700 tracking-wide">
+            Subir una Foto
+          </h2>
 
-          <FaUpload className="h-10 w-10 text-blue-500"/>
+          <p className="mt-3 text-gray-500 tracking-wide">
+            Subir imagen en formato PNG, JPG.
+          </p>
 
-          <h2 className="mt-2 text-xl font-medium text-gray-700 tracking-wide">Subir una Foto</h2>
-
-          <p className="mt-3 text-gray-500 tracking-wide">Subir imagen en formato PNG, JPG. </p>
-
-          <input id="foto" { ...register( 'foto', { required: true } ) } type="file" className="hidden" />
+          <input
+            id="foto"
+            {...register("foto", { required: true })}
+            type="file"
+            className="hidden"
+          />
         </label>
       </div>
 
-      <div className={ "flex justify-end gap-4 pt-2" }>
-        <BtnGuardar />
+      <div className={"flex justify-end gap-4 pt-2"}>
         <BtnCancelar />
+        <BtnGuardar />
       </div>
-
     </form>
   );
 };
+

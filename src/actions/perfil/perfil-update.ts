@@ -1,38 +1,36 @@
-'use server'
+"use server";
 
 import prisma from "@/libs/prisma";
 import { revalidatePath } from "next/cache";
 import { perfilSchema } from "@/validations";
 
-export const updatePerfil = async ( formData: FormData ) => {
-  
+export const updatePerfil = async (formData: FormData) => {
   // Convierte el FormData a un objeto de JavaScript
-  const data = Object.fromEntries( formData );
-  
-  // Valida el objeto con el esquema de Zod
-  const userParsed = perfilSchema.safeParse( data );
+  const data = Object.fromEntries(formData);
 
-  if ( !userParsed.success ) {
-    console.log( userParsed.error );
+  // Valida el objeto con el esquema de Zod
+  const userParsed = perfilSchema.safeParse(data);
+
+  if (!userParsed.success) {
+    console.log(userParsed.error);
     return { ok: false };
   }
-  console.log(userParsed.data );
+  console.log(userParsed.data);
 
   try {
-    
     const user = userParsed.data;
-    const { id, email, ...person} = user;    
+    const { id, email, ...person } = user;
 
     let usuario;
 
     /*================= Actualizar =================*/
-    if ( !id ) {
+    if (!id) {
       return {
         ok: false,
-        message: 'Usuario no encontrado',
-      }
+        message: "Usuario no encontrado",
+      };
     }
-    
+
     usuario = await prisma.usuario.update({
       where: { id },
       data: {
@@ -40,31 +38,29 @@ export const updatePerfil = async ( formData: FormData ) => {
         personas: {
           update: {
             ...person,
-            am: person.am ?? '',
-            direccion: person.direccion ?? '',
-            celular: Number(person.celular)
+            am: person.am ?? "",
+            direccion: person.direccion ?? "",
+            celular: Number(person.celular),
           },
         },
       },
-      include: { personas: true }
+      include: { personas: true },
     });
-    
+
     // Revalidacion de las Rutas para Actualizar en Tiempo Real:
-    revalidatePath('/')
-    revalidatePath('/perfil')
-    revalidatePath('/usuarios')
-    
+    revalidatePath("/");
+    revalidatePath("/perfil");
+    revalidatePath("/");
+
     return {
       ok: true,
-      message: 'Actualizado Exitosamente',
-      dataUser: usuario
-    }
-    
+      message: "Actualizado Exitosamente",
+      dataUser: usuario,
+    };
   } catch (error) {
-    console.log({error})
+    console.log({ error });
     return {
       ok: false,
-    }
+    };
   }
-  
-}
+};
