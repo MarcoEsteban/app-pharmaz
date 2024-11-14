@@ -3,7 +3,6 @@ import { BtnVolver, ButtonState } from "@/components";
 import { FaUserCircle } from "react-icons/fa";
 import { getByIdUser } from "@/actions";
 import { Usuario } from "@prisma/client";
-import { empty } from "@prisma/client/runtime/react-native.js";
 
 interface Props {
   usuario: Partial<Usuario>;
