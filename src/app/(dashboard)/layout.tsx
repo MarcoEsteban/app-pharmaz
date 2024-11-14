@@ -18,10 +18,10 @@ export default async function DashboardLayout(
   }
   console.log(user);
   const userPerfil = {
-    nombre: user.personas.nombre,
-    ap: user.personas.ap,
-    foto: user.personas.foto,
-    rol: user.rol,
+    nombre: user.personas.nombre ?? "",
+    ap: user.personas.ap ?? "",
+    foto: user.personas.foto ?? "",
+    rol: user.rol ?? "",
   };
 
   return (
