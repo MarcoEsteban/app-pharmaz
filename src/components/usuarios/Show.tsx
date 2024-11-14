@@ -16,6 +16,10 @@ export const Show = async ({ usuario }: Props) => {
 
   const user = await getByIdUser(usuario.id);
 
+  if (!user) {
+    return;
+  }
+
   return (
     <>
       <div className="flex flex-col items-center p-1 ">
