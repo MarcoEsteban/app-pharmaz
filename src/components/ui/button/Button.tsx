@@ -182,6 +182,20 @@ export const BtnLote = ({ id }: { id: string }) => {
   );
 };
 
+export const BtnLoteEdit = ({ id }: { id: string }) => {
+  const pathname = usePathname();
+  const pageParam = usePageParam();
+
+  return (
+    <Link
+      href={`${pathname}?modal=lote/${id}${pageParam}`}
+      className="btn-gnrl gradient"
+    >
+      <FaPenToSquare size={18} />
+    </Link>
+  );
+};
+
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 

@@ -1,5 +1,5 @@
 import { toggleStateLote } from "@/actions";
-import { BtnLote, BtnModificar } from "@/components";
+import { BtnLoteEdit } from "@/components";
 import { ButtonActionToglgleState } from "@/components/ui/button/ButtonActionToglgleState";
 import { LoteProducto } from "@/interfaces";
 import clsx from "clsx";
@@ -107,7 +107,7 @@ export const ItemCardLote = ({ lote }: Props) => {
         />
 
         {/*================= Buton Agregar Lote ==================*/}
-        <BtnModificar id={lote.id ?? ""} />
+        <BtnLoteEdit id={lote.id ?? ""} />
       </div>
     </div>
   );
