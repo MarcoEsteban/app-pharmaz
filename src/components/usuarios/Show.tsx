@@ -3,6 +3,7 @@ import { BtnVolver, ButtonState } from "@/components";
 import { FaUserCircle } from "react-icons/fa";
 import { getByIdUser } from "@/actions";
 import { Usuario } from "@prisma/client";
+import { empty } from "@prisma/client/runtime/react-native.js";
 
 interface Props {
   usuario: Partial<Usuario>;
@@ -38,27 +39,36 @@ export const Show = async ({ usuario }: Props) => {
           </h6>
           <p className="mb-0 text-slate-500">{user?.email}</p>
         </div>
-        <div className="flex gap-8 justify-between bg-gray-300 w-full p-1.5 px-2 rounded-lg mb-2">
+
+        <div className="flex gap-8 justify-between bg-gray-200 w-full p-1.5 px-2 rounded-lg mb-2">
           <p className="text-gray-500">
             <span className="font-bold">CI:</span> {user?.personas.ci}
           </p>
+        </div>
+
+        <div className="flex gap-8 justify-between bg-gray-200 w-full p-1.5 px-2 rounded-lg mb-2">
           <p className="text-gray-500">
             <span className="font-bold">ROL:</span> {user?.rol}
           </p>
         </div>
-        <div className="flex gap-8 justify-between bg-gray-300 w-full p-1.5 px-2 rounded-lg mb-2">
+
+        <div className="flex gap-8 justify-between bg-gray-200 w-full p-1.5 px-2 rounded-lg mb-2">
           <p className="text-gray-500">
             <span className="font-bold">CELULAR:</span> {user?.personas.celular}
           </p>
-          <p className="text-gray-500">
-            <span className="font-bold mr-2">ESTADO:</span>
-            <ButtonState estado={user?.personas.estado} />
-          </p>
         </div>
-        <div className="flex gap-8 justify-between bg-gray-300 w-full p-1.5 px-2 rounded-lg mb-2">
+
+        <div className="flex gap-8 justify-between bg-gray-200 w-full p-1.5 px-2 rounded-lg mb-2">
           <p className="text-gray-500">
             <span className="font-bold mr-2">DIRECCION:</span>
             {user?.personas.direccion}
+          </p>
+        </div>
+
+        <div className="flex gap-8 justify-between bg-gray-200 w-full p-1.5 px-2 rounded-lg mb-2">
+          <p className="text-gray-500">
+            <span className="font-bold mr-2">ESTADO:</span>
+            <ButtonState estado={user?.personas.estado} />
           </p>
         </div>
       </div>
