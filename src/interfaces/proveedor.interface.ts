@@ -1,4 +1,3 @@
-
 export interface Proveedor {
   id: string;
   nit: string;

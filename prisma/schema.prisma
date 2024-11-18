@@ -13,45 +13,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 // ===========
 // Tabla Menus
 // ===========
 model Menus {
-  id          String         @id @default(uuid())
-  nombre      String
-  enlace      String         @unique
-  icon        String
-  createdAt   DateTime       @default(now()) // Fecha de creación del registro.
-  updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
-  
-  Roles       RolesOnMenus[] // Indico que estamos estableciendo la Relación de Many to Many
+  id        String   @id @default(uuid())
+  nombre    String
+  enlace    String   @unique
+  icon      String
+  createdAt DateTime @default(now()) // Fecha de creación del registro.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
+
+  Roles RolesOnMenus[] // Indico que estamos estableciendo la Relación de Many to Many
 }
 
 // ===========
 // Tabla Roles
 // ===========
 model Roles {
-  id          String         @id @default(uuid())
-  nombre      String
-  estado      Boolean        @default(true)
-  createdAt   DateTime       @default(now()) // Fecha de creación del registro.
-  updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
-  
-  Menus       RolesOnMenus[] // Indico que estamos estableciendo la Relación de [Many to Many]
-  Usuario     Usuario[]      // Indico que estamos estableciendo la Relacion [One to Many]
+  id        String   @id @default(uuid())
+  nombre    String
+  estado    Boolean  @default(true)
+  createdAt DateTime @default(now()) // Fecha de creación del registro.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
+
+  Menus   RolesOnMenus[] // Indico que estamos estableciendo la Relación de [Many to Many]
+  Usuario Usuario[] // Indico que estamos estableciendo la Relacion [One to Many]
 }
 
 // ==================
 // Tabla RolesOnMenus
 // ==================
 model RolesOnMenus {
-  roles       Roles          @relation(fields: [rolesId], references: [id]) 
-  menus       Menus          @relation(fields: [menusId], references: [id])
-  rolesId     String
-  menusId     String
-  createdAt   DateTime       @default(now()) // Fecha de creación del registro.
-  updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
+  roles     Roles    @relation(fields: [rolesId], references: [id])
+  menus     Menus    @relation(fields: [menusId], references: [id])
+  rolesId   String
+  menusId   String
+  createdAt DateTime @default(now()) // Fecha de creación del registro.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
   @@id([rolesId, menusId]) // Relacion de [Many to Many]
 }
@@ -60,95 +59,96 @@ model RolesOnMenus {
 // Tabla Personas
 // ==============
 model Personas {
-  id          String         @id @default(uuid())
-  ci          String         @unique
-  nombre      String
-  ap          String?
-  am          String?
-  direccion   String?
-  celular     Int?
-  foto        String?
-  estado      Boolean        @default(true)
-  createdAt   DateTime       @default(now()) // Indico la fecha de creacion.
-  updatedAt   DateTime       @updatedAt      // Fecha de la última actualización del registro.
+  id        String   @id @default(uuid())
+  ci        String   @unique
+  nombre    String
+  ap        String?
+  am        String?
+  direccion String?
+  celular   Int?
+  foto      String?
+  estado    Boolean  @default(true)
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
-  Usuario     Usuario[]       // Relacion One to Many
+  Usuario Usuario[] // Relacion One to Many
 }
 
 // ==============
 // Tabla Usuario
 // ==============
 model Usuario {
-  id                String          @id @default(uuid())
-  email             String          @unique
-  password          String
-  createdAt         DateTime        @default(now()) // Indico la fecha de creacion.
-  updatedAt         DateTime        @updatedAt      // Fecha de la última actualización del registro.
-  
-  DatosFarmacia     DatosFarmacia[] // Relacion One to Many
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
-  personas          Personas        @relation(fields: [personasId], references: [id])
-  roles             Roles           @relation(fields: [rolesId], references: [id])
-  personasId        String
-  rolesId           String
-  
-  Lotes             Lotes[] // Relacion One to Many
+  DatosFarmacia DatosFarmacia[] // Relacion One to Many
+
+  personas   Personas @relation(fields: [personasId], references: [id])
+  roles      Roles    @relation(fields: [rolesId], references: [id])
+  personasId String
+  rolesId    String
+
+  Lotes Lotes[] // Relacion One to Many
 }
 
 // =================
 // Tabla Proveedores
 // =================
 model Proveedores {
-  id         String       @id @default(uuid())
-  nit        String
-  nombre     String       @unique
-  celular    Int
-  direccion  String?
-  email      String       @unique
-  estado     Boolean        @default(true)
-  
-  createdAt  DateTime     @default(now()) // Indico la fecha de creacion.
-  updatedAt  DateTime     @updatedAt      // Fecha de la última actualización del registro.
-  
-  Lotes                   Lotes[] // Relacion One to Many
+  id        String  @id @default(uuid())
+  nit       String
+  nombre    String  @unique
+  celular   Int
+  foto      String?
+  direccion String?
+  email     String  @unique
+  estado    Boolean @default(true)
+
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
+
+  Lotes Lotes[] // Relacion One to Many
 }
 
 // ===================
 // Tabla DatosFarmacia
 // ===================
 model DatosFarmacia {
-  id          String          @id @default(uuid())
-  nombre      String
-  email       String          @unique
-  celular     Int?
-  direccion   String?
-  foto        String?
-  createdAt   DateTime        @default(now()) // Indico la fecha de creacion.
-  updatedAt   DateTime        @updatedAt      // Fecha de la última actualización del registro.
+  id        String   @id @default(uuid())
+  nombre    String
+  email     String   @unique
+  celular   Int?
+  direccion String?
+  foto      String?
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
-  Usuario     Usuario         @relation(fields: [usuarioId], references: [id])
-  usuarioId   String
+  Usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId String
 }
 
 // ===========
 // Tabla Lotes
 // ===========
 model Lotes {
-  id              String            @id @default(uuid())
-  stock           Int    
-  vencimiento     DateTime
-  estado          Boolean           @default(true)
-  createdAt       DateTime          @default(now()) // Indico la fecha de creacion.
-  updatedAt       DateTime          @updatedAt      // Fecha de la última actualización del registro.
+  id          String   @id @default(uuid())
+  stock       Int
+  vencimiento DateTime
+  estado      Boolean  @default(true)
+  createdAt   DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt   DateTime @updatedAt // Fecha de la última actualización del registro.
 
-  Producto        Medicamentos      @relation("MedicamentoLotes",fields: [productoId], references: [id])
-  Proveedor       Proveedores       @relation(fields: [proveedorId], references: [id])
-  Usuario         Usuario           @relation(fields: [usuarioId], references: [id])
+  Producto  Medicamentos @relation("MedicamentoLotes", fields: [productoId], references: [id])
+  Proveedor Proveedores  @relation(fields: [proveedorId], references: [id])
+  Usuario   Usuario      @relation(fields: [usuarioId], references: [id])
 
-  productoId      String
-  proveedorId     String
-  usuarioId       String
-  
+  productoId  String
+  proveedorId String
+  usuarioId   String
+
   // Medicamentos    MedicamentosOnLotes[] // Relacion One to Many
 }
 
@@ -156,38 +156,38 @@ model Lotes {
 // Tabla Medicamentos
 // ==================
 model Medicamentos {
-  id                 String          @id @default(uuid())
-  categoria          String
-  nombre             String
-  concentracion      String?
-  adicional          String?
-  tipo               String?
-  receta             String?         
-  precio             Decimal         @db.Decimal(10, 2) // Un campo precio con decimales
-  foto               String?
-  estado             Boolean         @default(true)
-  
-  createdAt          DateTime        @default(now()) // Indico la fecha de creacion.
-  updatedAt          DateTime        @updatedAt      // Fecha de la última actualización del registro.
-  
+  id            String  @id @default(uuid())
+  categoria     String
+  nombre        String
+  concentracion String?
+  adicional     String?
+  tipo          String?
+  receta        String?
+  precio        Decimal @db.Decimal(10, 2) // Un campo precio con decimales
+  foto          String?
+  estado        Boolean @default(true)
+
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
+
   // Lotes                   MedicamentosOnLotes[] // Relacion One to Many
-  lotes                   Lotes[]             @relation("MedicamentoLotes") // Relación con Lotes
-  laboratorios            MedicaOnLabo[]      
-  presentacion            MedicaOnPresen[]      
-  principioActivo         MedicaOnPrinci[]      
-  viaAdministracion       MedicaOnViaAdm[]
+  lotes             Lotes[]          @relation("MedicamentoLotes") // Relación con Lotes
+  laboratorios      MedicaOnLabo[]
+  presentacion      MedicaOnPresen[]
+  principioActivo   MedicaOnPrinci[]
+  viaAdministracion MedicaOnViaAdm[]
 }
 
 // ==================
 // Tabla MedicaOnLabo
 // ==================
 model MedicaOnLabo {
-  Producto        Medicamentos      @relation(fields: [productoId], references: [id])
-  Laboratorio     Laboratorios      @relation(fields: [laboratoriosId], references: [id])
-  productoId      String
-  laboratoriosId  String
-  createdAt       DateTime       @default(now()) // Fecha de creación del registro.
-  updatedAt       DateTime       @updatedAt      // Fecha de la última actualización del registro.
+  Producto       Medicamentos @relation(fields: [productoId], references: [id])
+  Laboratorio    Laboratorios @relation(fields: [laboratoriosId], references: [id])
+  productoId     String
+  laboratoriosId String
+  createdAt      DateTime     @default(now()) // Fecha de creación del registro.
+  updatedAt      DateTime     @updatedAt // Fecha de la última actualización del registro.
 
   @@id([productoId, laboratoriosId]) // Relacion de [Many to Many]
 }
@@ -196,12 +196,12 @@ model MedicaOnLabo {
 // Tabla MedicaOnPresen
 // ====================
 model MedicaOnPresen {
-  Producto        Medicamentos      @relation(fields: [productoId], references: [id])
-  Presentacion    Presentacion      @relation(fields: [presentacionId], references: [id])
-  productoId      String
-  presentacionId  String
-  createdAt       DateTime       @default(now()) // Fecha de creación del registro.
-  updatedAt       DateTime       @updatedAt      // Fecha de la última actualización del registro.
+  Producto       Medicamentos @relation(fields: [productoId], references: [id])
+  Presentacion   Presentacion @relation(fields: [presentacionId], references: [id])
+  productoId     String
+  presentacionId String
+  createdAt      DateTime     @default(now()) // Fecha de creación del registro.
+  updatedAt      DateTime     @updatedAt // Fecha de la última actualización del registro.
 
   @@id([productoId, presentacionId]) // Relacion de [Many to Many]
 }
@@ -210,12 +210,12 @@ model MedicaOnPresen {
 // Tabla MedicaOnPrinci
 // ====================
 model MedicaOnPrinci {
-  Producto            Medicamentos      @relation(fields: [productoId], references: [id])
-  PrincipioActivo     PrincipioActivo   @relation(fields: [principioActivoId], references: [id])
-  productoId          String
-  principioActivoId   String
-  createdAt           DateTime       @default(now()) // Fecha de creación del registro.
-  updatedAt           DateTime       @updatedAt      // Fecha de la última actualización del registro.
+  Producto          Medicamentos    @relation(fields: [productoId], references: [id])
+  PrincipioActivo   PrincipioActivo @relation(fields: [principioActivoId], references: [id])
+  productoId        String
+  principioActivoId String
+  createdAt         DateTime        @default(now()) // Fecha de creación del registro.
+  updatedAt         DateTime        @updatedAt // Fecha de la última actualización del registro.
 
   @@id([productoId, principioActivoId]) // Relacion de [Many to Many]
 }
@@ -224,12 +224,12 @@ model MedicaOnPrinci {
 // Tabla MedicaOnViaAdm
 // ====================
 model MedicaOnViaAdm {
-  Producto            Medicamentos        @relation(fields: [productoId], references: [id])
-  ViaAdministracion   ViaAdministracion   @relation(fields: [viaAdministracionId], references: [id])
+  Producto            Medicamentos      @relation(fields: [productoId], references: [id])
+  ViaAdministracion   ViaAdministracion @relation(fields: [viaAdministracionId], references: [id])
   productoId          String
   viaAdministracionId String
-  createdAt           DateTime       @default(now()) // Fecha de creación del registro.
-  updatedAt           DateTime       @updatedAt      // Fecha de la última actualización del registro.
+  createdAt           DateTime          @default(now()) // Fecha de creación del registro.
+  updatedAt           DateTime          @updatedAt // Fecha de la última actualización del registro.
 
   @@id([productoId, viaAdministracionId]) // Relacion de [Many to Many]
 }
@@ -238,51 +238,51 @@ model MedicaOnViaAdm {
 // Tabla Laboratorios
 // ==================
 model Laboratorios {
-  id              String        @id @default(uuid())
-  nombre          String        @unique
-  foto            String?
-  estado          Boolean       @default(true)
-  createdAt       DateTime      @default(now()) // Indico la fecha de creacion.
-  updatedAt       DateTime      @updatedAt      // Fecha de la última actualización del registro.
+  id        String   @id @default(uuid())
+  nombre    String   @unique
+  foto      String?
+  estado    Boolean  @default(true)
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
-  producto        MedicaOnLabo[]
+  producto MedicaOnLabo[]
 }
 
 // ==================
 // Tabla Presentacion
 // ==================
 model Presentacion {
-  id              String        @id @default(uuid())
-  nombre          String        @unique
-  estado          Boolean       @default(true)
-  createdAt       DateTime      @default(now()) // Indico la fecha de creacion.
-  updatedAt       DateTime      @updatedAt      // Fecha de la última actualización del registro.
+  id        String   @id @default(uuid())
+  nombre    String   @unique
+  estado    Boolean  @default(true)
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
-  producto        MedicaOnPresen[]      
+  producto MedicaOnPresen[]
 }
 
 // =======================
 // Tabla ViaAdministracion
 // =======================
 model ViaAdministracion {
-  id              String        @id @default(uuid())
-  nombre          String        @unique
-  estado          Boolean       @default(true)
-  createdAt       DateTime      @default(now()) // Indico la fecha de creacion.
-  updatedAt       DateTime      @updatedAt      // Fecha de la última actualización del registro.
+  id        String   @id @default(uuid())
+  nombre    String   @unique
+  estado    Boolean  @default(true)
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
-  producto        MedicaOnViaAdm[]      
+  producto MedicaOnViaAdm[]
 }
 
 // =====================
 // Tabla PrincipioActivo
 // =====================
 model PrincipioActivo {
-  id              String        @id @default(uuid())
-  nombre          String        @unique
-  estado          Boolean       @default(true)
-  createdAt       DateTime      @default(now()) // Indico la fecha de creacion.
-  updatedAt       DateTime      @updatedAt      // Fecha de la última actualización del registro.
+  id        String   @id @default(uuid())
+  nombre    String   @unique
+  estado    Boolean  @default(true)
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
-  producto        MedicaOnPrinci[]      
+  producto MedicaOnPrinci[]
 }
