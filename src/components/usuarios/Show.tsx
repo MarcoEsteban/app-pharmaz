@@ -2,7 +2,7 @@ import Image from "next/image";
 import { BtnVolver, ButtonState } from "@/components";
 import { FaUserCircle } from "react-icons/fa";
 import { getByIdUser } from "@/actions";
-import { Usuario } from "@prisma/client";
+import { Usuario } from "@/interfaces";
 
 interface Props {
   usuario: Partial<Usuario>;
@@ -23,18 +23,22 @@ export const Show = async ({ usuario }: Props) => {
     <>
       <div className="flex flex-col items-center p-1 ">
         <div>
-          {/* <Image */}
-          {/*   className="object-cover h-24 w-24 rounded-full" */}
-          {/*   src="https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80" */}
-          {/*   alt="" */}
-          {/*   width={ 8 } */}
-          {/*   height={ 8 } */}
-          {/* /> */}
-
-          <FaUserCircle
-            className="object-cover h-24 w-24 rounded-full text-gray-600"
-            size={28}
-          />
+          {usuario.personas?.foto
+            ? (
+              <Image
+                className="h-32 w-32 rounded-full object-cover"
+                src={usuario.personas?.foto}
+                alt=""
+                width={96}
+                height={96}
+              />
+            )
+            : (
+              <FaUserCircle
+                className="object-cover h-24 w-24 rounded-full text-gray-600"
+                size={28}
+              />
+            )}
         </div>
         <div className="flex flex-col items-center justify-center mb-2">
           <h6 className="mb-0 leading-normal text-lg ">
@@ -82,4 +86,3 @@ export const Show = async ({ usuario }: Props) => {
     </>
   );
 };
-

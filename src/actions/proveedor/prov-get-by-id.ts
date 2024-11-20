@@ -15,7 +15,7 @@ export const getByIdProveedor = async (id: string) => {
       email: proveedorById.email,
       nit: proveedorById.nit,
       nombre: proveedorById.nombre,
-      // foto: proveedorById.,
+      foto: proveedorById.foto,
       celular: proveedorById.celular,
       direccion: proveedorById.direccion,
       estado: proveedorById.estado,

@@ -12,36 +12,36 @@ type FormInputs = {
 };
 
 export const FormLogin = () => {
-  const route = useRouter();
+  const router = useRouter();
 
-  // ================
-  // React Hook Form:
-  // ================
-  const { register, handleSubmit } = useForm<FormInputs>();
+  // Configuración de React Hook Form con manejo de errores
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>();
 
   const onSubmit = async (data: FormInputs) => {
     const formData = new FormData();
-    const { ...userToSave } = data;
+    formData.append("email", data.email);
+    formData.append("password", data.password);
 
-    formData.append("email", userToSave.email);
-    formData.append("password", userToSave.password);
+    // Llamar a la acción del servidor
+    const response = await login(formData);
 
-    // ===============
-    // Server-Actions:
-    // ===============
-    const user = await login(formData);
+    // Mostrar mensaje según la respuesta
+    messageSweetAlert(response.ok, response.message);
 
-    const ok = user?.ok ? true : false;
-
-    messageSweetAlert(ok, user?.message);
-
-    route.replace("/");
+    if (response.ok) {
+      // Redirigir al usuario si el login fue exitoso
+      router.replace("/");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="w-full p-1 justify-start flex flex-col">
-        {/*===================== Email =====================*/}
+        {/*===================== Campo Email =====================*/}
         <div className="flex flex-row">
           <label
             htmlFor="email"
@@ -51,14 +51,23 @@ export const FormLogin = () => {
           </label>
           <input
             id="email"
-            className="border border-gray-200 rounded-r-lg outline-none focus:ring-1 ring-blue-400 w-full pl-1"
+            className={`border border-gray-200 rounded-r-lg outline-none focus:ring-1 ring-blue-400 w-full pl-1 ${errors.email ? "border-red-500 ring-red-400" : ""
+              }`}
             placeholder="Ingresar correo"
-            required={false}
-            {...register("email")}
+            {...register("email", {
+              required: "El correo es requerido",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Correo no válido",
+              },
+            })}
           />
         </div>
+        {errors.email && (
+          <span className="text-red-500 text-sm">{errors.email.message}</span>
+        )}
 
-        {/*=================== Password ====================*/}
+        {/*=================== Campo Password ====================*/}
         <div className="my-4 flex flex-row">
           <label
             htmlFor="password"
@@ -69,13 +78,25 @@ export const FormLogin = () => {
           <input
             id="password"
             type="password"
-            className="h-10 border border-gray-200 rounded-r-lg outline-none focus:ring-1 ring-blue-300 w-full pl-1"
+            className={`h-10 border border-gray-200 rounded-r-lg outline-none focus:ring-1 ring-blue-300 w-full pl-1 ${errors.password ? "border-red-500 ring-red-400" : ""
+              }`}
             placeholder="Ingresar contraseña"
-            required={false}
-            {...register("password")}
+            {...register("password", {
+              required: "La contraseña es requerida",
+              minLength: {
+                value: 6,
+                message: "Debe tener al menos 6 caracteres",
+              },
+            })}
           />
         </div>
+        {errors.password && (
+          <span className="text-red-500 text-sm">
+            {errors.password.message}
+          </span>
+        )}
 
+        {/*====================== Botón =======================*/}
         <button className="px-4 py-2 rounded bg-blue-400 text-white hover:bg-blue-600 my-4 w-full">
           Ingresar
         </button>

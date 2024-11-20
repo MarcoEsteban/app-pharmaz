@@ -18,7 +18,7 @@ interface Props {
   id?: string;
 }
 
-export const FormPhoto = ({ id }: Props) => {
+export const FormPhotoProv = ({ id }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 

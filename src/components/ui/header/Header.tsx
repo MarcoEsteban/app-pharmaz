@@ -20,7 +20,6 @@ export const Header = ({ nombre, ap, foto, rol }: Props) => {
   const [loaded, setLoaded] = useState(false);
 
   const pathname = usePathname();
-  console.log({ pathname });
 
   // Permita que el Servidor y el Cliente Renderize lo mismo
   useEffect(() => {

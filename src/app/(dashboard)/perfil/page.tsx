@@ -61,6 +61,8 @@ export default async function PerfilPage({ searchParams }: Props) {
     );
   };
 
+  const src = user.personas.foto ? user.personas.foto : "/images/profile.png";
+
   return (
     <Card>
       <Title title={"Perfil"} />
@@ -69,11 +71,12 @@ export default async function PerfilPage({ searchParams }: Props) {
         <div className={"relative"}>
           <Image
             className="object-cover rounded-lg"
-            src="https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-            alt=""
+            src={src}
+            alt={src}
             width={400}
             height={400}
           />
+
           {/*============ Button ===========*/}
           <Link
             href={"/perfil/?modal=foto"}

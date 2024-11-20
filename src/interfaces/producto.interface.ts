@@ -1,4 +1,3 @@
-
 export interface Producto {
   id?: string;
   nombre: string;
@@ -7,6 +6,7 @@ export interface Producto {
   precio: number;
   receta: string;
   tipo: string | null;
+  foto: string | null;
   presentacionId: string;
   laboratoriosId: string;
   principioActivoId: string;
@@ -14,7 +14,6 @@ export interface Producto {
   stock: number;
   estado: boolean;
 }
-
 
 export interface Medicamento {
   id?: string;

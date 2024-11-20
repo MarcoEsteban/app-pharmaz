@@ -1,6 +1,6 @@
-'use server'
+"use server";
 
-import prisma from "@/libs/prisma"
+import prisma from "@/libs/prisma";
 
 export const getByIdProducto = async (id: string) => {
   try {
@@ -45,7 +45,7 @@ export const getByIdProducto = async (id: string) => {
         },
       },
     });
-    
+
     if (!productoById) return null;
 
     const producto = {
@@ -57,15 +57,23 @@ export const getByIdProducto = async (id: string) => {
       precio: productoById.precio.toNumber(), // Convertir Prisma.Decimal a number
       receta: productoById.receta ?? undefined,
       tipo: productoById.tipo ?? undefined,
-      laboratoriosId: productoById.laboratorios.map((labo) => labo.Laboratorio.nombre).join(''),
-      presentacionId: productoById.presentacion.map((presen) => presen.Presentacion.nombre).join(''),
-      viaAdministracionId: productoById.viaAdministracion.map((viaAdm) => viaAdm.ViaAdministracion.nombre).join(''),
-      principioActivoId: productoById.principioActivo.map((princi) => princi.PrincipioActivo.nombre).join(''),
+      foto: productoById.foto ?? undefined,
+      laboratoriosId: productoById.laboratorios.map((labo) =>
+        labo.Laboratorio.nombre
+      ).join(""),
+      presentacionId: productoById.presentacion.map((presen) =>
+        presen.Presentacion.nombre
+      ).join(""),
+      viaAdministracionId: productoById.viaAdministracion.map((viaAdm) =>
+        viaAdm.ViaAdministracion.nombre
+      ).join(""),
+      principioActivoId: productoById.principioActivo.map((princi) =>
+        princi.PrincipioActivo.nombre
+      ).join(""),
       estado: productoById.estado,
     };
 
     return producto;
-
   } catch (error) {
     console.log(error);
     return null;

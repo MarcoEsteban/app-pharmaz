@@ -8,7 +8,7 @@ import {
   Title,
 } from "@/components";
 import {
-  FormPhoto,
+  FormPhotoProv,
   FormProveedor,
   ProveedorTable,
   Show,
@@ -46,7 +46,7 @@ export default async function ProveedorPage({ searchParams }: Props) {
     if (modalType === "foto") {
       return (
         <Modal titleModal="Agregar Foto">
-          <FormPhoto id={id} />
+          <FormPhotoProv id={id} />
         </Modal>
       );
     }
@@ -89,7 +89,7 @@ export default async function ProveedorPage({ searchParams }: Props) {
       {/*********************** Tabla ***********************/}
       <Suspense
         key={query + currentPage} // Esto permite que se renderice de nuevo el componente.
-      // fallback={ <UsuariosTableSkeleton /> }
+        // fallback={ <UsuariosTableSkeleton /> }
       >
         <ProveedorTable proveedor={proveedores ?? []} />
       </Suspense>

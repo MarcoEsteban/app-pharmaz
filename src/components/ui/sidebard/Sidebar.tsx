@@ -5,128 +5,63 @@ import Link from "next/link";
 import clsx from "clsx";
 import {
   FaArrowLeft,
-  FaBuildingUser,
-  FaCashRegister,
-  FaCircleUser,
-  FaCubes,
   FaFileMedical,
-  FaFilePdf,
-  FaMoneyCheckDollar,
-  FaPills,
   FaSackDollar,
   FaStore,
-  FaTags,
-  FaTruckMedical,
   FaTruckRampBox,
-  FaUserGroup,
   FaUsers,
-  FaUserSecret,
-  FaUserTie,
 } from "react-icons/fa6";
-import { useSidebarStore } from "@/store";
-import { SidebardItem } from "./SidebardItem";
-import { Accordion } from "./AcordionMenu";
-import { Menus } from "@/interfaces";
-import { logout } from "@/actions";
 import { CiLogout } from "react-icons/ci";
+import { useSidebarStore } from "@/store";
+import { logout } from "@/actions";
+import { Accordion } from "./AcordionMenu";
+import { LogicSideMenu } from "./LogicSideMenu";
 
-const menus: Menus[] = [
-  // Usuario
-  {
-    nombre: "Gestión Perfil",
-    icon: <FaCircleUser className={"text-2xl"} />,
-    enlace: "/perfil",
-  },
-  {
-    nombre: "Gestión Roles",
-    icon: <FaUserGroup className={"text-2xl"} />,
-    enlace: "/roles",
-  },
-  {
-    nombre: "Gestión Usuario",
-    icon: <FaUserSecret className={"text-2xl"} />,
-    enlace: "/usuarios",
-  },
-  {
-    nombre: "Adm. Datos Farmacia",
-    icon: <FaBuildingUser className={"text-2xl"} />,
-    enlace: "/data_farmacia",
-  },
+type Menu = {
+  nombre: string;
+  enlace: string;
+  icon: string;
+};
 
-  // Almacen
-  {
-    nombre: "Gestión Producto",
-    icon: <FaPills className={"text-2xl"} />,
-    enlace: "/producto",
-  },
-  {
-    nombre: "Gestión Atributos",
-    icon: <FaTags className={"text-2xl"} />,
-    enlace: "/atributos",
-  },
-  {
-    nombre: "Gestión Lotes",
-    icon: <FaCubes className={"text-2xl"} />,
-    enlace: "/lotes",
-  },
+interface Props {
+  img: string | null;
+  nombrePharma: string | null;
+  menus: Menu[];
+}
 
-  // Compras
-  {
-    nombre: "Gestión Proveedor",
-    icon: <FaTruckMedical className={"text-2xl"} />,
-    enlace: "/proveedor",
-  },
-
-  // Ventas
-  {
-    nombre: "Gestión Cliente",
-    icon: <FaUserTie className={"text-2xl"} />,
-    enlace: "/cliente",
-  },
-  {
-    nombre: "Gestión Venta",
-    icon: <FaCashRegister className={"text-2xl"} />,
-    enlace: "/ventas",
-  },
-  {
-    nombre: "Adm. Ventas Realizadas",
-    icon: <FaMoneyCheckDollar className={"text-2xl"} />,
-    enlace: "/ventas_realizadas",
-  },
-
-  //Reportes
-  {
-    nombre: "Gestión Reportes",
-    icon: <FaFilePdf className={"text-2xl"} />,
-    enlace: "/reportes",
-  },
-];
-
-export const Sidebard = () => {
+export const Sidebard = ({ img, nombrePharma, menus }: Props) => {
   // Zustand:
   const isSideMenuOpen = useSidebarStore((state) => state.isSideMenuOpen);
   const toggleSideMenu = useSidebarStore((state) => state.toggleSideMenu);
 
+  const usuarios = ["/perfil", "/roles", "/usuarios", "/data_farmacia"];
+  const almacen = ["/producto", "/lotes", "/atributos"];
+  const compras = ["/proveedor"];
+  const ventas = ["/cliente", "/ventas", "/ventas_realizadas"];
+  const reporte = ["/reportes"];
+
+  console.log({ menus });
+
   return (
     <div
       className={clsx(
-        // "h-full relative rounded-xl bg-white p-3.5 pt-4 text-gray-700 shadow-xl duration-300 transition-all",
-        "xl:h-[97vh] overflow-y-scroll xl:relative xl:w-auto h-full rounded-xl bg-white p-3.5 pt-4 text-gray-700 shadow-xl duration-300 transition-all",
-        {
-          // 'col-span-[40px]': !isSideMenuOpen,
-          // 'col-span-[200px]': isSideMenuOpen
-        },
+        "h-full relative rounded-xl bg-white p-3.5 pt-4 text-gray-700 shadow-xl duration-300 transition-all",
+        // "xl:h-[97vh] overflow-y-scroll xl:relative xl:w-auto h-full rounded-xl bg-white p-3.5 pt-4 text-gray-700 shadow-xl duration-300 transition-all",
+        // {
+        //   "col-span-[40px]": !isSideMenuOpen,
+        //   "col-span-[20px]": isSideMenuOpen,
+        // },
       )}
     >
       {/*=============================================== Button ===============================================*/}
       {
-        /* <FaArrowLeft
-        className={ clsx(
-          "gradient text-white text-2xl rounded-full absolute -right-4 top-8 p-1 cursor-pointer shadow-sm transition-all",
-          { 'rotate-180': !isSideMenuOpen }
-        ) }
-        onClick={ () => toggleSideMenu( !isSideMenuOpen ) }
-      /> */
+        <FaArrowLeft
+          className={clsx(
+            "gradient text-white text-2xl rounded-full absolute -right-3 top-8 p-1 cursor-pointer shadow-sm transition-all",
+            { "rotate-180": !isSideMenuOpen },
+          )}
+          onClick={() => toggleSideMenu(!isSideMenuOpen)}
+        />
       }
 
       {/*================================================ Logo ================================================*/}
@@ -138,34 +73,31 @@ export const Sidebard = () => {
       >
         {!isSideMenuOpen
           ? (
-            <div className="flex items-center gap-2 py-2">
+            <div className="flex justify-center items-center gap-2 py-2">
               <Image
-                src="/images/ICON-PHARMAZ.jpg"
-                alt="Logo"
+                // src="/images/ICON-PHARMAZ.jpg"
+                src={img as string}
+                alt={img as string}
                 width={50}
                 height={50}
               />
               <div className="text-4xl font-sans font-semibold">
-                <span className="bg-clip-text text-transparent gradient">
-                  LINDAURA
+                <span className="bg-clip-text text-transparent gradient uppercase">
+                  {nombrePharma}
                 </span>
               </div>
             </div>
-            // <Image
-            //   src="/images/PHARMAZ.jpg"
-            //   className={ "object-cover" }
-            //   alt="Logo"
-            //   width={ 230 }
-            //   height={ 0 }
-            // />
           )
           : (
-            <Image
-              src="/images/ICON-PHARMAZ.jpg"
-              alt="Logo"
-              width={50}
-              height={50}
-            />
+            <div className="flex w-full justify-center">
+              <Image
+                className="flex justify-center"
+                src={img as string}
+                alt="Logo"
+                width={50}
+                height={50}
+              />
+            </div>
           )}
       </Link>
       <hr
@@ -181,79 +113,81 @@ export const Sidebard = () => {
           title={"Usuarios"}
           icon={<FaUsers className={clsx("text-xl")} />}
           openMenu={isSideMenuOpen}
+          enlace={usuarios}
         >
-          {menus.slice(0, 4).map((menu) => (
-            <SidebardItem
-              key={menu.enlace}
-              {...menu}
-              openMenu={isSideMenuOpen}
-            />
-          ))}
+          <LogicSideMenu
+            menus={menus}
+            isSideMenuOpen={isSideMenuOpen}
+            enlace={usuarios}
+          />
         </Accordion>
 
         <Accordion
           title={"Almacen"}
           icon={<FaStore className={"text-xl"} />}
           openMenu={isSideMenuOpen}
+          enlace={almacen}
         >
-          {menus.slice(4, 7).map((menu) => (
-            <SidebardItem
-              key={menu.enlace}
-              {...menu}
-              openMenu={isSideMenuOpen}
-            />
-          ))}
+          <LogicSideMenu
+            menus={menus}
+            isSideMenuOpen={isSideMenuOpen}
+            enlace={almacen}
+          />
         </Accordion>
 
         <Accordion
           title={"Compras"}
           icon={<FaTruckRampBox className={"text-xl"} />}
           openMenu={isSideMenuOpen}
+          enlace={compras}
         >
-          {menus.slice(7, 8).map((menu) => (
-            <SidebardItem
-              key={menu.enlace}
-              {...menu}
-              openMenu={isSideMenuOpen}
-            />
-          ))}
+          <LogicSideMenu
+            menus={menus}
+            isSideMenuOpen={isSideMenuOpen}
+            enlace={compras}
+          />
         </Accordion>
 
         <Accordion
           title={"Ventas"}
           icon={<FaSackDollar className={"text-xl"} />}
           openMenu={isSideMenuOpen}
+          enlace={ventas}
         >
-          {menus.slice(8, 11).map((menu) => (
-            <SidebardItem
-              key={menu.enlace}
-              {...menu}
-              openMenu={isSideMenuOpen}
-            />
-          ))}
+          <LogicSideMenu
+            menus={menus}
+            isSideMenuOpen={isSideMenuOpen}
+            enlace={ventas}
+          />
         </Accordion>
 
         <Accordion
           title={"Reportes"}
           icon={<FaFileMedical className={"text-xl"} />}
           openMenu={isSideMenuOpen}
+          enlace={reporte}
         >
-          {menus.slice(11, 12).map((menu) => (
-            <SidebardItem
-              key={menu.enlace}
-              {...menu}
-              openMenu={isSideMenuOpen}
-            />
-          ))}
+          <LogicSideMenu
+            menus={menus}
+            isSideMenuOpen={isSideMenuOpen}
+            enlace={reporte}
+          />
         </Accordion>
 
         {/*Esta Temporalmente Luego Borrar*/}
+        {/* Logout */}
         <div className="h-full flex items-end text-white">
           <button
             onClick={() => logout()}
             className="mb-2 px-3 py-1.5 flex justify-center items-center gap-4 rounded-md font-bold bg-blue-800 hover:bg-blue-900 w-full"
           >
-            <CiLogout size={24} /> <span className="text-lg ">Salir</span>
+            {!isSideMenuOpen
+              ? (
+                <>
+                  <CiLogout size={24} /> <span className="text-lg ">Salir</span>
+                </>
+              )
+              : <CiLogout size={24} />}
           </button>
         </div>
       </nav>

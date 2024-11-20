@@ -46,19 +46,22 @@ export const ProveedorTable = ({ proveedor }: Props) => {
                   <td className="table-td">
                     <div className="flex">
                       <div>
-                        {
-                          /* <Image
-                          className="object-cover inline-flex items-center justify-center mr-3 h-9 w-9 rounded-xl"
-                          src="https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-                          alt=""
-                          width={ 8 }
-                          height={ 8 }
-                        /> */
-                        }
-                        <FaUserCircle
-                          className="inline-flex items-center justify-center mr-4 h-9 w-9 rounded-xl"
-                          size={28}
-                        />
+                        {proveedor.foto
+                          ? (
+                            <Image
+                              className="object-cover inline-flex items-center justify-center mr-3 h-12 w-12 rounded-full"
+                              src={proveedor.foto}
+                              alt=""
+                              width={20}
+                              height={20}
+                            />
+                          )
+                          : (
+                            <FaUserCircle
+                              className="inline-flex items-center justify-center mr-4 h-9 w-9 rounded-xl"
+                              size={28}
+                            />
+                          )}
                       </div>
                       <div className="flex flex-col justify-center">
                         <h6 className="mb-0 leading-normal ">

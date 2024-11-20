@@ -1,59 +1,53 @@
+import NextAuth, { type NextAuthConfig } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 
-import NextAuth, { type NextAuthConfig } from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-
-import { z } from 'zod';
-import prisma from './libs/prisma';
-import bcryptjs from 'bcryptjs';
+import { z } from "zod";
+import prisma from "./libs/prisma";
+import bcryptjs from "bcryptjs";
 
 export const authConfig: NextAuthConfig = {
   pages: {
-    signIn: '/auth/login'
+    signIn: "/auth/login",
   },
 
   callbacks: {
     // ==========================================
     // Para la Implementacion de los Middlewares:
     // ==========================================
-    authorized( { auth, request: { nextUrl } } ) {
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggendIn = !!auth?.user; // Conviert a Boolean, retorna True ó False.
+      const isOnDashboard = nextUrl.pathname.startsWith("/"); // Retorna True si se encuentra en la ruta '/', de lo contrario False.
 
-      const isLoggendIn = !!auth?.user;                           // Conviert a Boolean, retorna True ó False.
-      const isOnDashboard = nextUrl.pathname.startsWith( '/' );   // Retorna True si se encuentra en la ruta '/', de lo contrario False.
-      
-      if (isOnDashboard ) {               // Si intenta acceder a la ruta '/', entra al if y se realiza una verificacion adicional.
-        
-        if ( isLoggendIn ) return true;   // Si está Autenticado se le permite el Acceso. '/'
-        return false;                     // Si no está Autenticado se le Redirecciona. '/auth/login'
-        
-      } else if ( isLoggendIn ) {                           // Si no intenta acceder a '/', y está Autenticado se lo Redirecciona '/'.
-        
-        return Response.redirect( new URL( '/', nextUrl ));
-        
+      if (isOnDashboard) { // Si intenta acceder a la ruta '/', entra al if y se realiza una verificacion adicional.
+        if (isLoggendIn) return true; // Si está Autenticado se le permite el Acceso. '/'
+        return false; // Si no está Autenticado se le Redirecciona. '/auth/login'
+      } else if (isLoggendIn) { // Si no intenta acceder a '/', y está Autenticado se lo Redirecciona '/'.
+        return Response.redirect(new URL("/", nextUrl));
       }
-      
+
       return true;
     },
 
     // =========================================================
     // Para Almacenar y Transferir Informacion de Autenticacion:
     // =========================================================
-    jwt( { token, user } ) {
+    jwt({ token, user }) {
       // User existe lo agrega dentro del Toekn.
-      if (user) {                 
+      if (user) {
         token.data = user;
       }
 
       return token;
     },
 
-    session( { session, token } ) {
+    session({ session, token }) {
       // Pasar los datos del token a la session.
       session.user = token.data as any;
 
       return session;
-    }
+    },
   },
-  
+
   // ================================================================================
   // Dentro va la configuracion de [Google, GitHub, Nuestra_Propia_Autenticacion ...]
   // ================================================================================
@@ -62,8 +56,10 @@ export const authConfig: NextAuthConfig = {
       async authorize(credentials) {
         const parsedCredentials = z
           .object({
-            email: z.string().email(),
-            password: z.string().min(6)
+            email: z.string().email({ message: "El correo es requerido" }),
+            password: z.string().min(6, {
+              message: "La contraseña es requerido",
+            }),
           })
           .safeParse(credentials);
 
@@ -79,8 +75,8 @@ export const authConfig: NextAuthConfig = {
             email: true,
             password: true,
             rolesId: true,
-            personasId: true
-          }
+            personasId: true,
+          },
         });
 
         // Si el usuario no existe
@@ -96,14 +92,11 @@ export const authConfig: NextAuthConfig = {
         return rest; // Aquí estás retornando el usuario con roles y menús
       },
     }),
-  ] 
-}
+  ],
+};
 
-export const { signIn, signOut, auth, handlers } = NextAuth( authConfig );
+export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);
 // signIn   :: Funcion por defecto de NextAuth que nos permite el inicio de session.
 // signOut  :: Funcion por defecto de NextAuth que nos permite cerrar session.
 // auth     :: Es el middleware
 // handlers :: Esto tienen los metodos {GET && POST}, para realizar las peticiones http que el SessionProvider estan buscando.
-
-
-
