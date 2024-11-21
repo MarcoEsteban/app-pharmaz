@@ -5,6 +5,9 @@ import fs from "fs/promises";
 import path from "path";
 import prisma from "@/libs/prisma"; // Asegúrate de configurar correctamente tu instancia de Prisma
 import { revalidatePath } from "next/cache";
+// Imagen cloudinary:
+import { v2 as cloudinary } from "cloudinary";
+cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
 const UploadSchema = z.object({
   id: z.string().optional(),
@@ -34,29 +37,38 @@ export const uploadImage = async (formData: FormData) => {
   const { id, foto, table } = validatedFields.data;
 
   try {
-    const uploadsDir = path.join(process.cwd(), "/public/uploads");
-
+    // ========================================================
+    // Subida de Imagen de Forma Local:
+    // ========================================================
+    // const uploadsDir = path.join(process.cwd(), "/public/uploads");
     // Crear directorio si no existe
-    await fs.mkdir(uploadsDir, { recursive: true });
-
-    const filePath = path.join(uploadsDir, (foto as File).name);
+    // await fs.mkdir(uploadsDir, { recursive: true });
+    // const filePath = path.join(uploadsDir, (foto as File).name);
 
     // Guardar la imagen localmente
-    const fileBuffer = await (foto as File).arrayBuffer();
-    await fs.writeFile(filePath, Buffer.from(fileBuffer));
+    // const fileBuffer = await (foto as File).arrayBuffer();
+    // await fs.writeFile(filePath, Buffer.from(fileBuffer));
+
+    // ========================================================
+    // Subida de Imagen con Cloudinary:
+    // ========================================================
+    const image = await uploadImageCloudinary(foto);
+    console.log({ image });
 
     // Actualizar la base de datos con la ruta de la imagen
     if (id) {
       if (table === "/proveedor") {
         await prisma.proveedores.update({
           where: { id },
-          data: { foto: `/uploads/${(foto as File).name}` },
+          // data: { foto: `/uploads/${(foto as File).name}` }, // Cargar Imagen de Forma Local.
+          data: { foto: image },
         });
       }
       if (table === "/producto") {
         await prisma.medicamentos.update({
           where: { id },
-          data: { foto: `/uploads/${(foto as File).name}` },
+          // data: { foto: `/uploads/${(foto as File).name}` }, // Cargar Imagen de Forma Local.
+          data: { foto: image },
         });
       }
       if (table === "/data_farmacia") {
@@ -68,7 +80,8 @@ export const uploadImage = async (formData: FormData) => {
         });
         await prisma.datosFarmacia.update({
           where: { id: idPharma?.id },
-          data: { foto: `/uploads/${(foto as File).name}` },
+          // data: { foto: `/uploads/${(foto as File).name}` }, // Cargar Imagen de Forma Local.
+          data: { foto: image },
         });
       }
       if (table === "/usuarios" || table === "/perfil") {
@@ -80,7 +93,8 @@ export const uploadImage = async (formData: FormData) => {
         });
         await prisma.personas.update({
           where: { id: idPerso?.personasId },
-          data: { foto: `/uploads/${(foto as File).name}` },
+          // data: { foto: `/uploads/${(foto as File).name}` }, // Cargar Imagen de Forma Local.
+          data: { foto: image },
         });
       }
     }
@@ -90,11 +104,11 @@ export const uploadImage = async (formData: FormData) => {
     revalidatePath("/producto");
     revalidatePath("/usuarios");
     revalidatePath("/perfil");
-    // revalidatePath("/perfil");
+    revalidatePath("/data_farmacia");
 
     return {
       ok: true,
-      message: "Foto subida exitosamente",
+      message: "Guardado Exitosamente",
     };
   } catch (error) {
     console.error("Error al subir la foto:", error);
@@ -102,5 +116,18 @@ export const uploadImage = async (formData: FormData) => {
       ok: false,
       message: "Error al guardar la imagen",
     };
+  }
+};
+
+const uploadImageCloudinary = async (image: File) => {
+  try {
+    const fileBuffer = await image.arrayBuffer();
+    const base64Image = Buffer.from(fileBuffer).toString("base64");
+    return cloudinary.uploader.upload(
+      `data:image/png;base64,${base64Image}`,
+    ).then((r) => r.secure_url);
+  } catch (error) {
+    console.error(error);
+    return null;
   }
 };

@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { BtnVolver, ButtonState } from "@/components";
+import { BtnVolver, ButtonState, ImagenLoad } from "@/components";
 import { FaUserCircle } from "react-icons/fa";
 import { getByIdUser } from "@/actions";
 import { Usuario } from "@/interfaces";
@@ -25,10 +24,10 @@ export const Show = async ({ usuario }: Props) => {
         <div>
           {usuario.personas?.foto
             ? (
-              <Image
+              <ImagenLoad
                 className="h-32 w-32 rounded-full object-cover"
                 src={usuario.personas?.foto}
-                alt=""
+                alt={usuario.personas?.foto}
                 width={96}
                 height={96}
               />

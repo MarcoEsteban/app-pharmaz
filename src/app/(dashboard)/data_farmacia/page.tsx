@@ -5,7 +5,14 @@ import { FaLocationDot, FaPhoneFlip } from "react-icons/fa6";
 import { auth } from "@/auth.config";
 import { redirect } from "next/navigation";
 
-import { BtnModificar, BtnPhoto, Card, Modal, Title } from "@/components";
+import {
+  BtnModificar,
+  BtnPhoto,
+  Card,
+  ImagenLoad,
+  Modal,
+  Title,
+} from "@/components";
 import { FormPhoto } from "@/components/perfil";
 import { getByIdFarma } from "@/actions";
 import { FormFarma } from "@/components/datafarmacia/FormFarma";
@@ -53,18 +60,16 @@ export default async function DataFarmaciaPage({ searchParams }: Props) {
     );
   };
 
-  const src = farma.foto ? farma.foto : "/images/profile.png";
-
   return (
     <Card>
       <Title title={"Datos de la Farmacia"} />
 
       <div className={"my-4 flex gap-10 w-full h-[320px]"}>
         <div className={"relative"}>
-          <Image
+          <ImagenLoad
             className="object-cover rounded-lg"
-            src={src}
-            alt={src}
+            src={farma.foto as string}
+            alt={farma.foto as string}
             width={320}
             height={320}
           />

@@ -1,32 +1,29 @@
-import { toggleStateProducto } from "@/actions";
-import {
-  BtnLote,
-  BtnModificar,
-  BtnPhoto,
-  ButtonActionToglgleState,
-} from "@/components";
-import { Producto } from "@/interfaces";
-import clsx from "clsx";
-import Image from "next/image";
 import {
   FaAppStoreIos,
   FaCopyright,
   FaCubes,
-  FaDochub,
   FaDollarSign,
   FaFlask,
   FaMortarPestle,
   FaPills,
   FaSyringe,
 } from "react-icons/fa";
+import {
+  BtnLote,
+  BtnModificar,
+  BtnPhoto,
+  ButtonActionToglgleState,
+  ImagenLoad,
+} from "@/components";
+import clsx from "clsx";
+import { toggleStateProducto } from "@/actions";
+import { Producto } from "@/interfaces";
 
 interface Props {
   producto: Producto;
 }
 
 export const ItemCardProducto = ({ producto }: Props) => {
-  const src = producto.foto ? producto.foto : "/images/fondo-medical.png";
-
   return (
     <div className="flex max-w-auto max-h-auto flex-col bg-gray-200 bg-clip-border text-gray-700 shadow-lg border rounded-xl justify-between">
       <div
@@ -88,10 +85,10 @@ export const ItemCardProducto = ({ producto }: Props) => {
         </div>
 
         <div className="flex-3 rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none my-auto">
-          <Image
+          <ImagenLoad
             className="object-cover w-40 h-40 rounded-full mx-auto "
-            src={src}
-            alt={src}
+            src={producto.foto as string}
+            alt={producto.foto as string}
             width={900}
             height={900}
           />

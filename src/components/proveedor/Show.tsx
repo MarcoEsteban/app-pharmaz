@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { BtnVolver, ButtonState } from "@/components";
+import { BtnVolver, ButtonState, ImagenLoad } from "@/components";
 import { FaUserCircle } from "react-icons/fa";
 import { Proveedor } from "@/interfaces";
 
@@ -22,10 +21,10 @@ export const Show = ({ proveedor }: Props) => {
         <div>
           {proveedor.foto
             ? (
-              <Image
+              <ImagenLoad
                 className="h-32 w-32 rounded-full object-cover"
                 src={proveedor.foto}
-                alt=""
+                alt={proveedor.foto}
                 width={96}
                 height={96}
               />

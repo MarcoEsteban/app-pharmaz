@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
 import {
   BtnModificar,
@@ -6,8 +5,9 @@ import {
   BtnVer,
   ButtonActionToglgleState,
   ButtonState,
+  ImagenLoad,
 } from "../";
-import { Proveedor } from "@/interfaces/proveedor.interface";
+import { Proveedor } from "@/interfaces";
 import { toggleStateProveedor } from "@/actions";
 
 interface Props {
@@ -48,10 +48,10 @@ export const ProveedorTable = ({ proveedor }: Props) => {
                       <div>
                         {proveedor.foto
                           ? (
-                            <Image
+                            <ImagenLoad
                               className="object-cover inline-flex items-center justify-center mr-3 h-12 w-12 rounded-full"
                               src={proveedor.foto}
-                              alt=""
+                              alt={proveedor.foto}
                               width={20}
                               height={20}
                             />

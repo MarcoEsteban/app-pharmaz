@@ -6,7 +6,14 @@ import { FaLocationDot, FaPhoneFlip } from "react-icons/fa6";
 import { auth } from "@/auth.config";
 import { redirect } from "next/navigation";
 
-import { BtnModificar, BtnPassword, Card, Modal, Title } from "@/components";
+import {
+  BtnModificar,
+  BtnPassword,
+  Card,
+  ImagenLoad,
+  Modal,
+  Title,
+} from "@/components";
 import { FormPasswd, FormPerfil, FormPhoto } from "@/components/perfil";
 import { getByIdUser } from "@/actions";
 
@@ -61,18 +68,16 @@ export default async function PerfilPage({ searchParams }: Props) {
     );
   };
 
-  const src = user.personas.foto ? user.personas.foto : "/images/profile.png";
-
   return (
     <Card>
       <Title title={"Perfil"} />
 
       <div className={"my-4 flex gap-10 w-full"}>
         <div className={"relative"}>
-          <Image
+          <ImagenLoad
             className="object-cover rounded-lg"
-            src={src}
-            alt={src}
+            src={user.personas.foto as string}
+            alt={user.personas.foto as string}
             width={400}
             height={400}
           />

@@ -1,28 +1,45 @@
-'use client';
+"use client";
 
-import { toggleStateProducto } from '@/actions';
-import { BtnLote, BtnModificar, BtnPhoto, ButtonActionToglgleState, TooltipButton } from '@/components';
-import { CartProduct, Producto } from '@/interfaces';
-import { useCartStore } from '@/store';
-import clsx from 'clsx';
-import Image from 'next/image';
-import { useState } from 'react';
-import { FaAppStoreIos, FaCartPlus, FaCopyright, FaCubes, FaDochub, FaDollarSign, FaFlask, FaMortarPestle, FaPills, FaSyringe } from 'react-icons/fa';
+import { toggleStateProducto } from "@/actions";
+import {
+  BtnLote,
+  BtnModificar,
+  BtnPhoto,
+  ButtonActionToglgleState,
+  ImagenLoad,
+  TooltipButton,
+} from "@/components";
+import { CartProduct, Producto } from "@/interfaces";
+import { useCartStore } from "@/store";
+import clsx from "clsx";
+import Image from "next/image";
+import { useState } from "react";
+import {
+  FaAppStoreIos,
+  FaCartPlus,
+  FaCopyright,
+  FaCubes,
+  FaDochub,
+  FaDollarSign,
+  FaFlask,
+  FaMortarPestle,
+  FaPills,
+  FaSyringe,
+} from "react-icons/fa";
 
 interface Props {
   producto: Producto;
 }
 
 export const ItemCardVentas = ({ producto }: Props) => {
-  
   // ========
   // Zustand:
   // ========
-  const addProductToCart = useCartStore( state => state.addProductToCart );
-  
+  const addProductToCart = useCartStore((state) => state.addProductToCart);
+
   // const [ posted, setPosted ] = useState()<boolean>( false );
-  const [ cantidad, setCandidad ] = useState<number>( 1 );
-  
+  const [cantidad, setCandidad] = useState<number>(1);
+
   const addTocart = () => {
     // setPosted( true );
 
@@ -37,93 +54,107 @@ export const ItemCardVentas = ({ producto }: Props) => {
       presentacionId: producto.presentacionId,
       laboratoriosId: producto.laboratoriosId,
       stock: cantidad,
-      estado: producto.estado
+      estado: producto.estado,
       // quantity: quantity,
       // size: size,
       // image: product.images[ 0 ]
     };
-    addProductToCart( cartProduct );
+    addProductToCart(cartProduct);
 
     // Retornamos a su valor inicial una vez se agrege al carrito:
     // setPosted( false );
-    setCandidad( 1 );
+    setCandidad(1);
     // setSize( undefined );
   };
-  
+
   return (
     <div className="flex max-w-auto max-h-auto flex-col bg-gray-200 bg-clip-border text-gray-700 shadow-lg border rounded-xl justify-between">
-      
-      <div className={ clsx(
-        'flex justify-between boder rounded-t-xl', 
-        { 'bg-red-500 text-gray-200': !producto.estado }) }
+      <div
+        className={clsx(
+          "flex justify-between boder rounded-t-xl",
+          { "bg-red-500 text-gray-200": !producto.estado },
+        )}
       >
-
         <div className="p-4 flex-1">
           <p className=" flex items-center gap-2 font-sans text-xl font-bold antialiased">
-            <FaCubes /> { producto.stock }
+            <FaCubes /> {producto.stock}
           </p>
           <h4 className="block font-sans text-xl uppercase leading-snug tracking-normal text-blue-gray-900 antialiased">
-            { producto.nombre }
+            {producto.nombre}
           </h4>
           <p className=" flex items-center gap-2 font-sans text-2xl font-normal antialiased">
-            <FaDollarSign /> { producto.precio }
+            <FaDollarSign /> {producto.precio}
           </p>
           <div className="mt-2 flex flex-col text-sm gap-1 font-sans tracking-wide antialiased">
-            { producto.concentracion &&
-              <p className="flex gap-1">
-                <FaMortarPestle size={ 20 } /> Concentracion: <span>{ producto.concentracion }</span>
-              </p>
-            }
+            {producto.concentracion &&
+              (
+                <p className="flex gap-1">
+                  <FaMortarPestle size={20} /> Concentracion:{" "}
+                  <span>{producto.concentracion}</span>
+                </p>
+              )}
             <p className="flex gap-1">
-              <FaAppStoreIos size={ 20 } /> Adicional: <span className='uppercase'> { producto.adicional } </span>
+              <FaAppStoreIos size={20} /> Adicional:{" "}
+              <span className="uppercase">{producto.adicional}</span>
             </p>
-            
-            { producto.presentacionId &&
-              <p className="flex gap-1">
-                <FaPills size={ 20 } /> Presentacion: <span className='uppercase'>{ producto.presentacionId }</span>
-              </p>
-            }
-            
-            { producto.tipo &&
-              <p className="flex gap-1"><FaCopyright size={ 20 } /> Tipo: { producto.tipo }</p>
-            }
+
+            {producto.presentacionId &&
+              (
+                <p className="flex gap-1">
+                  <FaPills size={20} /> Presentacion:{" "}
+                  <span className="uppercase">{producto.presentacionId}</span>
+                </p>
+              )}
+
+            {producto.tipo &&
+              (
+                <p className="flex gap-1">
+                  <FaCopyright size={20} /> Tipo: {producto.tipo}
+                </p>
+              )}
             <p className="flex gap-1">
-              <FaFlask size={ 20 } /> Laboratorio: <span className='uppercase'>{ producto.laboratoriosId } </span>
+              <FaFlask size={20} /> Laboratorio:{" "}
+              <span className="uppercase">{producto.laboratoriosId}</span>
             </p>
-            
-            { producto.tipo &&
-              <p className="flex gap-1"><FaSyringe size={ 20 } /> Via Administracion: { producto.viaAdministracionId }</p>
-            }
+
+            {producto.tipo &&
+              (
+                <p className="flex gap-1">
+                  <FaSyringe size={20} /> Via Administracion:{" "}
+                  {producto.viaAdministracionId}
+                </p>
+              )}
           </div>
         </div>
 
         <div className="flex-3 rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none my-auto">
-          <Image
+          <ImagenLoad
             className="object-cover w-36 h-36 rounded-full mx-auto "
-            src="https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-            alt=""
-            width={ 0 }
-            height={ 0 }
+            src={producto.foto as string}
+            alt={producto.foto as string}
+            width={100}
+            height={100}
           />
         </div>
       </div>
 
-      {/* Button  */ }
-      <div className={ clsx(
-        "flex items-center justify-end px-3 py-2 bg-gray-300 rounded-b-xl", 
-        { 'bg-red-600 text-gray-200': !producto.estado })}
+      {/* Button  */}
+      <div
+        className={clsx(
+          "flex items-center justify-end px-3 py-2 bg-gray-300 rounded-b-xl",
+          { "bg-red-600 text-gray-200": !producto.estado },
+        )}
       >
-        {/*===================== Buton Cart ======================*/ }
-       {/* <TooltipButton /> */}
-        
+        {/*===================== Buton Cart ======================*/}
+        {/* <TooltipButton /> */}
+
         <button
-          onClick={ addTocart }
+          onClick={addTocart}
           className="flex items-center gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-2.5 text-center"
         >
           Agregar
           <FaCartPlus size={18} />
         </button>
-        
       </div>
     </div>
   );

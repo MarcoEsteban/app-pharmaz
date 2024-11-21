@@ -1,8 +1,4 @@
-import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
-
-import { toggleStateUsuario } from "@/actions";
-import { Usuario } from "@/interfaces";
 import {
   BtnModificar,
   BtnPassword,
@@ -10,7 +6,10 @@ import {
   BtnVer,
   ButtonActionToglgleState,
   ButtonState,
+  ImagenLoad,
 } from "../";
+import { toggleStateUsuario } from "@/actions";
+import { Usuario } from "@/interfaces";
 
 interface Props {
   usuario: Usuario[];
@@ -47,10 +46,10 @@ export const UsuariosTable = ({ usuario }: Props) => {
                     <div>
                       {user.personas.foto
                         ? (
-                          <Image
+                          <ImagenLoad
                             className="object-cover inline-flex items-center justify-center mr-3 h-12 w-12 rounded-full"
                             src={user.personas.foto}
-                            alt=""
+                            alt={user.personas.foto}
                             width={20}
                             height={20}
                           />
