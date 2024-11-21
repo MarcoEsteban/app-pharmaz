@@ -6,6 +6,8 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
+        // port: "", // Deja esto vacío porque Cloudinary no utiliza un puerto específico
+        // pathname: "/**", // Permitir todas las rutas
       },
     ],
   },

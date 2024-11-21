@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ImagenLoad } from "../image/ImagenLoad";
 // import { FaArrowLeft, FaBell, FaCartPlus } from 'react-icons/fa';
 // import { IoCartOutline } from 'react-icons/io5';
 
@@ -54,14 +55,12 @@ export const Header = ({ nombre, ap, foto, rol }: Props) => {
           </p>
         </div>
         <div>
-          <Image
-            className="w-12 h-12 rounded-full"
-            src={`/images/fotoPerfil1.png`}
-            alt="Avatar"
-            objectFit="cover"
-            quality={90} // Incrementa la calidad de la imagen
-            width={0}
-            height={0}
+          <ImagenLoad
+            className="w-14 h-14 object-cover rounded-full"
+            src={foto}
+            alt={foto}
+            width={50}
+            height={50}
           />
         </div>
       </div>
