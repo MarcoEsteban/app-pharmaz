@@ -40,6 +40,7 @@ export interface CartProduct {
   presentacionId: string;
   laboratoriosId: string;
   stock: number;
+  cantidadCart: number;
   estado: boolean;
 }
 

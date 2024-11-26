@@ -1,25 +1,15 @@
 "use client";
 
-import { toggleStateProducto } from "@/actions";
-import {
-  BtnLote,
-  BtnModificar,
-  BtnPhoto,
-  ButtonActionToglgleState,
-  ImagenLoad,
-  TooltipButton,
-} from "@/components";
+import { ImagenLoad } from "@/components";
 import { CartProduct, Producto } from "@/interfaces";
 import { useCartStore } from "@/store";
 import clsx from "clsx";
-import Image from "next/image";
 import { useState } from "react";
 import {
   FaAppStoreIos,
   FaCartPlus,
   FaCopyright,
   FaCubes,
-  FaDochub,
   FaDollarSign,
   FaFlask,
   FaMortarPestle,
@@ -53,7 +43,8 @@ export const ItemCardVentas = ({ producto }: Props) => {
       precio: producto.precio,
       presentacionId: producto.presentacionId,
       laboratoriosId: producto.laboratoriosId,
-      stock: cantidad,
+      stock: producto.stock,
+      cantidadCart: cantidad,
       estado: producto.estado,
       // quantity: quantity,
       // size: size,

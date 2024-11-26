@@ -40,8 +40,6 @@ export const Sidebard = ({ img, nombrePharma, menus }: Props) => {
   const ventas = ["/cliente", "/ventas", "/ventas_realizadas"];
   const reporte = ["/reportes"];
 
-  console.log({ menus });
-
   return (
     <div
       className={clsx(

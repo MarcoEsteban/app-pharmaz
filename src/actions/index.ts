@@ -79,5 +79,8 @@ export { getByIdLote } from "./lotes/lote-get-by-id";
 export { createUpdateLote } from "./lotes/lote-create-update";
 export { toggleStateLote } from "./lotes/lote-toggle-state";
 
+// Ventas
+export { searchCliente } from "./ventas/venta-search-cliente";
+
 // Imagen
 export { uploadImage } from "./imagen/upload-image";

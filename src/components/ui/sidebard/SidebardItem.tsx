@@ -12,7 +12,6 @@ interface Props {
 export const SidebardItem = ({ nombre, icon, enlace, openMenu }: Props) => {
   const pathname = usePathname();
   const atribu = pathname.split("/").at(1);
-  console.log({ openMenu });
 
   return (
     <Link

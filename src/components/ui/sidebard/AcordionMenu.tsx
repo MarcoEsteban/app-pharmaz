@@ -18,10 +18,10 @@ export const Accordion = (
 ) => {
   // State
   const [acordionOpen, setAcordionOpen] = useState(true);
-  const pathname = usePathname();
-  const atribu = pathname.split("/").at(1);
-  console.log({ atribu });
-  console.log({ acordionOpen });
+  // const pathname = usePathname();
+  // const atribu = pathname.split("/").at(1);
+  // console.log({ atribu });
+  // console.log({ acordionOpen });
 
   return (
     <div className="max-w-md mb-2">

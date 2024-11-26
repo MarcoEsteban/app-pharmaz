@@ -1,8 +1,14 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState, ChangeEvent, KeyboardEvent, useRef } from 'react';
-import clsx from 'clsx';
-import { useDebouncedCallback } from 'use-debounce';
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import clsx from "clsx";
+import { useDebouncedCallback } from "use-debounce";
 
 interface AutocompleteProps<T> {
   label: string; // Etiqueta del campo
@@ -23,14 +29,14 @@ const Autocomplete = <T extends { id: string }>({
   displayValue,
   error,
 }: AutocompleteProps<T>) => {
-  const [inputValue, setInputValue] = useState('');
-  const [term, setTerm] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  const [term, setTerm] = useState("");
   const [searchResults, setSearchResults] = useState<T[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  
+
   // Actualiza el inputValue cuando cambia el valor (modo edición)
   // useEffect(() => {
   //   if (value) {
@@ -44,6 +50,7 @@ const Autocomplete = <T extends { id: string }>({
   //     });
   //   }
   // }, [value]);
+
   useEffect(() => {
     if (value) {
       fetchResults(value).then((results) => {
@@ -56,10 +63,9 @@ const Autocomplete = <T extends { id: string }>({
     }
   }, [value, fetchResults, displayValue, onChange]);
 
-  
   // Función debounced para buscar opciones
   const debouncedFetch = useDebouncedCallback(async (term: string) => {
-    if (term.trim() === '') {
+    if (term.trim() === "") {
       setSearchResults([]);
       setIsDropdownOpen(false);
       return;
@@ -71,7 +77,7 @@ const Autocomplete = <T extends { id: string }>({
       setIsDropdownOpen(true);
       setHighlightedIndex(-1);
     } catch (error) {
-      console.error('Error fetching autocomplete options:', error);
+      console.error("Error fetching autocomplete options:", error);
       setSearchResults([]);
       setIsDropdownOpen(false);
     } finally {
@@ -94,17 +100,18 @@ const Autocomplete = <T extends { id: string }>({
     };
   }, [term, debouncedFetch]);
 
-
   // Cerrar dropdown al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+      if (
+        wrapperRef.current && !wrapperRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -120,9 +127,9 @@ const Autocomplete = <T extends { id: string }>({
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     setTerm(e.target.value);
-    onChange(''); // Resetea el ID en el formulario al escribir
+    onChange(""); // Resetea el ID en el formulario al escribir
     // Solo abre el dropdown si hay un valor en el input
-    if (e.target.value.trim() !== ''  || e.target.value !== value) {
+    if (e.target.value.trim() !== "" || e.target.value !== value) {
       setIsDropdownOpen(true); // Abre el dropdown al escribir
     } else {
       setIsDropdownOpen(false); // Cierra el dropdown si el input está vacío
@@ -133,18 +140,20 @@ const Autocomplete = <T extends { id: string }>({
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (!isDropdownOpen) return;
 
-    if (e.key === 'ArrowDown') {
+    if (e.key === "ArrowDown") {
       e.preventDefault();
-      setHighlightedIndex((prev) => (prev < searchResults.length - 1 ? prev + 1 : prev));
-    } else if (e.key === 'ArrowUp') {
+      setHighlightedIndex((
+        prev,
+      ) => (prev < searchResults.length - 1 ? prev + 1 : prev));
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : prev));
-    } else if (e.key === 'Enter') {
+    } else if (e.key === "Enter") {
       e.preventDefault();
       if (highlightedIndex >= 0 && highlightedIndex < searchResults.length) {
         handleSelect(searchResults[highlightedIndex]);
       }
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       setIsDropdownOpen(false);
     }
   };
@@ -160,9 +169,9 @@ const Autocomplete = <T extends { id: string }>({
         className={clsx(
           "input-text",
           {
-            'border-red-500 focus:ring-red-500': error,
-            'border-gray-300 focus:ring-blue-500': !error,
-          }
+            "border-red-500 focus:ring-red-500": error,
+            "border-gray-300 focus:ring-blue-500": !error,
+          },
         )}
         autoFocus
         placeholder={`Buscar ${label.toLowerCase()}...`}
@@ -174,7 +183,9 @@ const Autocomplete = <T extends { id: string }>({
         aria-controls={`${name}-listbox`}
         aria-expanded={isDropdownOpen} // Asegúrate de que este atributo esté habilitado
       />
-      {loading && <div className="absolute right-2 top-9 text-blue-500">Cargando...</div>}
+      {loading && (
+        <div className="absolute right-2 top-9 text-blue-500">Cargando...</div>
+      )}
       {isDropdownOpen === true && searchResults.length > 0 && ( // Abre el dropdown solo si está habilitado
         <ul
           id={`${name}-listbox`}
@@ -189,9 +200,9 @@ const Autocomplete = <T extends { id: string }>({
               className={clsx(
                 "cursor-pointer p-2",
                 {
-                  'bg-gray-200': highlightedIndex === index,
-                  'hover:bg-gray-100': highlightedIndex !== index,
-                }
+                  "bg-gray-200": highlightedIndex === index,
+                  "hover:bg-gray-100": highlightedIndex !== index,
+                },
               )}
               onClick={() => handleSelect(option)}
               onMouseEnter={() => setHighlightedIndex(index)}
