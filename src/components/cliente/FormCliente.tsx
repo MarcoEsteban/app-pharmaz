@@ -3,14 +3,16 @@
 import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 
+import { useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import { messageSweetAlert } from "@/utils";
-import { BtnCancelar, BtnGuardar } from "@/components";
-import { PersonaType } from "@/interfaces";
 import { clienteSchema } from "@/validations";
-import { createUpdateCliente } from "@/actions";
+import { createUpdateCliente, searchCliente } from "@/actions";
+import { BtnCancelar, BtnGuardar } from "@/components";
+import Autocomplete from "../ui/autocomplete/AutoComplete";
+import { Cliente, PersonaType } from "@/interfaces";
 
 type FormInputs = {
   id?: string;
@@ -33,7 +35,9 @@ export const FormCliente = ({ cliente }: Props) => {
   // ================
   // React Hook Form:
   // ================
-  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>(
+  const { control, register, handleSubmit, formState: { errors } } = useForm<
+    FormInputs
+  >(
     {
       resolver: zodResolver(clienteSchema), // Aplicando el Validador de Zod.
 
@@ -74,30 +78,46 @@ export const FormCliente = ({ cliente }: Props) => {
     router.replace(pathname);
   };
 
+  // -------------------------------------------------------------------------------------------------------------------------------------------
+  // Esto evita que se creen nuevas funciones en cada renderizado, lo que es crucial para que React.memo funcione correctamente en Autocomplete.
+  // -------------------------------------------------------------------------------------------------------------------------------------------
+  const searchClienteCall = useCallback(async (term: string) => {
+    return await searchCliente(term);
+  }, []);
+
+  // ----------------------------
+  // Memorización de displayValue
+  // ----------------------------
+  const displayValue = useCallback(
+    (option: Cliente) =>
+      cliente.id
+        ? option.ci
+        : `${option.nombre || ""} ${option.ap || ""} (NIT: ${option.ci})`,
+    [],
+  );
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-4 mb-4 grid-cols-2 font-sans tracking-wide">
         {/*************** NIT ****************/}
         <div className="col-span-2">
-          <label htmlFor="ci" className="label-text">
-            NIT <span className={"text-red-600"}>*</span>
-          </label>
-          <input
-            className={clsx(
-              "input-text",
-              errors.ci && "focus:border-red-500 border-red-500",
+          <Controller
+            name="ci"
+            control={control}
+            rules={{ required: "El NIT es obligatorio" }} // Regla de validación
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <Autocomplete
+                label="NIT / CI"
+                name="ci"
+                value={value}
+                onChange={onChange}
+                fetchResults={searchClienteCall}
+                displayValue={displayValue}
+                valueKey="ci"
+                error={error?.message}
+              />
             )}
-            type="text"
-            id="ci"
-            autoFocus
-            {...register("ci", { required: "El nit es obligatorio" })}
-            placeholder="Ingrese el NIT"
           />
-          {errors.ci && (
-            <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-              {errors.ci.message}
-            </p>
-          )}
         </div>
 
         {/*************** Nombre ****************/}

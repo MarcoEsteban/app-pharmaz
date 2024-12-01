@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import clsx from "clsx";
 import { useDebouncedCallback } from "use-debounce";
+import { Record } from "@prisma/client/runtime/library";
 
 interface AutocompleteProps<T> {
   label: string; // Etiqueta del campo
@@ -20,7 +21,7 @@ interface AutocompleteProps<T> {
   error?: string; // Mensaje de error
 }
 
-const Autocomplete = <T extends { id: string }>({
+const Autocomplete = <T extends Record<string, any>>({
   label,
   name,
   value,
@@ -28,7 +29,8 @@ const Autocomplete = <T extends { id: string }>({
   fetchResults,
   displayValue,
   error,
-}: AutocompleteProps<T>) => {
+  valueKey = "id", // Agregamos `valueKey` como nueva propiedad para determinar qué dato enviar.
+}: AutocompleteProps<T> & { valueKey?: keyof T }) => {
   const [inputValue, setInputValue] = useState("");
   const [term, setTerm] = useState("");
   const [searchResults, setSearchResults] = useState<T[]>([]);
@@ -37,33 +39,21 @@ const Autocomplete = <T extends { id: string }>({
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Actualiza el inputValue cuando cambia el valor (modo edición)
-  // useEffect(() => {
-  //   if (value) {
-  //     // Busca el valor actual seleccionado en la base de datos y actualiza inputValue
-  //     fetchResults(value).then((results) => {
-  //       if (results.length > 0) {
-  //         const selectedOption = results[0];
-  //         onChange(selectedOption?.id); // Actualiza el ID en el formulario
-  //         setInputValue(displayValue(selectedOption)); // Muestra el nombre en el input
-  //       }
-  //     });
-  //   }
-  // }, [value]);
-
   useEffect(() => {
     if (value) {
       fetchResults(value).then((results) => {
         if (results.length > 0) {
           const selectedOption = results[0];
-          onChange(selectedOption?.id); // Actualiza el ID en el formulario
+          onChange(selectedOption?.[valueKey] as string); // Usa `valueKey` para determinar qué dato enviar.
           setInputValue(displayValue(selectedOption)); // Muestra el nombre en el input
         }
       });
     }
-  }, [value, fetchResults, displayValue, onChange]);
+  }, [value, fetchResults, displayValue, onChange, valueKey]);
 
+  // --------------------------------------
   // Función debounced para buscar opciones
+  // --------------------------------------
   const debouncedFetch = useDebouncedCallback(async (term: string) => {
     if (term.trim() === "") {
       setSearchResults([]);
@@ -73,6 +63,12 @@ const Autocomplete = <T extends { id: string }>({
     setLoading(true);
     try {
       const results = await fetchResults(term);
+      if (results.length === 0) {
+        // Envía el término al backend aunque no haya resultados del fetchResults
+        onChange(term);
+        setInputValue(term); // Muestra el nombre en el input
+        await fetchResults(term);
+      }
       setSearchResults(results);
       setIsDropdownOpen(true);
       setHighlightedIndex(-1);
@@ -85,14 +81,6 @@ const Autocomplete = <T extends { id: string }>({
     }
   }, 300); // 300ms de debounce
 
-  // Buscar resultados con debounce
-  // useEffect(() => {
-  //   debouncedFetch(term);
-  //   return () => {
-  //     debouncedFetch.cancel();
-  //   };
-  // }, [term, fetchResults]);
-
   useEffect(() => {
     debouncedFetch(term);
     return () => {
@@ -100,7 +88,9 @@ const Autocomplete = <T extends { id: string }>({
     };
   }, [term, debouncedFetch]);
 
+  // -----------------------------------
   // Cerrar dropdown al hacer clic fuera
+  // -----------------------------------
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -115,9 +105,11 @@ const Autocomplete = <T extends { id: string }>({
     };
   }, []);
 
+  // ----------------------------------
   // Manejar la selección de una opción
+  // ----------------------------------
   const handleSelect = (option: T) => {
-    onChange(option.id); // Actualiza el ID en el formulario
+    onChange(option[valueKey] as string); // Usa `valueKey` para determinar qué dato enviar.
     setInputValue(displayValue(option)); // Muestra el nombre en el input
     setSearchResults([]); // Limpia los resultados
     setIsDropdownOpen(false); // Cierra el dropdown
@@ -127,8 +119,7 @@ const Autocomplete = <T extends { id: string }>({
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     setTerm(e.target.value);
-    onChange(""); // Resetea el ID en el formulario al escribir
-    // Solo abre el dropdown si hay un valor en el input
+    onChange(""); // Resetea el valor en el formulario al escribir
     if (e.target.value.trim() !== "" || e.target.value !== value) {
       setIsDropdownOpen(true); // Abre el dropdown al escribir
     } else {
@@ -136,7 +127,9 @@ const Autocomplete = <T extends { id: string }>({
     }
   };
 
+  // --------------------------
   // Manejar eventos de teclado
+  // --------------------------
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (!isDropdownOpen) return;
 
@@ -217,4 +210,5 @@ const Autocomplete = <T extends { id: string }>({
   );
 };
 
+// Exportando de esta forma se puede mandar funciones & promesar por las Props.
 export default Autocomplete;
