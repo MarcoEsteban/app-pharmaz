@@ -1,5 +1,5 @@
 import { toggleStateLote } from "@/actions";
-import { BtnLoteEdit } from "@/components";
+import { BtnLoteEdit, ImagenLoad } from "@/components";
 import { ButtonActionToglgleState } from "@/components/ui/button/ButtonActionToglgleState";
 import { LoteProducto } from "@/interfaces";
 import clsx from "clsx";
@@ -81,12 +81,12 @@ export const ItemCardLote = ({ lote }: Props) => {
 
         {/*========================== Imagen ==========================*/}
         <div className="flex-2 pr-2 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none my-auto">
-          <Image
+          <ImagenLoad
             className="object-cover w-40 h-40 rounded-full mx-auto "
-            src="https://images.unsplash.com/photo-1531590878845-12627191e687?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-            alt=""
-            width={0}
-            height={0}
+            src={lote.foto as string}
+            alt={lote.foto as string}
+            width={900}
+            height={900}
           />
         </div>
       </div>

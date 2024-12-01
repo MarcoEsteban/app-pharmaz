@@ -22,9 +22,10 @@ export const ImagenLoad = ({
 
   const localSrc = src
     ? src.startsWith("http") ? src : src
-    : pathname === "/producto" || pathname === "/ventas"
-      ? `/images/fondo-medical.png`
-      : `/images/profile.png`;
+    : pathname === "/producto" || pathname === "/ventas" ||
+        pathname === "/lotes"
+    ? `/images/fondo-medical.png`
+    : `/images/profile.png`;
 
   return (
     <Image
