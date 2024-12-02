@@ -44,7 +44,7 @@ export const Header = ({ nombre, ap, foto, rol }: Props) => {
       }
 
       {/*============ Carrito ===========*/}
-      {pathname === "/ventas" && <IconCart loaded={loaded} />}
+      {/* {pathname === "/ventas" && <IconCart loaded={loaded} />} */}
 
       {/*============ Foto =============*/}
       <div className="flex p-1 ml-8 font-sans">

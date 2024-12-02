@@ -1,11 +1,11 @@
-import { CartProduct, Cliente, Farmacia } from "@/interfaces";
+import { Cliente, Farmacia, ProductoSearch } from "@/interfaces";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import Swal from "sweetalert2";
 
 interface State {
   // State:
-  cart: CartProduct[];
+  cart: ProductoSearch[];
   cliente: Cliente | null;
   vendedor: Omit<Cliente, "ci"> | null;
   farma: Omit<Farmacia, "usuarioId"> | null;
@@ -22,9 +22,9 @@ interface State {
     itemsInCart: number;
   };
 
-  addProductToCart: (product: CartProduct) => void;
-  updateProductQuantity: (product: CartProduct, quantity: number) => void;
-  removeProduct: (product: CartProduct) => void;
+  addProductToCart: (product: ProductoSearch) => void;
+  updateProductQuantity: (product: ProductoSearch, quantity: number) => void;
+  removeProduct: (product: ProductoSearch) => void;
   emtyCart: () => void;
 }
 
@@ -85,7 +85,7 @@ export const useCartStore = create<State>()(
         };
       },
 
-      addProductToCart: (product: CartProduct) => {
+      addProductToCart: (product: ProductoSearch) => {
         const { cart } = get();
 
         const productInCart = cart.some((item) => item.id === product.id);
@@ -126,7 +126,7 @@ export const useCartStore = create<State>()(
         set({ cart: updatedCart });
       },
 
-      updateProductQuantity: (product: CartProduct, newQuantity: number) => {
+      updateProductQuantity: (product: ProductoSearch, newQuantity: number) => {
         const { cart } = get();
 
         const updatedCart = cart.map((item) => {
@@ -156,7 +156,7 @@ export const useCartStore = create<State>()(
         set({ cart: updatedCart });
       },
 
-      // addProductToCart: (product: CartProduct) => {
+      // addProductToCart: (product: ProductoSearch) => {
       //   // Destructuracion para obtener el cart:
       //   const { cart } = get();
       //
@@ -173,7 +173,7 @@ export const useCartStore = create<State>()(
       //   }
       //
       //   //? 2. Si el producto existe por talla, entonces tengo que incrementar su cantidad.
-      //   // const updateCartProducts = cart.map( item => {
+      //   // const updateProductoSearchs = cart.map( item => {
       //   //   if ( item.id === product.id && item.size === product.size ) {
       //   //     // Devuelve el producto que cumple con la condicion e indicamos que modifique su cantidad
       //   //     return { ...item, quantity: item.quantity + product.quantity };
@@ -182,15 +182,15 @@ export const useCartStore = create<State>()(
       //   //   return item;
       //   // } );
       //
-      //   // set( { cart: updateCartProducts } );
+      //   // set( { cart: updateProductoSearchs } );
       //   set({ cart });
       // },
       //
-      // updateProductQuantity: (product: CartProduct, quantity: number) => {
+      // updateProductQuantity: (product: ProductoSearch, quantity: number) => {
       //   const { cart } = get();
       //
       //   // Actualiza el carrito de compra cuando hace clicp al button + ó -
-      //   const updateCartProducts = cart.map((item) => {
+      //   const updateProductoSearchs = cart.map((item) => {
       //     if (item.id === product.id) {
       //       return { ...item, cantidadCart: quantity };
       //     }
@@ -198,10 +198,10 @@ export const useCartStore = create<State>()(
       //     return item;
       //   });
       //
-      //   set({ cart: updateCartProducts });
+      //   set({ cart: updateProductoSearchs });
       // },
 
-      removeProduct: (product: CartProduct) => {
+      removeProduct: (product: ProductoSearch) => {
         const { cart } = get();
 
         const updatedCart = cart.filter((item) => item.id !== product.id);

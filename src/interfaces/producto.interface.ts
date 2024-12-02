@@ -1,5 +1,3 @@
-import { Lotes } from "./lotes.interface";
-
 export interface Producto {
   id?: string;
   nombre: string;
@@ -33,28 +31,9 @@ export interface Medicamento {
   estado: boolean;
 }
 
-// Interfaz para los datos del lote
-interface Lote {
-  id: string; // ID del lote
-  stock: number; // Cantidad en stock del lote
-  vencimiento: Date; // Fecha de vencimiento del lote
-}
-
-// Interfaz principal para los resultados de medicamentos
-export interface CartProduct {
-  id: string; // ID del medicamento
-  nombre: string; // Nombre del medicamento
-  concentracion: string | null; // Concentración del medicamento
-  adicional: string | null; // Información adicional
-  precio: number; // Precio del medicamento
-  presentacionId: string | null; // ID de la presentación del medicamento
-  laboratoriosId: string | null; // ID del laboratorio asociado
-  stock: number; // Total de stock (incluyendo lotes vencidos)
-  lote: Lote | null; // Lote más cercano dentro del rango de 2 semanas en adelante
-  cantidadCart: number; // Cantidad en el carrito (puedes inicializar en 0)
-  estado: boolean; // Estado del medicamento (activo/inactivo)
-}
-
+// ------------------------------------------------------------------------------------------------
+// Esta interfaz se usaba para la pagina ventas para listar los medicamentos del carrito de compra:
+// ------------------------------------------------------------------------------------------------
 // export interface CartProduct {
 //   id?: string;
 //   nombre: string;
@@ -65,10 +44,30 @@ export interface CartProduct {
 //   laboratoriosId: string;
 //   foto: string;
 //   stock: number;
-//   lote: Lote;
 //   cantidadCart: number;
 //   estado: boolean;
 // }
+
+interface Lote {
+  id: number | string;
+  stock: number;
+  vencimiento: Date;
+}
+
+export interface ProductoSearch {
+  id: string; // ID del medicamento
+  nombre: string; // Nombre del medicamento
+  concentracion: string | null; // Concentración del medicamento
+  adicional: string | null; // Información adicional
+  precio: number; // Precio convertido de Decimal a number
+  presentacionId: string | null; // Nombre de la presentación
+  laboratoriosId: string | null; // Nombre del laboratorio
+  foto: string | null; // URL o path de la foto
+  stock: number; // Total de stock considerando todos los lotes
+  lote: Lote | null;
+  cantidadCart: number; // Inicialmente 1
+  estado: boolean; // Estado del medicamento (activo o inactivo)
+}
 
 // Partial  :: Indico que algunos campos seran opcional - Partial<Medicamento>.
 // Required :: Indico que sea todos los campos obligatorio.

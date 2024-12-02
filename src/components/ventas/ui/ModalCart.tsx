@@ -1,7 +1,6 @@
 "use client";
 
 import { useCartStore } from "@/store";
-import { empty } from "@prisma/client/runtime/library";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
 
