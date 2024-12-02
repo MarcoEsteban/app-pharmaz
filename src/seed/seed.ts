@@ -1,4 +1,4 @@
-import bcryptjs from 'bcryptjs'
+import bcryptjs from "bcryptjs";
 
 interface SeedMenus {
   id?: string;
@@ -45,7 +45,7 @@ interface SeedProveedores {
 interface SeedDatosFarmacia {
   id?: string;
   nombre: string;
-  email: string; 
+  email: string;
   celular: number;
   direccion: string;
   foto?: string;
@@ -117,204 +117,253 @@ interface SeedData {
 
 export const initialData: SeedData = {
   menus: [
-
     // Usuario
     {
-      nombre: 'Gestión Perfil',
+      nombre: "Gestión Perfil",
       icon: "FaCircleUser",
-      enlace: '/perfil',
+      enlace: "/perfil",
     },
     {
-      nombre: 'Gestión Roles',
+      nombre: "Gestión Roles",
       icon: "FaUserGroup",
-      enlace: '/roles',
+      enlace: "/roles",
     },
     {
-      nombre: 'Gestión Usuario',
+      nombre: "Gestión Usuario",
       icon: "FaUserSecret",
-      enlace: '/usuarios'
+      enlace: "/usuarios",
     },
     {
-      nombre: 'Adm. Datos Farmacia',
+      nombre: "Adm. Datos Farmacia",
       icon: "FaBuildingUser",
-      enlace: '/data_farmacia'
+      enlace: "/data_farmacia",
     },
 
     // Almacen
     {
-      nombre: 'Gestión Producto',
+      nombre: "Gestión Producto",
       icon: "FaPills",
-      enlace: '/producto'
+      enlace: "/producto",
     },
     {
-      nombre: 'Gestión Atributos',
+      nombre: "Gestión Atributos",
       icon: "FaTags",
-      enlace: '/atributos'
+      enlace: "/atributos",
     },
     {
-      nombre: 'Gestión Lotes',
+      nombre: "Gestión Lotes",
       icon: "FaCubes",
-      enlace: '/lotes'
+      enlace: "/lotes",
     },
 
     // Compras
     {
-      nombre: 'Gestión Proveedor',
+      nombre: "Gestión Proveedor",
       icon: "FaTruckMedical",
-      enlace: '/proveedor'
+      enlace: "/proveedor",
     },
 
     // Ventas
     {
-      nombre: 'Gestión Cliente',
+      nombre: "Gestión Cliente",
       icon: "FaUserTie",
-      enlace: '/cliente'
+      enlace: "/cliente",
     },
     {
-      nombre: 'Gestión Venta',
+      nombre: "Gestión Venta",
       icon: "FaCashRegister",
-      enlace: '/ventas'
+      enlace: "/ventas",
     },
     {
-      nombre: 'Adm. Ventas Realizadas',
+      nombre: "Adm. Ventas Realizadas",
       icon: "FaMoneyCheckDollar",
-      enlace: '/ventas_realizadas'
+      enlace: "/ventas_realizadas",
     },
 
     //Reportes
     {
-      nombre: 'Gestión Reportes',
+      nombre: "Gestión Reportes",
       icon: "FaFilePdf",
-      enlace: '/reportes'
+      enlace: "/reportes",
     },
   ],
-  
+
   roles: [
     {
-      nombre: 'Administrador'
-    }
+      nombre: "Administrador",
+    },
   ],
 
   personas: [
     {
-      ci: '7199534',
-      nombre: 'Marco',
-      ap: 'Campos',
-      am: 'Subelza',
-      direccion: 'B./Andaluz',
-      celular: 78952545
+      ci: "7199534",
+      nombre: "Marco",
+      ap: "Campos",
+      am: "Subelza",
+      direccion: "B./Andaluz",
+      celular: 78952545,
     },
     {
-      ci: '7199532',
-      nombre: 'Angel',
-      ap: 'Gutierrez',
-      am: 'Peralta',
-      direccion: 'B./ Lindo',
+      ci: "7199532",
+      nombre: "Angel",
+      ap: "Gutierrez",
+      am: "Peralta",
+      direccion: "B./ Lindo",
       celular: 78967542,
     },
   ],
 
   usuarios: [
     {
-      email: 'marcocampos@google.com',
-      password: bcryptjs.hashSync( '1234567' ),
-      personasId: '',
-      rolesId: ''
+      email: "marcocampos@google.com",
+      password: bcryptjs.hashSync("1234567"),
+      personasId: "",
+      rolesId: "",
     },
   ],
-  
+
   proveedor: [
     {
-      nit: '7199532',
-      nombre: 'Terbol',
-      direccion: 'B./ Lindo',
+      nit: "7199532",
+      nombre: "Terbol",
+      direccion: "B./ Lindo",
       celular: 78967542,
-      email: 'terbol@google.com',
+      email: "terbol@google.com",
     },
   ],
-  
+
   datafarmacia: [
     {
-      nombre: 'Pharmaz',
-      email: 'pharmaz@google.com',
-      direccion: 'C./ Sobre la Junin frente al Hospital San Juan de Dios',
+      nombre: "Lindaura",
+      email: "lindaura@google.com",
+      direccion:
+        "C./ Prof L. Sustach P. ente la Av. victor Paz en toda la esquina",
       celular: 77952541,
-      foto: '',
-      usuarioId: '',
+      foto: "",
+      usuarioId: "",
     },
   ],
-  
+
   producto: [
     {
-      categoria: 'Farmacos',
-      nombre: 'Paracetamol',
-      concentracion: '0.5ml',
-      adicional: 'CJAS X 500',
+      categoria: "Farmacos",
+      nombre: "Paracetamol",
+      concentracion: "0.5ml",
+      adicional: "CJAS X 500",
       precio: 3.5,
-      receta: 'No',
-      tipo: 'Generico',
+      receta: "No",
+      tipo: "Generico",
     },
     {
-      categoria: 'Farmacos',
-      nombre: 'Libbera',
-      concentracion: '0.5ml',
-      adicional: 'CJAS X 10',
+      categoria: "Farmacos",
+      nombre: "Libbera",
+      concentracion: "0.5ml",
+      adicional: "CJAS X 10",
       precio: 4.5,
-      receta: 'No',
-      tipo: 'Comercial',
+      receta: "No",
+      tipo: "Comercial",
     },
   ],
-  
+
   presentacion: [
-    {
-      nombre: 'Comprimido'
-    },
-    {
-      nombre: 'Tabletas'
-    }
+    { nombre: "Comprimido" },
+    { nombre: "Tabletas" },
   ],
-  
+
   laboratorio: [
-    {
-      nombre: 'Cofar'
-    },
-    {
-      nombre: 'Promedical'
-    }
+    { nombre: "Cofar" },
+    { nombre: "Promedical" },
+    { nombre: "Bagó" },
+    { nombre: "Terbol" },
+    { nombre: "Sanat Farma" },
+    { nombre: "Inti" },
+    { nombre: "Medifarma" },
+    { nombre: "Pharcos" },
+    { nombre: "Megalabs" },
   ],
-  
+
   viaAdministracion: [
-    {
-      nombre: 'Rectal'
-    },
-    {
-      nombre: 'Oral'
-    }
+    { nombre: "Rectal" },
+    { nombre: "Oral" },
+    { nombre: "Intramuscular" },
+    { nombre: "Intravenosa" },
+    { nombre: "Tópica" },
+    { nombre: "Sublingual" },
+    { nombre: "Inhalatoria" },
+    { nombre: "Intranasal" },
+    { nombre: "Transdérmica" },
+    { nombre: "Oftálmica" },
   ],
-  
+
   principioActivo: [
-    {
-      nombre: 'Paracetamol'
-    },
-    {
-      nombre: 'Levocetirizina'
-    }
+    { nombre: "Paracetamol" },
+    { nombre: "Levocetirizina" },
+    { nombre: "Ibuprofeno" },
+    { nombre: "Amoxicilina" },
+    { nombre: "Azitromicina" },
+    { nombre: "Metformina" },
+    { nombre: "Losartán" },
+    { nombre: "Ciprofloxacino" },
+    { nombre: "Omeprazol" },
+    { nombre: "Diclofenaco" },
+    { nombre: "Furosemida" },
+    { nombre: "Levotiroxina" },
+    { nombre: "Prednisona" },
+    { nombre: "Salbutamol" },
+    { nombre: "Atorvastatina" },
+    { nombre: "Clorfenamina" },
+    { nombre: "Enalapril" },
+    { nombre: "Aciclovir" },
+    { nombre: "Insulina" },
+    { nombre: "Hidrocortisona" },
+    { nombre: "Ranitidina" },
+    { nombre: "Vitamina C" },
+    { nombre: "Bromuro de Ipratropio" },
+    { nombre: "Esomeprazol" },
+    { nombre: "Rosuvastatina" },
+    { nombre: "Loratadina" },
+    { nombre: "Tamsulosina" },
+    { nombre: "Naproxeno" },
+    { nombre: "Clotrimazol" },
+    { nombre: "Glibenclamida" },
+    { nombre: "Ketoconazol" },
+    { nombre: "Fluconazol" },
+    { nombre: "Clindamicina" },
+    { nombre: "Betametasona" },
+    { nombre: "Cetirizina" },
+    { nombre: "Dexametasona" },
+    { nombre: "Eritromicina" },
+    { nombre: "Fentanilo" },
+    { nombre: "Gabapentina" },
+    { nombre: "Hidroxicloroquina" },
+    { nombre: "Imipramina" },
+    { nombre: "Lisinopril" },
+    { nombre: "Meloxicam" },
+    { nombre: "Nistatina" },
+    { nombre: "Olmesartán" },
+    { nombre: "Pantoprazol" },
+    { nombre: "Quetiapina" },
+    { nombre: "Ramipril" },
+    { nombre: "Sitagliptina" },
+    { nombre: "Tacrolimus" },
+    { nombre: "Ursodiol" },
+    { nombre: "Venlafaxina" },
   ],
-  
+
   lotes: [
     {
       stock: 18,
-      vencimiento: new Date('2026-03-29'),
-      productoId: '',
-      proveedorId: '',
-      usuarioId: ''
+      vencimiento: new Date("2026-03-29"),
+      productoId: "",
+      proveedorId: "",
+      usuarioId: "",
     },
     {
       stock: 25,
-      vencimiento: new Date('2026-02-12'),
-      productoId: '',
-      proveedorId: '',
-      usuarioId: ''
+      vencimiento: new Date("2026-02-12"),
+      productoId: "",
+      proveedorId: "",
+      usuarioId: "",
     },
   ],
-}
+};

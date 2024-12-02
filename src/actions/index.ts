@@ -81,6 +81,7 @@ export { toggleStateLote } from "./lotes/lote-toggle-state";
 
 // Ventas
 export { searchCliente } from "./ventas/venta-search-cliente";
+export { searchProducto } from "./ventas/venta-search-producto";
 
 // Imagen
 export { uploadImage } from "./imagen/upload-image";

@@ -23,11 +23,11 @@ export const ImagenLoad = ({
   const localSrc = src
     ? src.startsWith("http") ? src : src
     : pathname === "/producto" || pathname === "/ventas" ||
-        pathname === "/lotes"
-    ? `/images/fondo-medical.png`
-    : pathname === "/atributos/laboratorio"
-    ? `/images/icon-foto-fondo.jpg`
-    : `/images/profile.png`;
+      pathname === "/lotes"
+      ? `/images/fondo-medical.png`
+      : pathname === "/atributos/laboratorio" || pathname === "/data_farmacia"
+        ? `/images/icon-foto-fondo.jpg`
+        : `/images/profile.png`;
 
   return (
     <Image

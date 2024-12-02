@@ -25,8 +25,6 @@ export const searchCliente = async (searchTerm: string) => {
       take: 3, // Limitamos a 5 resultados
     });
 
-    console.log({ cliente });
-
     return cliente;
   } catch (error) {
     console.error("Error en searchCliente:", error);

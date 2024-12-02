@@ -1,73 +1,50 @@
 "use client";
 
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
-// import { useClienteStore } from "./store";
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import clsx from "clsx";
-import { searchCliente } from "@/actions";
-import { BtnAgregar } from "../ui/button/Button";
-import { useCartStore } from "@/store";
 
-interface Cliente {
-  id: string;
-  ci: string;
-  nombre: string;
-  ap: string | null;
-  am: string | null;
+interface SearchProps<T> {
+  fetchData: (term: string) => Promise<T[]>; // Función para obtener resultados
+  onSelect: (item: T) => void; // Callback cuando se selecciona un resultado
+  placeholder?: string; // Placeholder del input
+  displayField: (item: T) => string; // Función para mostrar el campo en la lista
 }
 
-type Farma = {
-  id: string;
-  nombre: string;
-  email: string;
-  celular: number | null | undefined;
-  direccion: string | null;
-  foto: string | null;
-};
-
-interface Props {
-  farma: Farma;
-  vendedor: Omit<Cliente, "ci">;
-}
-
-const SimpleClienteSearch = ({ farma, vendedor }: Props) => {
+const SearchComponent = <T extends { id: string }>({
+  fetchData,
+  onSelect,
+  placeholder = "Buscar...",
+  displayField,
+}: SearchProps<T>) => {
   const [inputValue, setInputValue] = useState("");
-  const [searchResults, setSearchResults] = useState<Cliente[]>([]);
+  const [searchResults, setSearchResults] = useState<T[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
-  // const { setClienteId } = useClienteStore();
-  const { setCliente, setFarma, setVendedor } = useCartStore();
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
 
-  // Función para buscar clientes en la API
-  const fetchClientes = async (term: string) => {
-    if (!term.trim()) {
+    if (!value.trim()) {
       setSearchResults([]);
       setIsDropdownOpen(false);
       return;
     }
 
-    try {
-      const data = await searchCliente(term);
-      setSearchResults(data);
-      setIsDropdownOpen(data.length > 0);
-    } catch (error) {
-      console.error(error);
-      setSearchResults([]);
-      setIsDropdownOpen(false);
-    }
+    fetchData(value)
+      .then((data) => {
+        setSearchResults(data);
+        setIsDropdownOpen(data.length > 0);
+      })
+      .catch(() => {
+        setSearchResults([]);
+        setIsDropdownOpen(false);
+      });
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
-    fetchClientes(value);
-  };
-
-  const handleSelect = (cliente: Cliente) => {
-    setCliente(cliente); // Guarda el ID en Zustand
-    setFarma(farma);
-    setVendedor(vendedor);
-    setInputValue(cliente.nombre); // Actualiza el input con el nombre
+  const handleSelect = (item: T) => {
+    onSelect(item);
+    setInputValue(displayField(item));
     setSearchResults([]);
     setIsDropdownOpen(false);
   };
@@ -87,6 +64,7 @@ const SimpleClienteSearch = ({ farma, vendedor }: Props) => {
       e.preventDefault();
       if (highlightedIndex >= 0 && highlightedIndex < searchResults.length) {
         handleSelect(searchResults[highlightedIndex]);
+        setInputValue(" ");
       }
     } else if (e.key === "Escape") {
       setIsDropdownOpen(false);
@@ -97,7 +75,7 @@ const SimpleClienteSearch = ({ farma, vendedor }: Props) => {
     <div className="relative w-[500px] mr-2">
       <input
         type="text"
-        placeholder="Buscar cliente..."
+        placeholder={placeholder}
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
@@ -110,18 +88,18 @@ const SimpleClienteSearch = ({ farma, vendedor }: Props) => {
       />
       {isDropdownOpen && (
         <ul className="absolute z-10 bg-white border rounded-md shadow-lg mt-1 w-full max-h-48 overflow-y-auto">
-          {searchResults.map((cliente, index) => (
+          {searchResults.map((item, index) => (
             <li
-              key={cliente.id}
+              key={item.id}
               className={clsx(
                 "cursor-pointer p-2",
                 { "bg-gray-200": highlightedIndex === index },
                 { "hover:bg-gray-100": highlightedIndex !== index },
               )}
-              onClick={() => handleSelect(cliente)}
+              onClick={() => handleSelect(item)}
               onMouseEnter={() => setHighlightedIndex(index)}
             >
-              {cliente.nombre + " " + cliente.ap + " " + cliente.am}
+              {displayField(item)}
             </li>
           ))}
         </ul>
@@ -130,4 +108,4 @@ const SimpleClienteSearch = ({ farma, vendedor }: Props) => {
   );
 };
 
-export default SimpleClienteSearch;
+export default SearchComponent;

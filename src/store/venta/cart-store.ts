@@ -1,35 +1,19 @@
-import { CartProduct } from "@/interfaces";
+import { CartProduct, Cliente, Farmacia } from "@/interfaces";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import Swal from "sweetalert2";
-
-interface Cliente {
-  id: string;
-  nombre: string;
-  ap: string | null;
-  am: string | null;
-}
-
-interface Farma {
-  id: string;
-  nombre: string;
-  email: string;
-  celular: number | null | undefined;
-  direccion: string | null;
-  foto: string | null;
-}
 
 interface State {
   // State:
   cart: CartProduct[];
   cliente: Cliente | null;
-  vendedor: Cliente | null;
-  farma: Farma | null;
+  vendedor: Omit<Cliente, "ci"> | null;
+  farma: Omit<Farmacia, "usuarioId"> | null;
 
   // Action:
   setCliente: (cliente: Cliente) => void;
   setVendedor: (vendedor: Cliente) => void;
-  setFarma: (farma: Farma) => void;
+  setFarma: (farma: Omit<Farmacia, "usuarioId">) => void;
   getTotalItem: () => number;
   getSummaryInformation: () => {
     subsTotal: number;
@@ -100,6 +84,7 @@ export const useCartStore = create<State>()(
           itemsInCart,
         };
       },
+
       addProductToCart: (product: CartProduct) => {
         const { cart } = get();
 
@@ -146,12 +131,14 @@ export const useCartStore = create<State>()(
 
         const updatedCart = cart.map((item) => {
           if (item.id === product.id) {
-            const diff = newQuantity - item.cantidadCart;
-            if (item.stock - diff < 0) {
+            const cantidad = newQuantity - item.cantidadCart;
+            if (item.stock - cantidad < 0) {
+              // -----------------------------------------
               // Mostrar alerta si no hay suficiente stock
+              // -----------------------------------------
               Swal.fire({
                 title: "Cantidad excedida",
-                text: `No puedes agregar más de ${item.stock} unidades.`,
+                text: `Stock insuficiente: ${item.stock} unidades.`,
                 icon: "warning",
                 confirmButtonText: "Ok",
               });
@@ -160,7 +147,7 @@ export const useCartStore = create<State>()(
             return {
               ...item,
               cantidadCart: newQuantity,
-              stock: item.stock - diff,
+              stock: item.stock - cantidad,
             };
           }
           return item;
@@ -217,17 +204,22 @@ export const useCartStore = create<State>()(
       removeProduct: (product: CartProduct) => {
         const { cart } = get();
 
-        // Indico que me devuelva todo el carrito de compras, pero ecepto el producto que cumpla esta condición.
-        const updateCartProducts = cart.filter(
-          (item) => item.id !== product.id,
-        );
+        const updatedCart = cart.filter((item) => item.id !== product.id);
 
-        set({ cart: updateCartProducts });
+        // Restaura el stock del producto eliminado
+        const restoredCart = updatedCart.map((item) => {
+          if (item.id === product.id) {
+            return { ...item, stock: item.stock + product.cantidadCart };
+          }
+          return item;
+        });
+
+        set({ cart: restoredCart });
       },
     }),
     {
       name: "shopping-cart", // Nombre del LocalStorage.
-      // skipHydration: true, //? 1ra Forma de Solucionar el Problema de la Rehidratacion.
+      // skipHydration: true, //? 1ra Forma de Solucionar el Problema de la Rehidratacion SSR.
     },
   ),
 );

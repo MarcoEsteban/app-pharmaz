@@ -7,16 +7,19 @@ import Swal from "sweetalert2";
 
 const PDFButton = () => {
   const { cliente, vendedor, farma, cart, emtyCart } = useCartStore();
+  console.log({ cliente, vendedor, farma, cart });
   const router = useRouter(); // Inicializamos el hook useRouter
 
   const handleGeneratePDF = () => {
     if (!cliente || !vendedor || !farma || cart.length === 0) {
+      // --------------------------
       // Alerta cuando faltan datos
+      // --------------------------
       Swal.fire({
         icon: "warning",
         title: "Faltan datos",
         text:
-          "Por favor, selecciona un cliente, vendedor, y asegúrate de agregar productos al carrito.",
+          "Por favor, selecciona un Cliente y asegúrate de agregar Productos.",
       });
       return;
     }
@@ -24,14 +27,16 @@ const PDFButton = () => {
     try {
       generatePDF(); // Genera el PDF
 
+      // ---------------
       // Alerta de éxito
+      // ---------------
       Swal.fire({
         icon: "success",
         title: "Venta guardada",
         text: "El PDF se ha generado y la venta se ha guardado con éxito.",
       }).then(() => {
-        emtyCart(); // Resetea el carrito y los valores
-        router.push("/ventas_realizadas"); // Redirige a la página de ventas realizadas
+        // emtyCart(); // Resetea el carrito y los valores
+        // router.push("/ventas_realizadas"); // Redirige a la página de ventas realizadas
       });
     } catch (error) {
       // Manejo de errores si algo falla
@@ -54,4 +59,3 @@ const PDFButton = () => {
 };
 
 export default PDFButton;
-

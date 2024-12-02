@@ -1,10 +1,10 @@
-import { getByIdFarma, getByIdUser, searchCliente } from "@/actions";
+import { getByIdFarma, getByIdUser } from "@/actions";
 import { auth } from "@/auth.config";
 import { BtnAgregar, Card, ImagenLoad, Modal, Title } from "@/components";
 import { FormCliente } from "@/components/cliente";
-import PDFButton from "@/components/ventas/pdf-button";
+import { ClienteSearch, ProductoSearch } from "@/components/ventas";
+import PDFButton from "@/components/ventas/ButtonPDF";
 import { TableVenta } from "@/components/ventas/TableVenta";
-import SimpleClienteSearch from "@/components/ventas/venta-client";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -30,19 +30,19 @@ export default async function ProcesarVentaPage({ searchParams }: Props) {
     redirect("/auth/login?returnTo=/perfil"); // O una página de error personalizada
   }
 
-  const vendedor = {
+  const vendeor = {
     id: user.id,
-    nombre: user.personas.nombre ?? "",
-    ap: user.personas.ap ?? "",
-    am: user.personas.ap ?? "",
+    nombre: user.personas.nombre,
+    ap: user.personas.ap,
+    am: user.personas.am,
   };
-  const pharma = {
-    id: farma?.id ?? "",
-    nombre: farma?.nombre ?? "",
-    email: farma?.email ?? "",
+
+  const farmacia = {
+    id: farma?.id,
+    nombre: farma?.nombre,
+    corre: farma?.email,
+    direccion: farma?.direccion,
     celular: farma?.celular,
-    direccion: farma?.direccion ?? "",
-    foto: farma?.foto ?? "",
   };
 
   const getModalContent = async () => {
@@ -82,21 +82,16 @@ export default async function ProcesarVentaPage({ searchParams }: Props) {
       <hr className="my-2" />
 
       {/* ------------------------------------------ */}
-      {/*             Cliente                        */}
+      {/*        Search Cliente & Producto           */}
       {/* ------------------------------------------ */}
       <div className="w-full my-2 ">
-        <p className="text-gray-500">Buscar Cliente</p>
         <div className="flex justify-between w-full ">
+          {/* <ProductoSearch /> */}
+
           <div className="flex">
-            <SimpleClienteSearch vendedor={vendedor} farma={pharma} />
+            <ClienteSearch vendedor={vendeor} farma={farmacia} />
             <BtnAgregar />
           </div>
-          <Link
-            href={`/ventas`}
-            className="px-3 py-1 bg-green-700 font-sans font-bold rounded-lg text-white flex items-center ml-8 text-sm"
-          >
-            Seguir Comprando
-          </Link>
         </div>
       </div>
       {getModalContent()}

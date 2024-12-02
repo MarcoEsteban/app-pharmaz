@@ -2,7 +2,6 @@ import {
   FaAppStoreIos,
   FaCopyright,
   FaCubes,
-  FaDollarSign,
   FaFlask,
   FaMortarPestle,
   FaPills,
@@ -39,8 +38,16 @@ export const ItemCardProducto = ({ producto }: Props) => {
           <h4 className="block font-sans text-xl uppercase leading-snug tracking-normal text-blue-gray-900 antialiased">
             {producto.nombre}
           </h4>
-          <p className=" flex items-center gap-2 font-sans text-2xl font-normal antialiased">
-            <FaDollarSign /> {producto.precio}
+          <p className=" flex items-center gap-2 font-sans text-2xl font-bold antialiased">
+            {/* <ImagenLoad */}
+            {/*   className="object-cover" */}
+            {/*   src={`/images/boliviano.png`} */}
+            {/*   alt="moneda-boliviano" */}
+            {/*   width={25} */}
+            {/*   height={25} */}
+            {/* /> */}
+            <span className="font-bold">Bs</span>
+            {producto.precio}
           </p>
           <div className="mt-2 flex flex-col text-sm gap-1 font-sans tracking-wide antialiased">
             {producto.concentracion &&

@@ -4,7 +4,7 @@
 
 /* Indico que me desaparesca la barra de scroll */
 ::-webkit-scrollbar {
-    width: 0px;
+  width: 0px;
 }
 
 body {
@@ -12,114 +12,119 @@ body {
 }
 
 /* @layer utilities { */
-  .text-balance {
-    text-wrap: balance;
+.text-balance {
+  text-wrap: balance;
 
-  }
+}
 
-  /*===================================== Gradientes ====================================*/
-  .gradient {
-    @apply bg-gradient-to-r from-blue-900 via-sky-500 to-indigo-800
-  }
+/*===================================== Gradientes ====================================*/
+.gradient {
+  @apply bg-gradient-to-r from-blue-900 via-sky-500 to-indigo-800
+}
 
-  .gradient-delete {
-    @apply bg-gradient-to-tl from-red-600 to-orange-500
-  }
+.gradient-delete {
+  @apply bg-gradient-to-tl from-red-600 to-orange-500
+}
 
-  .gradient-enable {
-    @apply bg-gradient-to-tl from-emerald-600 to-green-500
-  }
+.gradient-enable {
+  @apply bg-gradient-to-tl from-emerald-600 to-green-500
+}
 
-  .gradient-add {
-    /* @apply bg-gradient-to-tl from-blue-500 via-blue-600 to-blue-700 */
-    @apply bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
-  }
+.gradient-add {
+  /* @apply bg-gradient-to-tl from-blue-500 via-blue-600 to-blue-700 */
+  @apply bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
+}
 
-  .gradient-update {
-    @apply bg-gradient-to-tl from-cyan-500 to-blue-500
-  }
+.gradient-update {
+  @apply bg-gradient-to-tl from-cyan-500 to-blue-500
+}
 
-  .gradient-show {
-    @apply bg-gradient-to-tl from-blue-500 to-violet-500
-  }
+.gradient-show {
+  @apply bg-gradient-to-tl from-blue-500 to-violet-500
+}
 
-  .gradient-photo {
-    @apply bg-gradient-to-tl from-orange-500 to-yellow-500
-  }
+.gradient-photo {
+  @apply bg-gradient-to-tl from-orange-500 to-yellow-500
+}
 
-  /* Grandiente para el Formulario de Guardar || Cancelar */
-  .gradient-guardar {
-    /* @apply bg-gradient-to-tl from-blue-500 via-blue-600 to-blue-700 */
-    @apply bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
-  }
-  .gradient-cancelar {
-    /* @apply bg-gradient-to-tl from-blue-500 via-blue-600 to-blue-700 */
-    @apply bg-gradient-to-r from-red-500 via-red-600 to-red-700
-  }
+/* Grandiente para el Formulario de Guardar || Cancelar */
+.gradient-guardar {
+  /* @apply bg-gradient-to-tl from-blue-500 via-blue-600 to-blue-700 */
+  @apply bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700
+}
 
-  /*======================================= Button ======================================*/
-  .btn {
-    @apply text-white hover:bg-gradient-to-br focus:outline-none rounded-lg text-sm align-middle px-3 py-2.5 text-center transition-all ease-in shadow-sm hover:-translate-y-px tracking-wide
-  }
-  .btn-gnrl {
-    @apply inline-block px-2 py-2 mr-3 font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer leading-normal text-xs ease-in shadow-sm hover:-translate-y-px active:opacity-85 hover:shadow-md outline-none
-  }
+.gradient-cancelar {
+  /* @apply bg-gradient-to-tl from-blue-500 via-blue-600 to-blue-700 */
+  @apply bg-gradient-to-r from-red-500 via-red-600 to-red-700
+}
 
-  /* Button Para el Estado */
-  .btn-activo {
-    @apply bg-gradient-to-tl from-green-600 to-green-400 px-4 text-[11px] rounded-lg py-[5px] inline-flex gap-1 whitespace-nowrap text-center align-baseline font-semibold leading-none text-white
-  }
+/*======================================= Button ======================================*/
+.btn {
+  @apply text-white hover:bg-gradient-to-br focus:outline-none rounded-lg text-sm align-middle px-3 py-2.5 text-center transition-all ease-in shadow-sm hover:-translate-y-px tracking-wide
+}
 
-  .btn-inactivo {
-    @apply bg-gradient-to-tl from-red-600 to-red-400 px-3 text-[11px] rounded-lg py-[5px] inline-flex gap-1 text-center align-baseline font-semibold leading-none text-white
-  }
+.btn-gnrl {
+  @apply inline-block px-2 py-2 mr-3 font-bold text-center text-white align-middle transition-all rounded-lg cursor-pointer leading-normal text-xs ease-in shadow-sm hover:-translate-y-px active:opacity-85 hover:shadow-md outline-none
+}
+
+/* Button Para el Estado */
+.btn-activo {
+  @apply bg-gradient-to-tl from-green-600 to-green-400 px-4 text-[11px] rounded-lg py-[5px] inline-flex gap-1 whitespace-nowrap text-center align-baseline font-semibold leading-none text-white
+}
+
+.btn-inactivo {
+  @apply bg-gradient-to-tl from-red-600 to-red-400 px-3 text-[11px] rounded-lg py-[5px] inline-flex gap-1 text-center align-baseline font-semibold leading-none text-white
+}
 
 
-  .btn-primary-small {
-    @apply px-3 py-2 text-sm font-semibold text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:outline-none
-  }
+.btn-primary-small {
+  @apply px-3 py-2 text-sm font-semibold text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:outline-none
+}
 
-  /*==================================== Formularios ====================================*/
-  .label-text {
-    @apply inline-block mb-1 ml-1 font-bold text-sm text-slate-600
-  }
-  .input-text-icon {
-    @apply text-sm w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 pl-8 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none
-  }
-  .input-text {
-    @apply text-sm w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none 
-  }
+/*==================================== Formularios ====================================*/
+.label-text {
+  @apply inline-block mb-1 ml-1 font-bold text-sm text-slate-600
+}
 
-  .input-select {
-    @apply text-sm w-full focus:shadow-md rounded-lg border border-solid border-gray-300 bg-white font-normal text-gray-700 outline-none transition-all focus:ring-blue-500 focus:border-blue-500 focus:outline-none  px-2 py-2
-    /* @apply bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:outline-none focus:border-blue-500 w-full px-1 py-2 focus:shadow-md */
-  }
+.input-text-icon {
+  @apply text-sm w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 pl-8 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none
+}
 
-  .input-checkbox {
-    @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:outline-none inline-block ml-2
-  }
+.input-text {
+  @apply text-sm w-full focus:shadow-md appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-400 focus:border-blue-500 focus:outline-none
+}
 
-  .input-radio {
-    @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:outline-none inline-block
-  }
+.input-select {
+  @apply text-sm w-full focus:shadow-md rounded-lg border border-solid border-gray-300 bg-white font-normal text-gray-700 outline-none transition-all focus:ring-blue-500 focus:border-blue-500 focus:outline-none px-2 py-2
+  /* @apply bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:outline-none focus:border-blue-500 w-full px-1 py-2 focus:shadow-md */
+}
 
-  /*==================================== Tablas ====================================*/
-  .table-th{
-    @apply px-4 py-5 font-bold uppercase align-middle shadow-none text-sm tracking-wider whitespace-nowrap text-slate-500 opacity-70
-  }
-  .table-td {
-    @apply px-4 py-3 align-middle whitespace-nowrap tracking-wide
-  }
+.input-checkbox {
+  @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:outline-none inline-block ml-2
+}
 
-  /*==================================== Transiciones ====================================*/
-  /* Transitions */
-  .transition-max-height {
-    transition: max-height 0.5s ease-in-out;
-  }
+.input-radio {
+  @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:outline-none inline-block
+}
 
-  .transition-max-width {
-    transition: max-width 0.5s ease-in-out;
-  }
+/*==================================== Tablas ====================================*/
+.table-th {
+  @apply px-4 py-5 font-bold uppercase align-middle shadow-none text-sm tracking-wider whitespace-nowrap text-slate-500 opacity-70
+}
+
+.table-td {
+  @apply px-4 py-3 align-middle whitespace-nowrap tracking-wide
+}
+
+/*==================================== Transiciones ====================================*/
+/* Transitions */
+.transition-max-height {
+  transition: max-height 0.5s ease-in-out;
+}
+
+.transition-max-width {
+  transition: max-width 0.5s ease-in-out;
+}
 
 
 /* } */
