@@ -5,7 +5,7 @@ import { FormCliente } from "@/components/cliente";
 import { ClienteSearch, ProductoSearch } from "@/components/ventas";
 import PDFButton from "@/components/ventas/ButtonPDF";
 import { TableVenta } from "@/components/ventas/TableVenta";
-import Link from "next/link";
+import { Farmacia } from "@/interfaces";
 import { redirect } from "next/navigation";
 
 interface Props {
@@ -37,19 +37,20 @@ export default async function ProcesarVentaPage({ searchParams }: Props) {
     am: user.personas.am,
   };
 
-  const farmacia = {
-    id: farma?.id,
-    nombre: farma?.nombre,
-    corre: farma?.email,
-    direccion: farma?.direccion,
-    celular: farma?.celular,
+  const farmacia: Omit<Farmacia, "usuarioId"> = {
+    id: farma?.id || "",
+    nombre: farma?.nombre || "",
+    email: farma?.email || "",
+    celular: farma?.celular || null,
+    direccion: farma?.direccion || null,
+    foto: farma?.foto || null,
   };
 
   const getModalContent = async () => {
     if (!modal) return null;
 
     // Destructuro el dato del Modal:
-    const [modalType, id] = modal.split("/");
+    const [modalType] = modal.split("/");
 
     return (
       <Modal titleModal={`${modalType} Cliente`}>
@@ -86,7 +87,7 @@ export default async function ProcesarVentaPage({ searchParams }: Props) {
       {/* ------------------------------------------ */}
       <div className="w-full my-2 ">
         <div className="flex justify-between w-full ">
-          {/* <ProductoSearch /> */}
+          <ProductoSearch />
 
           <div className="flex">
             <ClienteSearch vendedor={vendeor} farma={farmacia} />

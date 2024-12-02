@@ -8,7 +8,6 @@ import { Cliente, Farmacia } from "@/interfaces";
 interface Props {
   vendedor: Omit<Cliente, "ci">;
   farma: Omit<Farmacia, "usuarioId">;
-  // farma: Partial<Farmacia | null>;
 }
 
 export const ClienteSearch = ({ vendedor, farma }: Props) => {
