@@ -1,8 +1,8 @@
 "use server";
 
 import { z } from "zod";
-import fs from "fs/promises";
-import path from "path";
+// import fs from "fs/promises";
+// import path from "path";
 import prisma from "@/libs/prisma"; // Asegúrate de configurar correctamente tu instancia de Prisma
 import { revalidatePath } from "next/cache";
 // Imagen cloudinary:
@@ -57,6 +57,13 @@ export const uploadImage = async (formData: FormData) => {
 
     // Actualizar la base de datos con la ruta de la imagen
     if (id) {
+      if (table === "/atributos/laboratorio") {
+        await prisma.laboratorios.update({
+          where: { id },
+          // data: { foto: `/uploads/${(foto as File).name}` }, // Cargar Imagen de Forma Local.
+          data: { foto: image },
+        });
+      }
       if (table === "/proveedor") {
         await prisma.proveedores.update({
           where: { id },

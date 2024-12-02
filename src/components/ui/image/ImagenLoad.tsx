@@ -25,6 +25,8 @@ export const ImagenLoad = ({
     : pathname === "/producto" || pathname === "/ventas" ||
         pathname === "/lotes"
     ? `/images/fondo-medical.png`
+    : pathname === "/atributos/laboratorio"
+    ? `/images/icon-foto-fondo.jpg`
     : `/images/profile.png`;
 
   return (

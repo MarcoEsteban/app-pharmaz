@@ -1,112 +1,151 @@
 "use client";
 
-import clsx from "clsx";
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-
-import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import Swal from "sweetalert2";
-
+import { useForm } from "react-hook-form";
 import { BtnCancelar, BtnGuardar } from "@/components";
 import { FaUpload } from "react-icons/fa";
+import { messageSweetAlert } from "@/utils";
+import { uploadImage } from "@/actions";
+import Image from "next/image";
 
 type FormInputs = {
   id?: string;
-  foto: string;
+  foto: FileList; // El campo foto es de tipo FileList.
 };
+
 interface Props {
   id?: string;
 }
 
-type Foto = {
-  id: string;
-  nombre: string;
-};
-
-export const FormPhoto = ({ id }: Props) => {
+export const FormPhotoLabo = ({ id }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [menus, setMenus] = useState<Foto[]>([]);
-  const [isEditar, setIsEditar] = useState<boolean>(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null); // Estado para la vista previa.
 
-  // Usando React Hook Form:
-  const { register, handleSubmit, setValue, getValues, formState: { errors } } =
-    useForm<FormInputs>({
-      defaultValues: {
-        foto: "", // Inicializar 'menus' como un array vacío.
-      },
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>();
 
-  useEffect(() => {
-    // Server Actions - Obtener la Foto por el [id]
-    const fetchFoto = async () => {
-      console.log("Foto");
-    };
-  }, [id, setValue]);
+  // =======================================================
+  // Manejar la selección de la imagen para la vista previa:
+  // =======================================================
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
 
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    const { foto } = data;
+    if (file) {
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+      ];
 
-    console.log({ foto });
+      if (!allowedTypes.includes(file.type)) {
+        let message = "Solo se permiten imágenes en formato JPG, PNG o WebP.";
+        messageSweetAlert(false, message);
+        return;
+      }
 
-    // Muestra el Mensaje de Alerta Cuando Todo Sale Bien:
-    if (true) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        // title: `${ res.message }`,
-        title: `Guardado Exitosamen`,
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      if (file.size > 5000000) {
+        let message = "El tamaño de la imagen debe ser menor a 5MB.";
+        messageSweetAlert(false, message);
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setPreviewImage(reader.result as string); // Configura la vista previa.
+      };
+
+      reader.readAsDataURL(file);
+
+      setSelectedFile(file); // Guarda el archivo seleccionado.
+    }
+    console.log(selectedFile);
+  };
+
+  const onSubmit = async (data: FormInputs) => {
+    console.log("entro al onSubmit");
+    const formData = new FormData();
+
+    if (id) {
+      formData.append("id", id);
+    }
+    formData.append("table", pathname);
+
+    // Usa `selectedFile` en lugar del archivo directamente desde `data.foto`.
+    if (selectedFile) {
+      formData.append("foto", selectedFile);
+    } else {
+      let message = "Debes seleccionar una imagen antes de enviar.";
+      messageSweetAlert(false, message);
+      return;
     }
 
-    // Muestra el Mensaje de Alerta Cuando Algo Sale Mal:
-    // if ( !res.ok ) {
-    //   Swal.fire( {
-    //     position: "center",
-    //     icon: "error",
-    //     title: `${ res.message }`,
-    //     showConfirmButton: false,
-    //     timer: 1500
-    //   } );
-    // }
+    const { ok, message } = await uploadImage(formData); // Llamar al server action.
 
-    router.replace(pathname);
+    messageSweetAlert(ok, message);
+
+    if (ok) {
+      router.replace(pathname); // Redirige si se subió correctamente.
+    } else {
+      router.replace(`${pathname}?modal=foto`);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex w-full items-center justify-center bg-white font-sans mb-4 tracking-wide">
+      <div className="flex flex-col items-center justify-center bg-white font-sans mb-4 tracking-wide">
         <label
           htmlFor="foto"
-          className="mx-auto cursor-pointer flex w-[300px] h-[250px] max-w-lg flex-col items-center justify-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-1 text-center"
+          className="cursor-pointer flex w-[300px] h-[250px] max-w-lg flex-col items-center justify-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-1 text-center"
         >
-          <FaUpload className="h-10 w-10 text-blue-500" />
-
-          <h2 className="mt-2 text-xl font-medium text-gray-700 tracking-wide">
-            Subir una Foto
-          </h2>
-
-          <p className="mt-3 text-gray-500 tracking-wide">
-            Subir imagen en formato PNG, JPG.
-          </p>
-
+          {previewImage
+            ? (
+              <Image
+                src={previewImage}
+                alt="Vista previa"
+                className="w-full h-full object-cover rounded-xl"
+                width={0}
+                height={0}
+              />
+            )
+            : (
+              <>
+                <FaUpload className="h-10 w-10 text-blue-500" />
+                <h2 className="mt-2 text-xl font-medium text-gray-700 tracking-wide">
+                  Subir una Foto
+                </h2>
+                <p className="mt-3 text-gray-500 tracking-wide">
+                  Subir imagen en formato PNG, JPG, Webp.
+                </p>
+              </>
+            )}
           <input
             id="foto"
-            {...register("foto", { required: true })}
+            {...register("foto", {
+              required: "La imagen es requerida",
+            })}
             type="file"
+            accept="image/*"
             className="hidden"
+            onChange={handleImageChange} // Solo manejarás el cambio aquí.
           />
         </label>
+        {errors.foto && (
+          <span className="text-red-500 mt-2">{errors.foto.message}</span>
+        )}
       </div>
 
-      <div className={"flex justify-end gap-4 pt-2"}>
+      <div className="flex justify-end gap-4 pt-2">
         <BtnCancelar />
         <BtnGuardar />
       </div>
     </form>
   );
 };
-
