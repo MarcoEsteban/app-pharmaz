@@ -30,7 +30,7 @@ export default async function ProcesarVentaPage({ searchParams }: Props) {
     redirect("/auth/login?returnTo=/perfil"); // O una página de error personalizada
   }
 
-  const vendeor = {
+  const vendedor = {
     id: user.id,
     nombre: user.personas.nombre,
     ap: user.personas.ap,
@@ -90,7 +90,7 @@ export default async function ProcesarVentaPage({ searchParams }: Props) {
           <ProductoSearch />
 
           <div className="flex">
-            <ClienteSearch vendedor={vendeor} farma={farmacia} />
+            <ClienteSearch vendedor={vendedor} farma={farmacia} />
             <BtnAgregar />
           </div>
         </div>

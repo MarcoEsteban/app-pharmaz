@@ -7,5 +7,5 @@ export interface Usuario {
   rolesId: string;
   rol: string;
   personasId: string;
-  personas: PersonaType
+  personas: PersonaType;
 }

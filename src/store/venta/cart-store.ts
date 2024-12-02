@@ -12,7 +12,7 @@ interface State {
 
   // Action:
   setCliente: (cliente: Cliente) => void;
-  setVendedor: (vendedor: Cliente) => void;
+  setVendedor: (vendedor: Omit<Cliente, "ci">) => void;
   setFarma: (farma: Omit<Farmacia, "usuarioId">) => void;
   getTotalItem: () => number;
   getSummaryInformation: () => {
@@ -49,7 +49,7 @@ export const useCartStore = create<State>()(
       },
       setCliente: (cliente) => set({ cliente }),
 
-      setVendedor: (vendedor) => set({ vendedor }),
+      setVendedor: (vendedor: Omit<Cliente, "ci">) => set({ vendedor }),
 
       setFarma: (farma) => set({ farma }),
 
