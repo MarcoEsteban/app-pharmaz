@@ -72,6 +72,7 @@ model Personas {
   updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
   Usuario Usuario[] // Relacion One to Many
+  Ventas  Ventas[]
 }
 
 // ==============
@@ -91,7 +92,25 @@ model Usuario {
   personasId String
   rolesId    String
 
-  Lotes Lotes[] // Relacion One to Many
+  Lotes  Lotes[] // Relacion One to Many
+  Ventas Ventas[]
+}
+
+// ===================
+// Tabla DatosFarmacia
+// ===================
+model DatosFarmacia {
+  id        String   @id @default(uuid())
+  nombre    String
+  email     String   @unique
+  celular   Int?
+  direccion String?
+  foto      String?
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
+
+  Usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId String
 }
 
 // =================
@@ -111,23 +130,6 @@ model Proveedores {
   updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
   Lotes Lotes[] // Relacion One to Many
-}
-
-// ===================
-// Tabla DatosFarmacia
-// ===================
-model DatosFarmacia {
-  id        String   @id @default(uuid())
-  nombre    String
-  email     String   @unique
-  celular   Int?
-  direccion String?
-  foto      String?
-  createdAt DateTime @default(now()) // Indico la fecha de creacion.
-  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
-
-  Usuario   Usuario @relation(fields: [usuarioId], references: [id])
-  usuarioId String
 }
 
 // ===========
@@ -176,6 +178,8 @@ model Medicamentos {
   presentacion      MedicaOnPresen[]
   principioActivo   MedicaOnPrinci[]
   viaAdministracion MedicaOnViaAdm[]
+
+  DetalleVentas DetalleVentas[]
 }
 
 // ==================
@@ -285,4 +289,60 @@ model PrincipioActivo {
   updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
   producto MedicaOnPrinci[]
+}
+
+// ===================
+// Tabla Transacciones
+// ===================
+model Transacciones {
+  id          String   @id @default(uuid())
+  metodoPago  String
+  numeroVenta String
+  total       Decimal  @db.Decimal(10, 2) // Un campo precio con decimales
+  fecha       DateTime
+  createdAt   DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt   DateTime @updatedAt // Fecha de la última actualización del registro.
+
+  Ventas Ventas[]
+}
+
+// ============
+// Tabla Ventas
+// ============
+model Ventas {
+  id         String   @id @default(uuid())
+  metodoPago String
+  cliente    String
+  usuario    String
+  createdAt  DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt  DateTime @updatedAt // Fecha de la última actualización del registro.
+
+  // RELATION OF ONE TO MANY
+  Usuario       Usuario       @relation(fields: [usuarioId], references: [id])
+  Personas      Personas      @relation(fields: [personasId], references: [id])
+  Transacciones Transacciones @relation(fields: [metodoPagoId], references: [id])
+  usuarioId     String
+  personasId    String
+  metodoPagoId  String
+
+  DetalleVentas DetalleVentas[] // Indico que estamos estableciendo la Relación de Many to Many
+}
+
+// ====================
+// Tabla Detalle Ventas
+// ====================
+model DetalleVentas {
+  cantidad  Int
+  precio    Decimal  @db.Decimal(10, 2) // Un campo precio con decimales
+  subTotal  Decimal  @db.Decimal(10, 2) // Un campo precio con decimales
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
+
+  // RELATION OF ONE TO MANY
+  Ventas        Ventas       @relation(fields: [ventaId], references: [id])
+  Medicamentos  Medicamentos @relation(fields: [medicamentoId], references: [id])
+  ventaId       String
+  medicamentoId String
+
+  @@id([ventaId, medicamentoId]) // Relacion de [Many to Many]
 }
