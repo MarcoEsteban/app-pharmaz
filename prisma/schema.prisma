@@ -297,7 +297,7 @@ model PrincipioActivo {
 model Transacciones {
   id          String   @id @default(uuid())
   metodoPago  String
-  numeroVenta String
+  numeroVenta Int
   total       Decimal  @db.Decimal(10, 2) // Un campo precio con decimales
   fecha       DateTime
   createdAt   DateTime @default(now()) // Indico la fecha de creacion.
