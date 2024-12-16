@@ -109,7 +109,7 @@ body {
 
 /*==================================== Tablas ====================================*/
 .table-th {
-  @apply px-4 py-5 font-bold uppercase align-middle shadow-none text-sm tracking-wider whitespace-nowrap text-slate-500 opacity-70
+  @apply px-4 py-5 font-bold uppercase align-middle shadow-none text-sm tracking-wider whitespace-nowrap text-slate-700 opacity-70
 }
 
 .table-td {

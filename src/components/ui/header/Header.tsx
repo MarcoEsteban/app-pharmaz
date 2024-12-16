@@ -1,11 +1,11 @@
 "use client";
 
-import { IconCart } from "@/components/ventas";
+// import { IconCart } from "@/components/ventas";
 import clsx from "clsx";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ImagenLoad } from "../image/ImagenLoad";
+import { FaUserCircle } from "react-icons/fa";
 // import { FaArrowLeft, FaBell, FaCartPlus } from 'react-icons/fa';
 // import { IoCartOutline } from 'react-icons/io5';
 
@@ -55,13 +55,22 @@ export const Header = ({ nombre, ap, foto, rol }: Props) => {
           </p>
         </div>
         <div>
-          <ImagenLoad
-            className="w-14 h-14 object-cover rounded-full"
-            src={foto}
-            alt={foto}
-            width={50}
-            height={50}
-          />
+          {foto
+            ? (
+              <ImagenLoad
+                className="w-14 h-14 object-cover rounded-full"
+                src={foto}
+                alt={foto}
+                width={50}
+                height={50}
+              />
+            )
+            : (
+              <FaUserCircle
+                className="inline-flex items-center justify-center mr-4 h-14 w-14 rounded-xl text-gray-600"
+                size={30}
+              />
+            )}
         </div>
       </div>
     </header>

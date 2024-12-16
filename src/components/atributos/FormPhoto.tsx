@@ -42,10 +42,12 @@ export const FormPhotoLabo = ({ id }: Props) => {
         "image/jpeg",
         "image/png",
         "image/webp",
+        "image/gif",
       ];
 
       if (!allowedTypes.includes(file.type)) {
-        let message = "Solo se permiten imágenes en formato JPG, PNG o WebP.";
+        let message =
+          "Solo se permiten imágenes en formato JPG, PNG, GIF o WebP.";
         messageSweetAlert(false, message);
         return;
       }

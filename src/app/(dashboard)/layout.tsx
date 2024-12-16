@@ -1,4 +1,4 @@
-import { getByIdFarma, getByIdRoles, getByIdUser } from "@/actions";
+import { getByIdRoles, getByIdUser, getFarma } from "@/actions";
 import { auth } from "@/auth.config";
 import { Header, Sidebard } from "@/components";
 import { redirect } from "next/navigation";
@@ -14,12 +14,9 @@ export default async function DashboardLayout(
 
   const user = await getByIdUser(session.user.id);
   const menus = await getByIdRoles(session.user.rolesId);
-  const farma = await getByIdFarma(session.user.id);
+  const farma = await getFarma();
 
-  console.log({ user });
-  console.log({ menus });
-
-  if (!user || !farma || !menus) {
+  if (!user || !menus) {
     redirect("/auth/login?returnTo=/");
   }
   const userPerfil = {
@@ -27,6 +24,11 @@ export default async function DashboardLayout(
     ap: user.personas.ap ?? "",
     foto: user.personas.foto ?? "",
     rol: user.rol ?? "",
+  };
+
+  const pharma = {
+    foto: farma?.foto || "",
+    nombre: farma?.nombre || "",
   };
 
   const menusData = menus.menus.map((menu) => {
@@ -40,8 +42,8 @@ export default async function DashboardLayout(
   return (
     <div className="min-h-screen grid grid-cols-custom p-3">
       <Sidebard
-        img={farma.foto}
-        nombrePharma={farma.nombre}
+        img={pharma.foto}
+        nombrePharma={pharma.nombre}
         menus={menusData}
       />
 

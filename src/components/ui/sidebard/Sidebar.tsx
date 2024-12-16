@@ -16,6 +16,8 @@ import { useSidebarStore } from "@/store";
 import { logout } from "@/actions";
 import { Accordion } from "./AcordionMenu";
 import { LogicSideMenu } from "./LogicSideMenu";
+import { ImagenLoad } from "../image/ImagenLoad";
+import { BiPlusMedical } from "react-icons/bi";
 
 type Menu = {
   nombre: string;
@@ -72,13 +74,16 @@ export const Sidebard = ({ img, nombrePharma, menus }: Props) => {
         {!isSideMenuOpen
           ? (
             <div className="flex justify-center items-center gap-2 py-2">
-              <Image
-                // src="/images/ICON-PHARMAZ.jpg"
-                src={img as string}
-                alt={img as string}
-                width={50}
-                height={50}
-              />
+              {img
+                ? (
+                  <Image
+                    src={img as string}
+                    alt={img as string}
+                    width={50}
+                    height={50}
+                  />
+                )
+                : <BiPlusMedical size={30} className="text-blue-800" />}
               <div className="text-4xl font-sans font-semibold">
                 <span className="bg-clip-text text-transparent gradient uppercase">
                   {nombrePharma}
@@ -88,10 +93,10 @@ export const Sidebard = ({ img, nombrePharma, menus }: Props) => {
           )
           : (
             <div className="flex w-full justify-center">
-              <Image
+              <ImagenLoad
                 className="flex justify-center"
                 src={img as string}
-                alt="Logo"
+                alt={img as string}
                 width={50}
                 height={50}
               />

@@ -56,8 +56,8 @@ export const UsuariosTable = ({ usuario }: Props) => {
                         )
                         : (
                           <FaUserCircle
-                            className="inline-flex items-center justify-center mr-4 h-9 w-9 rounded-xl"
-                            size={28}
+                            className="inline-flex items-center justify-center mr-4 h-12 w-12 rounded-xl"
+                            size={30}
                           />
                         )}
                     </div>

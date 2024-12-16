@@ -79,17 +79,18 @@ export const BtnVolver = () => {
 };
 
 interface Props {
-  params: string;
-  className: string;
+  params?: string;
+  className?: string;
   children: React.ReactNode;
 }
 
 export const BtnAction = ({ params, className, children }: Props) => {
   const pathname = usePathname();
+  const pageParam = usePageParam();
 
   return (
     <Link
-      href={`${pathname + params}`}
+      href={`${pathname}?${params}${pageParam}`}
       className={`btn-gnrl ${className}`}
     >
       {children}
@@ -97,14 +98,18 @@ export const BtnAction = ({ params, className, children }: Props) => {
   );
 };
 
-export const BtnAgregar = () => {
+interface Params {
+  classname?: string;
+}
+
+export const BtnAgregar = ({ classname }: Params) => {
   const pathname = usePathname();
   const pageParam = usePageParam();
 
   return (
     <Link
       href={`${pathname}?modal=agregar${pageParam}`}
-      className="btn gradient-add flex items-center gap-2 font-semibold tracking-wide"
+      className={`btn gradient-add flex items-center gap-2 font-semibold tracking-wide ${classname}`}
     >
       Agregar
       <FaPlus />

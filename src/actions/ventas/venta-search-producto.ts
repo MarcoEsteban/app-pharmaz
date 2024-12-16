@@ -1,20 +1,22 @@
 "use server";
 
 import prisma from "@/libs/prisma";
+import { DateTime } from "luxon";
 
 export const searchProducto = async (searchTerm: string) => {
   if (!searchTerm) return [];
 
-  // Calcular la fecha de inicio del rango (2 semanas desde ahora)
-  const twoWeeksFromNow = new Date();
-  twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14);
+  // Fechas para las condiciones
+  const now = DateTime.now();
+  const threeMonthsFromNow = now.plus({ months: 3 });
+  const oneMonthFromNow = now.plus({ months: 1 });
 
   try {
     const results = await prisma.medicamentos.findMany({
       where: {
-        estado: true, // Filtrar solo medicamentos activos
+        estado: true, // Solo medicamentos activos
         OR: [
-          { nombre: { contains: searchTerm, mode: "insensitive" } }, // Buscar por nombre
+          { nombre: { contains: searchTerm, mode: "insensitive" } },
           {
             laboratorios: {
               some: {
@@ -33,7 +35,7 @@ export const searchProducto = async (searchTerm: string) => {
               },
             },
           },
-          { categoria: { contains: searchTerm, mode: "insensitive" } }, // Buscar por categoría
+          { categoria: { contains: searchTerm, mode: "insensitive" } },
         ],
       },
       select: {
@@ -44,29 +46,20 @@ export const searchProducto = async (searchTerm: string) => {
         precio: true,
         foto: true,
         estado: true,
-        // Buscar presentacionId
         presentacion: {
           select: {
             Presentacion: {
-              select: {
-                id: true,
-                nombre: true,
-              },
+              select: { id: true, nombre: true },
             },
           },
         },
-        // Buscar laboratoriosId
         laboratorios: {
           select: {
             Laboratorio: {
-              select: {
-                id: true,
-                nombre: true,
-              },
+              select: { id: true, nombre: true },
             },
           },
         },
-        // Lotes
         lotes: {
           select: {
             id: true,
@@ -75,40 +68,62 @@ export const searchProducto = async (searchTerm: string) => {
           },
         },
       },
-      take: 5, // Limitar a 5 resultados
+      take: 20,
     });
 
-    // Transformar los resultados para adaptarlos al formato deseado
     return results.map((med) => {
-      // Calcular el lote más próximo a vencer dentro de 2 semanas en adelante
-      const lotesProximos = med.lotes.filter(
-        (lote) => lote.vencimiento > twoWeeksFromNow, // Lotes con vencimiento en el rango
-      ).sort((a, b) =>
-        new Date(a.vencimiento).getTime() - new Date(b.vencimiento).getTime()
-      ); // Ordenar por fecha más próxima
+      // Ordenar lotes por vencimiento más próximo
+      const lotesOrdenados = med.lotes.sort((a, b) =>
+        DateTime.fromISO(a.vencimiento.toString()).toMillis() -
+        DateTime.fromISO(b.vencimiento.toString()).toMillis()
+      );
 
-      // Tomar el lote más cercano dentro del rango de 2 semanas en adelante
-      const loteProximo = lotesProximos[0] || null;
+      const loteProximo = lotesOrdenados[0] || null;
 
-      // Calcular el total de stock (incluyendo lotes vencidos)
+      // Calcular el total de stock
       const totalStock = med.lotes.reduce(
         (acc, lote) => acc + (lote.stock || 0),
         0,
       );
+
+      // Condiciones
+      let statusColor = "default";
+      if (loteProximo) {
+        const vencimiento = DateTime.fromISO(
+          loteProximo.vencimiento.toString(),
+        );
+        if (vencimiento <= oneMonthFromNow) {
+          statusColor = "orange";
+        } else if (vencimiento <= threeMonthsFromNow) {
+          statusColor = "green";
+        }
+      }
+      if (totalStock < 15) {
+        statusColor = "red";
+      }
+
+      console.log({ med });
 
       return {
         id: med.id,
         nombre: med.nombre,
         concentracion: med.concentracion,
         adicional: med.adicional,
-        precio: med.precio.toNumber(), // Convertir Decimal a número
+        precio: med.precio.toNumber(),
         presentacionId: med.presentacion?.[0]?.Presentacion?.nombre || null,
-        laboratoriosId: med.laboratorios?.[0]?.Laboratorio?.nombre || null,
+        laboratorioId: med.laboratorios?.[0]?.Laboratorio?.nombre || null,
         foto: med.foto,
-        stock: totalStock, // Total de stock (incluye vencidos)
-        lote: loteProximo, // Lote más cercano dentro del rango
-        cantidadCart: 1, // Inicialmente 0, puedes actualizarlo desde el frontend
+        stock: totalStock,
+        lote: loteProximo
+          ? {
+            id: loteProximo.id,
+            stock: loteProximo.stock,
+            vencimiento: loteProximo.vencimiento,
+          }
+          : null,
+        cantidadCart: 1, // Inicialmente 1
         estado: med.estado,
+        statusColor,
       };
     });
   } catch (error) {

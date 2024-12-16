@@ -1,16 +1,25 @@
-'use client';
+"use client";
 
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export const FilterCategoria = () => {
+interface Props {
+  label1: string;
+  label2: string;
+  name: string;
+}
+
+export const FilterCategoria = ({ name, label1, label2 }: Props) => {
   // Obtener parámetros de la URL
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
-  
+
   // Estado local para manejar la categoría seleccionada, por defecto 'Farmacos' si no hay nada en la URL
-  const [selectedCategoria, setSelectedCategoria] = useState<string | null>(searchParams.get('filtro') || 'Farmacos');
+  const [selectedCategoria, setSelectedCategoria] = useState<string | null>(
+    // searchParams.get("filtro") || "Farmacos",
+    searchParams.get("filtro"),
+  );
 
   // Manejar el cambio de categoría
   const handleCategoriaChange = (filtro: string) => {
@@ -18,20 +27,20 @@ export const FilterCategoria = () => {
 
     // Crear/actualizar los parámetros de la URL
     const params = new URLSearchParams(searchParams);
-    
+
     if (filtro) {
-      params.set('filtro', filtro); // ?categoria=valor
+      params.set("filtro", filtro); // ?categoria=valor
     } else {
-      params.delete('filtro'); // Remover el parámetro si no hay categoría seleccionada
+      params.delete("filtro"); // Remover el parámetro si no hay categoría seleccionada
     }
-    
+
     // Actualizar la URL con la categoría seleccionada
     replace(`${pathname}?${params.toString()}`);
   };
 
   // Efecto para actualizar el estado cuando los searchParams cambien externamente
   useEffect(() => {
-    const categoriaParam = searchParams.get('filtro');
+    const categoriaParam = searchParams.get("filtro");
     if (categoriaParam) {
       setSelectedCategoria(categoriaParam);
     }
@@ -40,30 +49,35 @@ export const FilterCategoria = () => {
   return (
     <div className="flex gap-4 font-semibold text-gray-500">
       {/* Radio button para 'Fármacos' */}
-      <label className="flex items-center gap-2">
+      <label htmlFor={`${name}1`} className="flex items-center gap-2">
         <input
+          id={`${name}1`}
           type="radio"
-          value="Farmacos"
-          checked={selectedCategoria === 'Farmacos'}
-          onChange={() => handleCategoriaChange('Farmacos')}
+          value={label1}
+          // checked={selectedCategoria === "Farmacos"}
+          // checked={true}
+          defaultChecked={true}
+          name={name}
+          onChange={() => handleCategoriaChange(label1)}
         />
-        Fármacos
+        {label1}
       </label>
 
       {/* Radio button para 'Instrumento_Medicos' */}
-      <label className="flex items-center gap-2">
+      <label htmlFor={`${name}2`} className="flex items-center gap-2">
         <input
+          id={`${name}2`}
           type="radio"
-          value="Instrumento_Medicos"
-          checked={selectedCategoria === 'Instrumento Médico'}
-          onChange={() => handleCategoriaChange('Instrumento Médico')}
+          name={name}
+          value={label2}
+          // checked={selectedCategoria === "Instrumento Médico"}
+          onChange={() => handleCategoriaChange(label2)}
         />
-        Instrumento Médicos
+        {label2}
       </label>
     </div>
   );
 };
-
 
 // 'use client';
 //

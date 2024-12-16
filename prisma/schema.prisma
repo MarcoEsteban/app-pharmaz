@@ -310,12 +310,9 @@ model Transacciones {
 // Tabla Ventas
 // ============
 model Ventas {
-  id         String   @id @default(uuid())
-  metodoPago String
-  cliente    String
-  usuario    String
-  createdAt  DateTime @default(now()) // Indico la fecha de creacion.
-  updatedAt  DateTime @updatedAt // Fecha de la última actualización del registro.
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) // Indico la fecha de creacion.
+  updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
   // RELATION OF ONE TO MANY
   Usuario       Usuario       @relation(fields: [usuarioId], references: [id])

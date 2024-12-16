@@ -91,7 +91,7 @@ export const ItemCardProducto = ({ producto }: Props) => {
           </div>
         </div>
 
-        <div className="flex-3 rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none my-auto">
+        <div className="flex-3 rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none my-auto pr-2">
           <ImagenLoad
             className="object-cover w-40 h-40 rounded-full mx-auto "
             src={producto.foto as string}

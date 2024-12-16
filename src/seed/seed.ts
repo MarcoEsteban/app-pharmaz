@@ -268,6 +268,14 @@ export const initialData: SeedData = {
   presentacion: [
     { nombre: "Comprimido" },
     { nombre: "Tabletas" },
+    { nombre: "Cápsulas" },
+    { nombre: "Jarabe" },
+    { nombre: "Inyectable" },
+    { nombre: "Gotas" },
+    { nombre: "Suspensión" },
+    { nombre: "Polvo" },
+    { nombre: "Crema" },
+    { nombre: "Gel" },
   ],
 
   laboratorio: [

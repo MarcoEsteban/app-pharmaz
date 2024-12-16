@@ -20,7 +20,7 @@ export const QuantitySelector = ({ quantity, onQuantityChanged }: Props) => {
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setTempQuantity(value === "" ? 0 : parseInt(value, 10)); // Permite valores temporales vacíos
+    setTempQuantity(value === "" ? 1 : parseInt(value, 10)); // Permite valores temporales vacíos
 
     if (!isNaN(parseInt(value, 10)) && parseInt(value, 10) >= 1) {
       onQuantityChanged(parseInt(value, 10));
@@ -34,7 +34,7 @@ export const QuantitySelector = ({ quantity, onQuantityChanged }: Props) => {
       </button>
 
       <input
-        value={tempQuantity === 0 ? " " : tempQuantity}
+        value={tempQuantity}
         onChange={onInputChange}
         className="w-20 mx-3 px-5 bg-gray-100 rounded text-center font-medium hover:bg-white focus:outline-none focus:border-gray-200"
         min={1}

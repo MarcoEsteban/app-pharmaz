@@ -1,7 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { FaCamera, FaEnvelope, FaUserCircle } from "react-icons/fa";
 import { FaLocationDot, FaPhoneFlip } from "react-icons/fa6";
+import { HiUser } from "react-icons/hi2";
+import { BiSolidUserRectangle } from "react-icons/bi";
 
 import { auth } from "@/auth.config";
 import { redirect } from "next/navigation";
@@ -74,13 +75,22 @@ export default async function PerfilPage({ searchParams }: Props) {
 
       <div className={"my-4 flex gap-10 w-full"}>
         <div className={"relative"}>
-          <ImagenLoad
-            className="object-cover rounded-lg"
-            src={user.personas.foto as string}
-            alt={user.personas.foto as string}
-            width={400}
-            height={400}
-          />
+          {user.personas.foto
+            ? (
+              <ImagenLoad
+                className="object-cover rounded-lg"
+                src={user.personas.foto as string}
+                alt={user.personas.foto as string}
+                width={400}
+                height={400}
+              />
+            )
+            : (
+              <HiUser
+                className="rounded-lg text-white border bg-gray-600"
+                size={350}
+              />
+            )}
 
           {/*============ Button ===========*/}
           <Link

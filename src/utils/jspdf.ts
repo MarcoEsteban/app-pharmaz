@@ -1,17 +1,18 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
-import { useCartStore } from "@/store";
 
-export const generatePDF = () => {
-  const { cliente, vendedor, farma, cart } = useCartStore.getState();
+export const generatePDF = (data: string) => {
+  const parsedData = JSON.parse(data);
+  const { cliente, vendedor, farma, cart, numeroVenta } = parsedData;
 
   const doc = new jsPDF();
 
+  const numVenta = numeroVenta.toString().padStart(6, "0");
   const pageWidth = doc.internal.pageSize.width; // Obtener el ancho de la página.
   const leftX = 20; // Inicio a la izquierda
   const centerX = pageWidth / 2; // Centro de la página
   const rightX = pageWidth - 20; // Final a la derecha
-  const numeroVenta = generateNumberVenta();
+  // const numeroVenta = generateNumberVenta();
 
   // ========================
   // Título: Nota de Venta
@@ -30,7 +31,7 @@ export const generatePDF = () => {
   doc.setTextColor(8, 80, 162); // Azul
   doc.text("N° VENTA:", rightX - 30, 27);
   doc.setFont("Sans", "normal");
-  doc.text(`#${numeroVenta}`, rightX - 4, 27);
+  doc.text(`#${numVenta}`, rightX - 4, 27);
   doc.setFont("Sans", "bold");
   doc.setTextColor(8, 80, 162); // Azul
   doc.text("FECHA:", rightX - 30, 33);
@@ -64,14 +65,28 @@ export const generatePDF = () => {
   doc.setFontSize(12);
   doc.setFont("Sans", "bold");
   doc.setTextColor(8, 80, 162); // Azul
-  doc.text("Datos del Cliente:", leftX - 10, 55);
+  doc.text("NIT: ", leftX - 10, 54);
+
+  doc.setFont("Sans", "normal");
+  doc.setFontSize(11);
+  doc.setTextColor(0, 0, 0); // Negro
+  doc.text(
+    `${cliente?.ci || "N/A"}`,
+    leftX + 1,
+    54,
+  );
+
+  doc.setFontSize(12);
+  doc.setFont("Sans", "bold");
+  doc.setTextColor(8, 80, 162); // Azul
+  doc.text("CLIENTE:", leftX - 10, 60);
 
   doc.setFont("Sans", "normal");
   doc.setFontSize(11);
   doc.setTextColor(0, 0, 0); // Negro
   doc.text(
     `${cliente?.nombre || "N/A"} ${cliente?.ap || ""} ${cliente?.am || ""}`,
-    10,
+    leftX + 12,
     60,
   );
 
@@ -81,23 +96,22 @@ export const generatePDF = () => {
   doc.setFontSize(12);
   doc.setFont("Sans", "bold");
   doc.setTextColor(8, 80, 162); // Azul
-  doc.text("Datos del Vendedor", centerX - 10, 55);
+  doc.text("VENDEDOR:", centerX - 10, 60);
   doc.setFont("Sans", "normal");
   doc.setFontSize(11);
   doc.setTextColor(0, 0, 0); // Negro
   doc.text(
     `${vendedor?.nombre || "N/A"} ${vendedor?.ap || ""} ${vendedor?.am || ""}`,
-    centerX - 10,
+    centerX + 17,
     60,
   );
 
   // ==================
   // Tabla de productos
   // ==================
-  const tableData = cart.map((item, index) => [
+  const tableData = cart.map((item: any, index: number) => [
     index + 1,
-    `${item.nombre} ${item.concentracion || ""} ${item.adicional || ""} ${
-      item.presentacionId || ""
+    `${item.nombre} ${item.concentracion || ""} ${item.adicional || ""} ${item.presentacionId || ""
     }`,
     `${item.precio.toFixed(2)} Bs`,
     item.cantidadCart,
@@ -138,18 +152,18 @@ export const generatePDF = () => {
   // Tabla de totales
   // ===================
   const subtotal = cart.reduce(
-    (sum, item) => sum + item.precio * item.cantidadCart,
+    (sum: number, item: any) => sum + item.precio * item.cantidadCart,
     0,
   );
   const taxRate = 0.03; // 3% de impuestos
   const shipping = 10; // Costo de envío
   const tax = subtotal * taxRate;
-  const total = subtotal + tax + shipping;
+  // const total = subtotal + tax + shipping;
 
   autoTable(doc, {
     body: [
-      ["SUBTOTAL", `${subtotal.toFixed(2)} Bs`],
-      ["TOTAL", `${total.toFixed(2)} Bs`],
+      ["TOTAL", `${subtotal.toFixed(2)} Bs`],
+      // ["TOTAL", `${total.toFixed(2)} Bs`],
     ],
     theme: "grid",
     styles: {

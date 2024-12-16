@@ -1,13 +1,14 @@
 "use client";
 
-import React, { ChangeEvent, KeyboardEvent, useState } from "react";
-import clsx from "clsx";
+import React, { ChangeEvent, useState } from "react";
 
 interface SearchProps<T> {
   fetchData: (term: string) => Promise<T[]>; // Función para obtener resultados
   onSelect: (item: T) => void; // Callback cuando se selecciona un resultado
   placeholder?: string; // Placeholder del input
   displayField: (item: T) => string; // Función para mostrar el campo en la lista
+  renderItem: (item: T) => React.ReactNode; // Componente de visualización personalizado
+  className?: string;
 }
 
 const SearchComponent = <T extends { id: string }>({
@@ -15,6 +16,8 @@ const SearchComponent = <T extends { id: string }>({
   onSelect,
   placeholder = "Buscar...",
   displayField,
+  renderItem,
+  className = "w-[500px]",
 }: SearchProps<T>) => {
   const [inputValue, setInputValue] = useState("");
   const [searchResults, setSearchResults] = useState<T[]>([]);
@@ -49,57 +52,27 @@ const SearchComponent = <T extends { id: string }>({
     setIsDropdownOpen(false);
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (!isDropdownOpen) return;
-
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setHighlightedIndex((prev) =>
-        prev < searchResults.length - 1 ? prev + 1 : prev
-      );
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : prev));
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-      if (highlightedIndex >= 0 && highlightedIndex < searchResults.length) {
-        handleSelect(searchResults[highlightedIndex]);
-        setInputValue(" ");
-      }
-    } else if (e.key === "Escape") {
-      setIsDropdownOpen(false);
-    }
-  };
-
   return (
-    <div className="relative w-[500px] mr-2">
-      <input
-        type="text"
-        placeholder={placeholder}
-        value={inputValue}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        className={clsx(
-          "input-text",
-          "border-gray-300 focus:ring-blue-500",
-        )}
-        autoComplete="off"
-        aria-expanded={isDropdownOpen}
-      />
+    <div className={`relative mr-2 ${className}`}>
+      <div className="relative">
+        <input
+          type="search"
+          placeholder={placeholder}
+          value={inputValue}
+          onChange={handleInputChange}
+          className="input-text w-full border-gray-300 focus:ring-blue-500"
+          autoComplete="off"
+        />
+      </div>
       {isDropdownOpen && (
-        <ul className="absolute z-10 bg-white border rounded-md shadow-lg mt-1 w-full max-h-48 overflow-y-auto">
-          {searchResults.map((item, index) => (
+        <ul className="absolute z-10  rounded-md mt-1 w-full max-h-96 overflow-y-auto bg-transparent ">
+          {searchResults.map((item) => (
             <li
               key={item.id}
-              className={clsx(
-                "cursor-pointer p-2",
-                { "bg-gray-200": highlightedIndex === index },
-                { "hover:bg-gray-100": highlightedIndex !== index },
-              )}
+              className="cursor-pointer"
               onClick={() => handleSelect(item)}
-              onMouseEnter={() => setHighlightedIndex(index)}
             >
-              {displayField(item)}
+              {renderItem(item)}
             </li>
           ))}
         </ul>

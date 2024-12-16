@@ -15,6 +15,8 @@ export * from "./viaAdministracion.interface";
 export * from "./producto.interface";
 export * from "./lotes.interface";
 
+export * from "./venta.interface";
+
 // Types Para el Server-Actions:
 export * from "./types/persona";
 export * from "./types/usuario";

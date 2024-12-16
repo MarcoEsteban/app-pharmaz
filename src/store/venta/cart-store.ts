@@ -9,8 +9,10 @@ interface State {
   cliente: Cliente | null;
   vendedor: Omit<Cliente, "ci"> | null;
   farma: Omit<Farmacia, "usuarioId"> | null;
+  numeroVenta: number;
 
   // Action:
+  setNumVenta: (numero: number) => void;
   setCliente: (cliente: Cliente) => void;
   setVendedor: (vendedor: Omit<Cliente, "ci">) => void;
   setFarma: (farma: Omit<Farmacia, "usuarioId">) => void;
@@ -36,6 +38,7 @@ export const useCartStore = create<State>()(
     // set :: Me permite realizar el cambio del estado actual del Store de Zustand.
     (set, get) => ({
       // State Initial:
+      numeroVenta: 0,
       cart: [],
       cliente: null,
       vendedor: null,
@@ -47,6 +50,8 @@ export const useCartStore = create<State>()(
       emtyCart: () => {
         set({ cart: [], cliente: null, vendedor: null, farma: null });
       },
+      setNumVenta: (numero) => set({ numeroVenta: numero }),
+
       setCliente: (cliente) => set({ cliente }),
 
       setVendedor: (vendedor: Omit<Cliente, "ci">) => set({ vendedor }),
@@ -88,42 +93,27 @@ export const useCartStore = create<State>()(
       addProductToCart: (product: ProductoSearch) => {
         const { cart } = get();
 
+        // Verificar si el producto ya está en el carrito
         const productInCart = cart.some((item) => item.id === product.id);
 
-        if (!productInCart) {
-          // Reduce el stock al agregar al carrito
-          const updatedProduct = {
-            ...product,
-            stock: product.stock - product.cantidadCart,
-          };
-          set({ cart: [...cart, updatedProduct] });
-          return;
+        if (productInCart) {
+          // Mostrar una alerta si el producto ya está en el carrito
+          Swal.fire({
+            title: "Producto ya agregado",
+            text: `El medicamento ${product.nombre} ya está en la tabla.`,
+            icon: "info",
+            confirmButtonText: "Entendido",
+          });
+          return; // Salir de la función para evitar cambios en el estado
         }
 
-        // Si ya existe, incrementa la cantidad pero verifica que no exceda el stock disponible
-        const updatedCart = cart.map((item) => {
-          if (item.id === product.id) {
-            const newCantidad = item.cantidadCart + product.cantidadCart;
-            if (newCantidad > item.stock) {
-              // Mostrar alerta si no hay suficiente stock
-              Swal.fire({
-                title: "Stock insuficiente",
-                text: `Solo hay ${item.stock} unidades disponibles.`,
-                icon: "error",
-                confirmButtonText: "Entendido",
-              });
-              return item; // Mantén el producto sin cambios
-            }
-            return {
-              ...item,
-              cantidadCart: newCantidad,
-              stock: item.stock - product.cantidadCart,
-            };
-          }
-          return item;
-        });
+        // Si el producto no está en el carrito, agregarlo
+        const updatedProduct = {
+          ...product,
+          stock: product.stock - product.cantidadCart, // Reducir el stock
+        };
 
-        set({ cart: updatedCart });
+        set({ cart: [...cart, updatedProduct] });
       },
 
       updateProductQuantity: (product: ProductoSearch, newQuantity: number) => {
@@ -132,17 +122,18 @@ export const useCartStore = create<State>()(
         const updatedCart = cart.map((item) => {
           if (item.id === product.id) {
             const cantidad = newQuantity - item.cantidadCart;
-            if (item.stock - cantidad < 0) {
+
+            if ((item.stock - cantidad) < 0) {
               // -----------------------------------------
               // Mostrar alerta si no hay suficiente stock
               // -----------------------------------------
               Swal.fire({
                 title: "Cantidad excedida",
-                text: `Stock insuficiente: ${item.stock} unidades.`,
+                text: `Stock insuficiente: ${item.stock} unidades disponible.`,
                 icon: "warning",
                 confirmButtonText: "Ok",
               });
-              return item; // Mantén el producto sin cambios
+              return item;
             }
             return {
               ...item,

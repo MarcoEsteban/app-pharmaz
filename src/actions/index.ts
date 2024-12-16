@@ -12,6 +12,7 @@ export { getByIdRoles } from "./roles/roles-get-by-id";
 export { createUpdateRoles } from "./roles/roles-create-update";
 
 // DatoFarmacia
+export { getFarma } from "./datofarmacia/farma-get";
 export { getByIdFarma } from "./datofarmacia/farma-get-by-id";
 export { updateFarma } from "./datofarmacia/farma-update";
 
@@ -82,6 +83,11 @@ export { toggleStateLote } from "./lotes/lote-toggle-state";
 // Ventas
 export { searchCliente } from "./ventas/venta-search-cliente";
 export { searchProducto } from "./ventas/venta-search-producto";
+export { createVenta } from "./ventas/venta-create";
+
+// Ventas Realizadas
+export { getPaginationVentas } from "./ventasrealizadas/ventas-pagination";
+export { getByIdVentas } from "./ventasrealizadas/ventas-getById";
 
 // Imagen
 export { uploadImage } from "./imagen/upload-image";

@@ -49,7 +49,7 @@ export interface Medicamento {
 // }
 
 interface Lote {
-  id: number | string;
+  id: string;
   stock: number;
   vencimiento: Date;
 }
@@ -61,12 +61,13 @@ export interface ProductoSearch {
   adicional: string | null; // Información adicional
   precio: number; // Precio convertido de Decimal a number
   presentacionId: string | null; // Nombre de la presentación
-  laboratoriosId: string | null; // Nombre del laboratorio
+  laboratorioId: string | null; // Nombre del laboratorio
   foto: string | null; // URL o path de la foto
   stock: number; // Total de stock considerando todos los lotes
   lote: Lote | null;
   cantidadCart: number; // Inicialmente 1
   estado: boolean; // Estado del medicamento (activo o inactivo)
+  statusColor: string;
 }
 
 // Partial  :: Indico que algunos campos seran opcional - Partial<Medicamento>.
