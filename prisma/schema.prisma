@@ -159,7 +159,7 @@ model Lotes {
 // ==================
 model Medicamentos {
   id            String  @id @default(uuid())
-  categoria     String
+  //categoria     String
   nombre        String
   concentracion String?
   adicional     String?
@@ -173,11 +173,11 @@ model Medicamentos {
   updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
   // Lotes                   MedicamentosOnLotes[] // Relacion One to Many
-  lotes             Lotes[]          @relation("MedicamentoLotes") // Relación con Lotes
-  laboratorios      MedicaOnLabo[]
-  presentacion      MedicaOnPresen[]
-  principioActivo   MedicaOnPrinci[]
-  viaAdministracion MedicaOnViaAdm[]
+  lotes           Lotes[]           @relation("MedicamentoLotes") // Relación con Lotes
+  laboratorios    MedicaOnLabo[]
+  presentacion    MedicaOnPresen[]
+  principioActivo MedicaOnPrinci[]
+  Clasificacion   MedicaOnClasifi[]
 
   DetalleVentas DetalleVentas[]
 }
@@ -224,18 +224,18 @@ model MedicaOnPrinci {
   @@id([productoId, principioActivoId]) // Relacion de [Many to Many]
 }
 
-// ====================
-// Tabla MedicaOnViaAdm
-// ====================
-model MedicaOnViaAdm {
-  Producto            Medicamentos      @relation(fields: [productoId], references: [id])
-  ViaAdministracion   ViaAdministracion @relation(fields: [viaAdministracionId], references: [id])
-  productoId          String
-  viaAdministracionId String
-  createdAt           DateTime          @default(now()) // Fecha de creación del registro.
-  updatedAt           DateTime          @updatedAt // Fecha de la última actualización del registro.
+// =====================
+// Tabla MedicaOnClasifi
+// =====================
+model MedicaOnClasifi {
+  Producto        Medicamentos  @relation(fields: [productoId], references: [id])
+  Clasificacion   Clasificacion @relation(fields: [clasificacionId], references: [id])
+  productoId      String
+  clasificacionId String
+  createdAt       DateTime      @default(now()) // Fecha de creación del registro.
+  updatedAt       DateTime      @updatedAt // Fecha de la última actualización del registro.
 
-  @@id([productoId, viaAdministracionId]) // Relacion de [Many to Many]
+  @@id([productoId, clasificacionId]) // Relacion de [Many to Many]
 }
 
 // ==================
@@ -266,16 +266,17 @@ model Presentacion {
 }
 
 // =======================
-// Tabla ViaAdministracion
+// Tabla Clasificacion
 // =======================
-model ViaAdministracion {
+//model ViaAdministracion {
+model Clasificacion {
   id        String   @id @default(uuid())
   nombre    String   @unique
   estado    Boolean  @default(true)
   createdAt DateTime @default(now()) // Indico la fecha de creacion.
   updatedAt DateTime @updatedAt // Fecha de la última actualización del registro.
 
-  producto MedicaOnViaAdm[]
+  producto MedicaOnClasifi[]
 }
 
 // =====================

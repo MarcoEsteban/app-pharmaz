@@ -35,7 +35,7 @@ export const searchProducto = async (searchTerm: string) => {
               },
             },
           },
-          { categoria: { contains: searchTerm, mode: "insensitive" } },
+          // { categoria: { contains: searchTerm, mode: "insensitive" } },
         ],
       },
       select: {

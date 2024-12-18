@@ -143,9 +143,8 @@ export const getPaginationVentas = async ({
         metodoPago: venta.Transacciones.metodoPago,
         numeroVenta: venta.Transacciones.numeroVenta,
         total: venta.Transacciones.total.toNumber(),
-        cliente: `${venta.Personas.nombre} ${venta.Personas.ap || ""} ${
-          venta.Personas.am || ""
-        }`,
+        cliente: `${venta.Personas.nombre} ${venta.Personas.ap || ""} ${venta.Personas.am || ""
+          }`,
         clienteNit: venta.Personas.ci,
         vendedor: venta.Usuario.id,
         detalles: venta.DetalleVentas.map((detalle) => ({

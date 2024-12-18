@@ -4,7 +4,7 @@ import { DateTime } from "luxon";
 import { useState } from "react";
 
 const DateInput = () => {
-  const [date, setDate] = useState<string | null>(null);
+  const [date, setDate] = useState<string | null>("");
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputDate = e.target.value;

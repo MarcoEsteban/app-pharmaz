@@ -20,7 +20,7 @@ export const login = async (formData: FormData) => {
       return { ok: false, message: result.error };
     }
 
-    revalidatePath("/");
+    revalidatePath("/perfil");
 
     return { ok: true, message: "Ingreso Exitoso" };
   } catch (error) {

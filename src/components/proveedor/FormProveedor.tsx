@@ -16,7 +16,7 @@ type FormInputs = {
   id?: string;
   nit: string;
   nombre: string;
-  celular: number;
+  celular: string;
   direccion: string;
   email: string;
 };
@@ -39,7 +39,7 @@ export const FormProveedor = ({ proveedor }: Props) => {
       defaultValues: {
         nit: proveedor.nit,
         nombre: proveedor.nombre,
-        celular: proveedor.celular,
+        celular: proveedor.celular?.toString() ?? "",
         direccion: proveedor.direccion ?? "",
         email: proveedor.email,
       },
@@ -127,9 +127,9 @@ export const FormProveedor = ({ proveedor }: Props) => {
           <input
             className={clsx(
               "input-text",
-              errors.celular && "focus:border-red-500 border-red-500",
+              { "focus:border-red-500 border-red-500": errors.celular },
             )}
-            type="string"
+            type="tel"
             id="celular"
             {...register("celular", { required: "El celular es requerido" })}
             placeholder="Ingrese un celular"

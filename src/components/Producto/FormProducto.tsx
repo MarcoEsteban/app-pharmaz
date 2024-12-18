@@ -7,19 +7,20 @@ import { BtnCancelar, BtnGuardar } from "@/components";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { getUrlParams, messageSweetAlert } from "@/utils";
 import {
+  searchClasificacion,
   searchLaboratorio,
   searchPresentaciones,
   searchPrincipioActivo,
-  searchViaAdministracion,
 } from "@/actions";
 import Autocomplete from "../ui/autocomplete/AutoComplete";
 import { createUpdateProducto } from "@/actions/producto/product-create-update";
 import { useCategoriaStore } from "@/store";
 import { useCallback } from "react";
+import { Medicamento } from "@/interfaces";
 
 type FormInputs = {
   id?: string | null;
-  categoria: string;
+  // categoria: string;
   nombre: string;
   concentracion: string;
   adicional: string;
@@ -29,11 +30,11 @@ type FormInputs = {
   presentacionId: string;
   laboratoriosId: string;
   principioActivoId: string;
-  viaAdministracionId: string;
+  clasificacionId: string;
 };
 
 interface Props {
-  producto: Partial<FormInputs>;
+  producto: Partial<Medicamento>;
 }
 
 export const FormProducto = ({ producto }: Props) => {
@@ -50,8 +51,8 @@ export const FormProducto = ({ producto }: Props) => {
   >({
     // resolver: zodResolver(productoSchema), // Integración con Zod
     defaultValues: {
-      id: producto.id || null,
-      categoria: producto.categoria || "Farmacos",
+      id: producto.id || "",
+      // categoria: producto.categoria || "Farmacos",
       nombre: producto.nombre || "",
       concentracion: producto.concentracion || "",
       adicional: producto.adicional || "",
@@ -61,7 +62,7 @@ export const FormProducto = ({ producto }: Props) => {
       presentacionId: producto.presentacionId || "",
       laboratoriosId: producto.laboratoriosId || "",
       principioActivoId: producto.principioActivoId || "",
-      viaAdministracionId: producto.viaAdministracionId || "",
+      clasificacionId: producto.clasificacionId || "",
     },
   });
 
@@ -73,7 +74,7 @@ export const FormProducto = ({ producto }: Props) => {
       formData.append("id", data.id);
     }
 
-    formData.append("categoria", categoria);
+    // formData.append("categoria", categoria);
     formData.append("nombre", data.nombre);
     formData.append("concentracion", data.concentracion);
     formData.append("adicional", data.adicional);
@@ -83,7 +84,7 @@ export const FormProducto = ({ producto }: Props) => {
     formData.append("laboratoriosId", data.laboratoriosId);
     formData.append("presentacionId", data.presentacionId);
     formData.append("principioActivoId", data.principioActivoId);
-    formData.append("viaAdministracionId", data.viaAdministracionId);
+    formData.append("clasificacionId", data.clasificacionId);
 
     console.log("Datos del formulario:", data);
 
@@ -130,8 +131,8 @@ export const FormProducto = ({ producto }: Props) => {
     return await searchPrincipioActivo(term);
   }, []);
 
-  const searchViaAdmiFunc = useCallback(async (term: string) => {
-    return await searchViaAdministracion(term);
+  const searchClasificacionFunc = useCallback(async (term: string) => {
+    return await searchClasificacion(term);
   }, []);
 
   // Memorización de displayValue
@@ -173,7 +174,7 @@ export const FormProducto = ({ producto }: Props) => {
 
         {/* Concentracion (Solo Farmacos) */}
         {categoria === "Farmacos" && (
-          <div className={clsx("col-span-1", { "col-span-2": producto.id })}>
+          <div className={clsx("col-span-1", { "col-span-1": producto.id })}>
             <label htmlFor="concentracion" className="label-text">
               Concentración <span className="text-red-600">*</span>
             </label>
@@ -395,18 +396,18 @@ export const FormProducto = ({ producto }: Props) => {
         {categoria === "Farmacos" && (
           <div className="col-span-2">
             <Controller
-              name="viaAdministracionId"
+              name="clasificacionId"
               control={control}
-              rules={{ required: "La vía de administración es obligatoria" }} // Regla de validación
+              rules={{ required: "La clasificación es obligatoria" }} // Regla de validación
               render={(
                 { field: { onChange, value }, fieldState: { error } },
               ) => (
                 <Autocomplete
-                  label="Vía Administración"
-                  name="viaAdministracionId"
+                  label="Clasificacion"
+                  name="clasificacionId"
                   value={value}
                   onChange={onChange}
-                  fetchResults={searchViaAdmiFunc}
+                  fetchResults={searchClasificacionFunc}
                   // displayValue={(option) => `${option.nombre}`}
                   displayValue={displayValue}
                   error={error?.message}

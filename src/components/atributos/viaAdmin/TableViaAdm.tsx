@@ -1,23 +1,21 @@
-import { ButtonState } from '@/components/ui/button/ButtonState';
-import { ButtonActionToglgleState } from '@/components/ui/button/ButtonActionToglgleState';
-import { BtnModificar } from '@/components/ui/button/Button';
-import { toggleStateViaAdm } from '@/actions';
-import { viaAdministracion } from '@/interfaces';
+import { ButtonState } from "@/components/ui/button/ButtonState";
+import { ButtonActionToglgleState } from "@/components/ui/button/ButtonActionToglgleState";
+import { BtnModificar } from "@/components/ui/button/Button";
+import { toggleStateClasifi } from "@/actions";
+import { Clasificacion } from "@/interfaces";
 
 interface Props {
-  viaAdmint: viaAdministracion[]
+  clasifi: Clasificacion[];
 }
 
-export const TableViaAdm = ( { viaAdmint }: Props ) => {
+export const TableViaAdm = ({ clasifi }: Props) => {
   return (
     <div className="flex-auto p-1 my-2 border border-solid rounded-lg">
-
       <div className="p-0 overflow-x-auto">
         <table className="items-center w-full bg-white divide-y divide-gray-200  text-slate-500">
-
-          {/*======================================= Cabecera =======================================*/ }
+          {/*======================================= Cabecera =======================================*/}
           <thead className="">
-            <tr className={ "shadow-sm" }>
+            <tr className={"shadow-sm"}>
               <th className="table-th text-left font-bold">#</th>
               <th className="table-th text-left ">ID</th>
               <th className="table-th text-left ">Nombre</th>
@@ -26,41 +24,35 @@ export const TableViaAdm = ( { viaAdmint }: Props ) => {
             </tr>
           </thead>
 
-          {/*======================================== Cuerpo ========================================*/ }
+          {/*======================================== Cuerpo ========================================*/}
           <tbody className="bg-white divide-y divide-gray-200">
+            {clasifi && clasifi.map((clasi, index) => (
+              <tr key={clasi.id}>
+                <td className={"table-td font-bold"}>{index + 1}</td>
 
-            {
-              viaAdmint && viaAdmint.map( (viaAdm, index) => (
-                <tr key={viaAdm.id}>
-                  <td className={ "table-td font-bold" }>{index + 1}</td>
-                  
-                  <td className={ "table-td" }>{viaAdm.id?.split('-').at(-1)}</td>
-                  
-                  <td className="table-td ">{ viaAdm.nombre }</td>
+                <td className={"table-td"}>{clasi.id?.split("-").at(-1)}</td>
 
-                  <td className="table-td text-center">
-                    <ButtonState estado={ viaAdm.estado } />
-                  </td>
+                <td className="table-td ">{clasi.nombre}</td>
 
-                  {/*========== Botones ==========*/ }
-                  <td className="text-center">
+                <td className="table-td text-center">
+                  <ButtonState estado={clasi.estado} />
+                </td>
 
-                    {/*============= Buton Eliminar || Habilitar =============*/ }
-                    <ButtonActionToglgleState
-                      id={ viaAdm.id }
-                      nombre={ viaAdm.nombre }
-                      estado={ viaAdm.estado }
-                      toggleActionState={ toggleStateViaAdm }
-                    />
+                {/*========== Botones ==========*/}
+                <td className="text-center">
+                  {/*============= Buton Eliminar || Habilitar =============*/}
+                  <ButtonActionToglgleState
+                    id={clasi.id}
+                    nombre={clasi.nombre}
+                    estado={clasi.estado}
+                    toggleActionState={toggleStateClasifi}
+                  />
 
-                    {/*=================== Buton Actualizar ==================*/ }
-                    <BtnModificar id={viaAdm.id} />
-
-                  </td>
-                    
-                </tr>
-              ))
-            }
+                  {/*=================== Buton Actualizar ==================*/}
+                  <BtnModificar id={clasi.id} />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

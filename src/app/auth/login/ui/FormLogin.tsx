@@ -34,7 +34,7 @@ export const FormLogin = () => {
 
     if (response.ok) {
       // Redirigir al usuario si el login fue exitoso
-      router.replace("/");
+      router.replace("/perfil");
     }
   };
 

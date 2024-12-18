@@ -25,9 +25,9 @@ export const getByIdProducto = async (id: string) => {
             },
           },
         },
-        viaAdministracion: {
+        Clasificacion: {
           select: {
-            ViaAdministracion: {
+            Clasificacion: {
               select: {
                 nombre: true,
               },
@@ -50,7 +50,7 @@ export const getByIdProducto = async (id: string) => {
 
     const producto = {
       id: productoById.id,
-      categoria: productoById.categoria,
+      // categoria: productoById.categoria,
       nombre: productoById.nombre,
       concentracion: productoById.concentracion ?? undefined,
       adicional: productoById.adicional ?? undefined,
@@ -64,14 +64,16 @@ export const getByIdProducto = async (id: string) => {
       presentacionId: productoById.presentacion.map((presen) =>
         presen.Presentacion.nombre
       ).join(""),
-      viaAdministracionId: productoById.viaAdministracion.map((viaAdm) =>
-        viaAdm.ViaAdministracion.nombre
+      clasificacionId: productoById.Clasificacion.map((viaAdm) =>
+        viaAdm.Clasificacion.nombre
       ).join(""),
       principioActivoId: productoById.principioActivo.map((princi) =>
         princi.PrincipioActivo.nombre
       ).join(""),
       estado: productoById.estado,
     };
+
+    console.log({ producto });
 
     return producto;
   } catch (error) {

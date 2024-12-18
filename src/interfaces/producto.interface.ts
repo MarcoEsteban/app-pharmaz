@@ -10,7 +10,7 @@ export interface Producto {
   presentacionId: string;
   laboratoriosId: string;
   principioActivoId: string;
-  viaAdministracionId: string;
+  clasificacionId: string;
   stock: number;
   estado: boolean;
 }
@@ -27,7 +27,7 @@ export interface Medicamento {
   presentacionId: string;
   laboratoriosId: string;
   principioActivoId: string;
-  viaAdministracionId: string;
+  clasificacionId: string;
   estado: boolean;
 }
 

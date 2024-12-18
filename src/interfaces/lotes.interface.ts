@@ -18,7 +18,7 @@ export interface LoteProducto {
   presentacion: string;
   laboratorio: string;
   principioActivo: string;
-  viaAdministracion: string;
+  clasificacion: string;
   productoId: string;
   proveedorId: string;
   usuarioId: string;

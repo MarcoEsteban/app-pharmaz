@@ -19,7 +19,7 @@ export const ClienteSearch = ({ vendedor, farma }: Props) => {
     setFarma(farma);
     setVendedor(vendedor);
     const numero = await generateNumeroVenta();
-    setNumVenta(numero as number);
+    setNumVenta(numero + 1);
   };
 
   return (

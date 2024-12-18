@@ -84,7 +84,7 @@ interface SeedPrincipioActivo {
   estado?: boolean;
 }
 
-interface SeedViaAdministraciion {
+interface SeedClasificacion {
   id?: string;
   nombre: string;
   estado?: boolean;
@@ -111,7 +111,7 @@ interface SeedData {
   presentacion: SeedPresentacion[];
   laboratorio: SeedLaboratorio[];
   principioActivo: SeedPrincipioActivo[];
-  viaAdministracion: SeedViaAdministraciion[];
+  clasificacion: SeedClasificacion[];
   lotes: SeedLotes[];
 }
 
@@ -290,7 +290,7 @@ export const initialData: SeedData = {
     { nombre: "Megalabs" },
   ],
 
-  viaAdministracion: [
+  clasificacion: [
     { nombre: "Rectal" },
     { nombre: "Oral" },
     { nombre: "Intramuscular" },

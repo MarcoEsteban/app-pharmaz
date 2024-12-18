@@ -4,20 +4,18 @@ import prisma from "@/libs/prisma";
 
 export const generateNumeroVenta = async () => {
   try {
-    const numero = await prisma.transacciones.findFirst({
+    // Obtener la última transacción con el número de venta
+    const totalRegistro = await prisma.transacciones.count({
       orderBy: {
         id: "desc",
       },
     });
 
-    // --------------------------
-    // Generar el proximo número:
-    // --------------------------
-    const ultimoNumero = numero ? parseInt(numero.numeroVenta.toString()) : 0;
-    const numeroVenta = (ultimoNumero + 1).toString().padStart(6, "0");
+    console.log({ totalRegistro });
 
-    return Number(numeroVenta);
+    return totalRegistro; // Retorna como string para evitar problemas con el formato
   } catch (error) {
-    console.log({ error });
+    console.error("Error generando número de venta:", error);
+    throw new Error("No se pudo generar el número de venta.");
   }
 };

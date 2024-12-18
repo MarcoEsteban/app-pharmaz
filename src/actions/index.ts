@@ -58,16 +58,16 @@ export { getPaginationPresent } from "./atributo/presentacion/present-pagination
 export { toggleStatePresent } from "./atributo/presentacion/present-toggle-state";
 
 // Via Administracion
-export { createUpdateViaAdm } from "./atributo/viaadminist/viaadm-create-update";
-export { getByIdViaAdm } from "./atributo/viaadminist/viaadm-get-by-id";
-export { getPaginationViaAdm } from "./atributo/viaadminist/viaadm-pagination";
-export { toggleStateViaAdm } from "./atributo/viaadminist/viaadm-toggle-state";
+export { createUpdateClasificacion } from "./atributo/clasificacion/clasifi-create-update";
+export { getByIdClasifi } from "./atributo/clasificacion/clasifi-get-by-id";
+export { getPaginationClasifi } from "./atributo/clasificacion/clasifi-pagination";
+export { toggleStateClasifi } from "./atributo/clasificacion/clasifi-toggle-state";
 
 // Producto
 export { searchPresentaciones } from "./producto/search/product-search-presentacion";
 export { searchLaboratorio } from "./producto/search/product-search-laboratorio";
 export { searchPrincipioActivo } from "./producto/search/product-search-principio-activo";
-export { searchViaAdministracion } from "./producto/search/product-search-via-administra";
+export { searchClasificacion } from "./producto/search/product-search-clasificacion";
 
 export { createUpdateProducto } from "./producto/product-create-update";
 export { getByIdProducto } from "./producto/product-get-by-id";

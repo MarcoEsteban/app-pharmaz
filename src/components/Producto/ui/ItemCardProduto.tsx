@@ -84,8 +84,8 @@ export const ItemCardProducto = ({ producto }: Props) => {
             {producto.tipo &&
               (
                 <p className="flex gap-1">
-                  <FaSyringe size={20} /> Via Administracion:{" "}
-                  {producto.viaAdministracionId}
+                  <FaSyringe size={20} /> Clasificación:{" "}
+                  {producto.clasificacionId}
                 </p>
               )}
           </div>

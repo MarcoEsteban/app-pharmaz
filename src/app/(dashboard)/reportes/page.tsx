@@ -1,28 +1,14 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/auth.config";
 import { Card, Title } from "@/components";
-import DateInput from "@/components/reportes/DateInput";
+import MultiLevelDropdown from "@/components/reportes/MultiLevelDropdown";
 
-interface Props {
-  searchParams: {
-    modal: string;
-    query?: string;
-    page?: string;
-    filtro?: string;
-  };
-}
-
-export default async function ReportesPage({ searchParams }: Props) {
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const modal = searchParams.modal;
-  const filtro = searchParams?.filtro || "Efectivo";
-
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/auth/login?returnTo=/producto");
-  }
+export default async function ReportesPage() {
+  const reportOptions = [
+    { label: "Hoy", value: "hoy" },
+    { label: "Hace 7 días", value: "7-dias" },
+    { label: "Hace 1 mes", value: "30-dias" },
+    { label: "Del mes", value: "mes" },
+    { label: "Rango", isDateRange: true },
+  ];
 
   return (
     <Card>
@@ -31,8 +17,25 @@ export default async function ReportesPage({ searchParams }: Props) {
       {/* ============================== */}
       <Title title={"Reportes"} />
 
-      <div>
-        <DateInput />
+      <div className="mt-4 flex gap-[150px]">
+        <MultiLevelDropdown
+          buttonLabel="Generar Reporte Venta"
+          menuOptions={reportOptions}
+          pago="si"
+          table="Ventas"
+        />
+
+        <MultiLevelDropdown
+          buttonLabel="Generar Reporte Compras"
+          menuOptions={reportOptions}
+          table="Compras"
+        />
+
+        <MultiLevelDropdown
+          buttonLabel="Generar Reporte Inventario"
+          menuOptions={reportOptions}
+          table="Inventario"
+        />
       </div>
     </Card>
   );

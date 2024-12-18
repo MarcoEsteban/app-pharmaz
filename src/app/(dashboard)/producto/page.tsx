@@ -11,6 +11,7 @@ import {
 import {
   FormLote,
   FormPhoto,
+  FormProducto,
   ItemCardProducto,
   ModalSizeProducto,
 } from "@/components/Producto";
@@ -53,6 +54,7 @@ export default async function ProductoPage({ searchParams }: Props) {
       id ? getByIdProducto(id) : Promise.resolve(null),
       id ? getByIdLote(id) : Promise.resolve(null),
     ]);
+    console.log({ producto });
 
     if (modalType === "foto") {
       return (
@@ -91,18 +93,18 @@ export default async function ProductoPage({ searchParams }: Props) {
       {/* Buscador y Filtros */}
       <div className={"flex gap-8 my-2"}>
         <Search placeholder={"Buscar Medicamentos..."} />
-        <FilterCategoria
-          name={"producto"}
-          label1={"Farmacos"}
-          label2={"Instrumento Médico"}
-        />
+        {/* <FilterCategoria */}
+        {/*   name={"producto"} */}
+        {/*   label1={"Farmacos"} */}
+        {/*   label2={"Instrumento Médico"} */}
+        {/* /> */}
         <BtnAgregar />
       </div>
 
       {/*********************** Tabla ***********************/}
       <Suspense
         key={query + currentPage} // Esto permite que se renderice de nuevo el componente.
-        // fallback={ <UsuariosTableSkeleton /> }
+      // fallback={ <UsuariosTableSkeleton /> }
       >
         <div className="grid grid-cols-3 gap-4 pt-4 pb-2">
           {productos.map((producto, index) => (

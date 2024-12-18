@@ -70,9 +70,9 @@ export const getPaginationLotes = async ({
               },
               {
                 Producto: {
-                  viaAdministracion: {
+                  Clasificacion: {
                     some: {
-                      ViaAdministracion: {
+                      Clasificacion: {
                         nombre: { contains: query, mode: "insensitive" },
                       },
                     },
@@ -82,11 +82,11 @@ export const getPaginationLotes = async ({
             ],
           }
           : {},
-        categoria
-          ? {
-            Producto: { categoria: { contains: query, mode: "insensitive" } },
-          }
-          : {},
+        // categoria
+        //   ? {
+        //     Producto: { categoria: { contains: query, mode: "insensitive" } },
+        //   }
+        //   : {},
       ],
     };
 
@@ -116,9 +116,9 @@ export const getPaginationLotes = async ({
                   },
                 },
               },
-              viaAdministracion: {
+              Clasificacion: {
                 include: {
-                  ViaAdministracion: {
+                  Clasificacion: {
                     select: { nombre: true },
                   },
                 },
@@ -168,8 +168,8 @@ export const getPaginationLotes = async ({
         tipo: lote.Producto?.tipo || "",
         presentacion: lote.Producto?.presentacion?.[0]?.Presentacion?.nombre ||
           "",
-        viaAdministracion:
-          lote.Producto?.viaAdministracion?.[0]?.ViaAdministracion?.nombre ||
+        clasificacion:
+          lote.Producto?.Clasificacion?.[0]?.Clasificacion?.nombre ||
           "",
         principioActivo:
           lote.Producto?.principioActivo?.[0]?.PrincipioActivo?.nombre || "",

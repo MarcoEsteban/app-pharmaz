@@ -61,8 +61,7 @@ export const ItemCardLote = ({ lote }: Props) => {
               <FaPills size={20} /> Presentacion: {lote.presentacion}
             </span>
             <span className="flex gap-1">
-              <FaSyringe size={20} /> Via Administracion:{" "}
-              {lote.viaAdministracion}
+              <FaSyringe size={20} /> Clasificacion: {lote.clasificacion}
             </span>
             <span className="flex gap-1">
               <FaTruckMedical size={20} /> Proveedor: {lote.proveedorId}

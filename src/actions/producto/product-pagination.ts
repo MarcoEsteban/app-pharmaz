@@ -54,9 +54,9 @@ export const getPaginationProducto = async ({
                 },
               },
               {
-                viaAdministracion: {
+                Clasificacion: {
                   some: {
-                    ViaAdministracion: {
+                    Clasificacion: {
                       nombre: { contains: query, mode: "insensitive" },
                     },
                   },
@@ -74,11 +74,11 @@ export const getPaginationProducto = async ({
             ],
           }
           : {},
-        categoria
-          ? {
-            categoria: { equals: categoria },
-          }
-          : {},
+        // categoria
+        //   ? {
+        //     categoria: { equals: categoria },
+        //   }
+        //   : {},
       ],
     };
 
@@ -89,7 +89,7 @@ export const getPaginationProducto = async ({
         take, // Número de registros a mostrar
         skip: (currentPage - 1) * take, // Saltar registros para paginación
         orderBy: {
-          createdAt: "asc",
+          createdAt: "desc",
         },
         include: { // Incluir relaciones si necesitas mostrar datos relacionados
           laboratorios: {
@@ -106,9 +106,9 @@ export const getPaginationProducto = async ({
               },
             },
           },
-          viaAdministracion: {
+          Clasificacion: {
             include: {
-              ViaAdministracion: {
+              Clasificacion: {
                 select: { nombre: true },
               },
             },
@@ -139,7 +139,7 @@ export const getPaginationProducto = async ({
 
       return {
         id: item.id,
-        categoria: item.categoria,
+        // categoria: item.categoria,
         nombre: item.nombre,
         concentracion: item.concentracion,
         adicional: item.adicional,
@@ -149,8 +149,7 @@ export const getPaginationProducto = async ({
         foto: item.foto,
         laboratoriosId: item.laboratorios?.[0]?.Laboratorio?.nombre || "", // Acceso a nombre de laboratorio
         presentacionId: item.presentacion?.[0]?.Presentacion?.nombre || "", // Acceso a nombre de presentación
-        viaAdministracionId:
-          item.viaAdministracion?.[0]?.ViaAdministracion?.nombre || "", // Acceso a nombre de vía de administración
+        clasificacionId: item.Clasificacion?.[0]?.Clasificacion?.nombre || "", // Acceso a nombre de vía de administración
         principioActivoId: item.principioActivo?.[0]?.PrincipioActivo?.nombre ||
           "", // Acceso a nombre de principio activo
         stock: totalStock,

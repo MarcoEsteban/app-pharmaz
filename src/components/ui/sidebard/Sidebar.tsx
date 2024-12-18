@@ -66,7 +66,7 @@ export const Sidebard = ({ img, nombrePharma, menus }: Props) => {
 
       {/*================================================ Logo ================================================*/}
       <Link
-        href="/"
+        href="/perfil"
         className={clsx(
           "flex items-center w-auto border-b-gray-300 transition-all duration-300",
         )}

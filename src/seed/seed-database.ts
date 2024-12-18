@@ -20,12 +20,12 @@ async function main() {
   await prisma.medicaOnLabo.deleteMany();
   await prisma.medicaOnPresen.deleteMany();
   await prisma.medicaOnPrinci.deleteMany();
-  await prisma.medicaOnViaAdm.deleteMany();
+  await prisma.medicaOnClasifi.deleteMany();
   await prisma.medicamentos.deleteMany();
   await prisma.presentacion.deleteMany();
   await prisma.laboratorios.deleteMany();
   await prisma.principioActivo.deleteMany();
-  await prisma.viaAdministracion.deleteMany();
+  await prisma.clasificacion.deleteMany();
   // ] );
 
   // -------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ async function main() {
     presentacion,
     laboratorio,
     principioActivo,
-    viaAdministracion,
+    clasificacion,
     lotes,
   } = initialData;
 
@@ -161,13 +161,13 @@ async function main() {
   // });
 
   // ===============================
-  // Insert Table viaAdministracion:
+  // Insert Table clasificacion:
   // ===============================
-  await prisma.viaAdministracion.createMany({
-    data: viaAdministracion,
+  await prisma.clasificacion.createMany({
+    data: clasificacion,
   });
 
-  // const viaAdministracionId = await prisma.viaAdministracion.findMany({
+  // const clasificacionId = await prisma.clasificacion.findMany({
   //   select: { id: true },
   // });
 
@@ -238,18 +238,18 @@ async function main() {
   // ============================
   // Insert Table medicaOnViaAdm:
   // ============================
-  const viaAdministracionDB = await prisma.viaAdministracion.findMany({
+  const clasificacionDB = await prisma.clasificacion.findMany({
     select: { id: true },
   });
 
   const medivia = productosDB.map((item, i) => {
     return {
       productoId: item.id,
-      viaAdministracionId: viaAdministracionDB[i].id,
+      clasificacionId: clasificacionDB[i].id,
     };
   });
 
-  await prisma.medicaOnViaAdm.createMany({
+  await prisma.medicaOnClasifi.createMany({
     data: medivia,
   });
 

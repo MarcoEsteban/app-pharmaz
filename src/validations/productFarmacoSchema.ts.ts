@@ -1,96 +1,125 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 // Función para capitalizar cadenas
 const capitalize = (val: string) =>
   val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
 
-// Esquema base sin el campo 'categoria' ni los campos condicionales
 export const productoSchema = z.object({
   id: z.string().uuid().optional().nullable(),
 
-  categoria: z.string(),
-
-  nombre: z.string()
+  nombre: z
+    .string()
     .min(3, { message: "Campo obligatorio, 3 caracteres como mínimo" })
     .transform(capitalize),
 
-  adicional: z.string()
+  adicional: z
+    .string()
     .optional()
     .nullable()
-    .transform((val) => val === '' ? null : val),
+    .transform((val) => (val === "" ? null : val)),
 
-  precio: z.string()
+  precio: z
+    .string()
     .trim()
     .regex(/^[0-9]+([.,][0-9]{1,2})?$/, {
       message: "Campo obligatorio, solo número con 2 decimales",
     })
-    .transform((val) => parseFloat(val.replace(',', '.')))
+    .transform((val) => parseFloat(val.replace(",", ".")))
     .refine((val) => val > 0, {
       message: "El precio debe ser positivo.",
     }),
 
-  laboratoriosId: z.string().uuid(),
-
-  concentracion: z.string()
+  concentracion: z
+    .string()
     .optional()
     .nullable()
-    .transform((val) => val === '' ? null : val),
+    .transform((val) => (val === "" ? null : val)),
 
-  receta: z.string()
+  receta: z
+    .string()
     .optional()
     .nullable()
-    .transform((val) => val === '' ? null : val),
+    .transform((val) => (val === "" ? null : val)),
 
-  tipo: z.string()
+  tipo: z
+    .string()
     .optional()
     .nullable()
-    .transform((val) => val === '' ? null : val),
+    .transform((val) => (val === "" ? null : val)),
 
-  presentacionId: z.string()
+  // Validación para aceptar UUID o cualquier cadena
+  laboratoriosId: z
+    .string()
     .optional()
-    .transform((val) => val === '' ? null : val)
-    .refine((val) => val === null || z.string().uuid().safeParse(val).success, {
-      message: "UUID inválido para presentacionId",
-    }),
+    .nullable()
+    .transform((val) => (val === "" ? null : val))
+    .refine(
+      (val) =>
+        val === null ||
+        z.union([z.string().uuid(), z.string()]).safeParse(val).success,
+      { message: "UUID o cadena no válido para laboratorio" },
+    ),
 
-  principioActivoId: z.string()
+  presentacionId: z
+    .string()
     .optional()
-    .transform((val) => val === '' ? null : val)
-    .refine((val) => val === null || z.string().uuid().safeParse(val).success, {
-      message: "UUID inválido para principioActivoId",
-    }),
+    .nullable()
+    .transform((val) => (val === "" ? null : val))
+    .refine(
+      (val) =>
+        val === null ||
+        z.union([z.string().uuid(), z.string()]).safeParse(val).success,
+      { message: "UUID o cadena no válido para presentación" },
+    ),
 
-  viaAdministracionId: z.string()
+  principioActivoId: z
+    .string()
     .optional()
-    .transform((val) => val === '' ? null : val)
-    .refine((val) => val === null || z.string().uuid().safeParse(val).success, {
-      message: "UUID inválido para viaAdministracionId",
-    }),
+    .nullable()
+    .transform((val) => (val === "" ? null : val))
+    .refine(
+      (val) =>
+        val === null ||
+        z.union([z.string().uuid(), z.string()]).safeParse(val).success,
+      { message: "UUID o cadena no válido para principio activo" },
+    ),
+
+  clasificacionId: z
+    .string()
+    .optional()
+    .nullable()
+    .transform((val) => (val === "" ? null : val))
+    .refine(
+      (val) =>
+        val === null ||
+        z.union([z.string().uuid(), z.string()]).safeParse(val).success,
+      { message: "UUID o cadena no válido para clasificación" },
+    ),
 });
 
 // // Esquema para productos de categoría "Farmacos"
 // const farmacosSchema = baseProductoSchema.extend({
 //   categoria: z.literal("Farmacos"),
-//   
+//
 //   concentracion: z.string()
 //     .min(3, { message: "Campo obligatorio" }),
-//   
+//
 //   receta: z.string().optional(),
-//   
+//
 //   tipo: z.string()
 //     .min(3, { message: "Campo obligatorio, 3 caracteres como mínimo" }),
-//   
+//
 //   presentacionId: z.string().uuid({ message: 'Campo obligatorio' }).optional(),
-//   
+//
 //   principioActivoId: z.string().uuid({ message: 'Campo obligatorio' }).optional(),
-//   
+//
 //   viaAdministracionId: z.string().uuid({ message: 'Campo obligatorio' }).optional(),
 // });
 //
 // // Esquema para productos de categoría "Instrumento Médico"
 // const instrumentoMedicoSchema = baseProductoSchema.extend({
 //   categoria: z.literal("Instrumento Médico"),
-//   
+//
 //   // presentacionId: z.string().uuid().optional(),
 //   // viaAdministracionId: z.string().uuid().optional(),
 //   // principioActivoId: z.string().uuid().optional(),
